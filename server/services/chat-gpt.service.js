@@ -1,15 +1,13 @@
 "use strict";
-const { Configuration, OpenAIApi } = require("openai");
+const { OpenAI } = require("openai");
 
 module.exports = ({ strapi }) => ({
   async getResponsefromChatGpt(ctx) {
     const config = await this.getConfig();
 
-    const configuration = new Configuration({
+    const openai = new OpenAI({
       apiKey: config.apiKey,
     });
-
-    const openai = new OpenAIApi(configuration);
 
     const {
       prompt,
@@ -29,7 +27,7 @@ module.exports = ({ strapi }) => ({
       };
 
       // Add optional parameters from request body if present
-      const { data } = await openai.createCompletion({
+      const { data } = await openai.chat.completions.create({
         ...requestParams,
         temperature,
         model: model ? model : requestParams.model,
@@ -78,7 +76,7 @@ module.exports = ({ strapi }) => ({
       const reqBody = ctx.request.body;
       const data = {
         apiKey: reqBody.apiKey,
-        modelName: reqBody.modelName || "text-davinci-003",
+        modelName: reqBody.modelName || "gpt-3.5-turbo",
         temperature: reqBody.temperature || 0.0,
         maxTokens: reqBody.maxTokens || 2048,
         topP: reqBody.topP,

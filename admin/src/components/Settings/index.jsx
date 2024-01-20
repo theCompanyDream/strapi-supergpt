@@ -19,24 +19,28 @@ import {
   Link,
 } from "@strapi/design-system";
 
-import { Check, ExternalLinkIcon } from "@strapi/icons";
+import { Check } from "@strapi/icons";
 
 const AiModels = [
   {
-    value: "text-davinci-003",
-    label: "higher quality, longer output, better instruction following",
+    value: "gpt-4",
+    label: "A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code"
   },
   {
-    value: "text-curie-001",
-    label: "faster and lower cost, suited for Q&A, translation, service bot",
+    value: "gpt-3.5-turbo",
+    label: "A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code"
   },
+  {
+    value: "dall-e-3",
+    label: "The latest DALL·E model released in Nov 2023."
+  }
 ];
 const Settings = () => {
   const { formatMessage } = useIntl();
   const toggleNotification = useNotification();
   const [loading, setLoading] = useState(false);
   const apiKeyRef = useRef("");
-  const modelNameRef = useRef("text-davinci-003");
+  const modelNameRef = useRef("gpt-3.5-turbo");
   const maxTokensRef = useRef(2048);
 
   const instance = axios.create({
@@ -49,7 +53,7 @@ const Settings = () => {
 
   const [chatGPTConfig, setChatGPTConfig] = useState({
     apiKey: "",
-    modelName: "text-davinci-003",
+    modelName: "gpt-3.5-turbo",
     maxTokens: 2048,
   });
 
