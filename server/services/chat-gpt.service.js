@@ -23,12 +23,12 @@ module.exports = ({ strapi }) => ({
       const requestParams = {
         model: config.modelName,
         max_tokens: config.maxTokens ? parseInt(config.maxTokens) : 2048,
-        prompt: prompt.trim(),
+        prompt: prompt,
       };
 
       // Add optional parameters from request body if present
-      const { data } = await openai.chat.completions.create({
-        ...requestParams,
+      const data = await openai.chat.completions.create({
+        messages: [{role: 'user', content: requestParams.prompt}],
         temperature,
         model: model ? model : requestParams.model,
         max_tokens: max_tokens
@@ -39,7 +39,7 @@ module.exports = ({ strapi }) => ({
         presence_penalty,
         stop,
       });
-      return { response: data.choices[0].text.trim() };
+      return { response: data.choices[0].message.content.trim() };
     } catch (error) {
       if (error.response) {
         strapi.log.error(error.response.data.error.message);
