@@ -47,7 +47,7 @@ const Home = () => {
   const instance = axios.create({
     baseURL: process.env.STRAPI_ADMIN_BACKEND_URL,
     headers: {
-      Authorization: `Bearer ${auth.getToken()}`,
+      Authorization: `Bearer ${auth.get("jwtToken")}`,
       "Content-Type": "application/json",
     },
   });
@@ -198,7 +198,6 @@ const Home = () => {
                 </GridItem>
                 <GridItem col={2}>
                   <Button
-                    fullWidth
                     size="L"
                     startIcon={<PaperPlane />}
                     type="submit"
