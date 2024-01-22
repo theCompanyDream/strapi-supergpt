@@ -77,6 +77,7 @@ module.exports = ({ strapi }) => ({
       const data = {
         apiKey: reqBody.apiKey,
         modelName: reqBody.modelName || "gpt-3.5-turbo",
+        aiImageModelName: reqBody.aiImageModelName || "dall-e-3",
         temperature: reqBody.temperature || 0.0,
         maxTokens: reqBody.maxTokens || 2048,
         topP: reqBody.topP,

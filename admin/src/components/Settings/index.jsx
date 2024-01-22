@@ -13,9 +13,9 @@ import {
   Box,
   TextInput,
   Main,
-  Select,
+  SingleSelect,
   Typography,
-  Option,
+  SingleSelectOption,
   Link,
 } from "@strapi/design-system";
 
@@ -30,23 +30,32 @@ const AiModels = [
     value: "gpt-3.5-turbo",
     label: "A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code"
   },
+];
+
+const ImageAiModels = [
   {
     value: "dall-e-3",
     label: "The latest DALL·E model released in Nov 2023."
+  },
+  {
+    value: "dall-e-2",
+    label: "The latest DALL·E model released in Nov 2023."
   }
-];
+]
+
 const Settings = () => {
   const { formatMessage } = useIntl();
   const toggleNotification = useNotification();
   const [loading, setLoading] = useState(false);
   const apiKeyRef = useRef("");
   const modelNameRef = useRef("gpt-3.5-turbo");
+  const imageModelNameRef = useRef("dalle-3")
   const maxTokensRef = useRef(2048);
 
   const instance = axios.create({
     baseURL: process.env.STRAPI_ADMIN_BACKEND_URL,
     headers: {
-      Authorization: `Bearer ${auth.getToken()}`,
+      Authorization: `Bearer ${auth.get("jwtToken")}`,
       "Content-Type": "application/json",
     },
   });
@@ -55,6 +64,7 @@ const Settings = () => {
     apiKey: "",
     modelName: "gpt-3.5-turbo",
     maxTokens: 2048,
+    aiImageModelName: "dalle-3"
   });
 
   const setData = (data) => {
@@ -63,12 +73,13 @@ const Settings = () => {
     apiKeyRef.current = data.apiKey;
     modelNameRef.current = data.modelName;
     maxTokensRef.current = data.maxTokens;
+    imageModelNameRef.current = data.aiImageModelName;
   };
 
   const handleChatGPTConfigChange = (key) => (e) => {
     console.log("key", e);
     // update the refs
-    if (key === "modelName") {
+    if (key === "modelName" || key === "aiImageModelName") {
       setChatGPTConfig({
         ...chatGPTConfig,
         [key]: e,
@@ -90,6 +101,8 @@ const Settings = () => {
       case "maxTokens":
         maxTokensRef.current = e.target.value;
         break;
+      case 'aiImageModelName':
+        imageModelNameRef.current = e;
       default:
         break;
     }
@@ -223,7 +236,7 @@ const Settings = () => {
                 />
               </GridItem>
               <GridItem>
-                <Select
+                <SingleSelect
                   name="modelName"
                   id="modelName"
                   label="Model Name"
@@ -233,11 +246,30 @@ const Settings = () => {
                   onChange={handleChatGPTConfigChange("modelName")}
                 >
                   {AiModels.map((model) => (
-                    <Option key={model.value} value={model.value}>
+                    <SingleSelectOption key={model.value} value={model.value}>
                       {model.value} - {model.label}
-                    </Option>
+                    </SingleSelectOption>
                   ))}
-                </Select>
+                </SingleSelect>
+              </GridItem>
+            </Grid>
+            <Grid>
+              <GridItem col={1}>
+                  <SingleSelect
+                    name="aiImageModelName"
+                    id="aiImageModelName"
+                    label="Image Model Name"
+                    placeholder="Select an image model"
+                    refs={imageModelNameRef}
+                    value={chatGPTConfig.aiImageModelName}
+                    onChange={handleChatGPTConfigChange("aiImageModelName")}
+                  >
+                    {ImageAiModels.map((model) => (
+                      <SingleSelectOption key={model.value} value={model.value}>
+                        {model.value} - {model.label}
+                      </SingleSelectOption>
+                    ))}
+                  </SingleSelect>
               </GridItem>
             </Grid>
             <Box paddingTop={5}>
