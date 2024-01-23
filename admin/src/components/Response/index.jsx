@@ -1,12 +1,30 @@
 import React from "react";
 
-import { Box, Typography } from "@strapi/design-system";
+import { Box, Typography, Link } from "@strapi/design-system";
+
+const style = {
+  wordBreak: "keep-all",
+};
+
+function transfromBotText(message) {
+  console.log(message)
+  try {
+     const url = new URL(message);
+  } catch (error) {
+    // If not image then return message
+    return (<Typography style={style}>ChatGPT: {message}</Typography>)
+  }
+
+  // If Url return render Img
+  return (<Typography style={style}>ChatGPT: <Link href={message} to={message}>Picture Link</Link>
+    <br />
+    <img src={message} height={300} width={350} />
+  </Typography>)
+}
 
 const Response = ({ data }) => {
   if (!data || !data.you || !data.bot) return null;
-  const style = {
-    wordBreak: "keep-all",
-  };
+
   return (
     <Box>
       <span>
@@ -14,7 +32,7 @@ const Response = ({ data }) => {
       </span>
       <br />
       <span>
-        <Typography style={style}>ChatGPT: {data.bot}</Typography>
+        ChatGPT: <br/>{transfromBotText(data.bot)}
       </span>
     </Box>
   );

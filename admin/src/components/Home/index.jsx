@@ -6,6 +6,8 @@ import { auth } from "@strapi/helper-plugin";
 import {
   Button,
   TextInput,
+  SingleSelect,
+  SingleSelectOption,
   Layout,
   HeaderLayout,
   ContentLayout,
@@ -22,12 +24,18 @@ import {
   Stack,
   Divider,
 } from "@strapi/design-system";
-import { PaperPlane, Command, Trash, Cog } from "@strapi/icons";
+import { PaperPlane, Command, Trash, Cog, Picture } from "@strapi/icons";
 import Response from "../Response";
 import Help from "../Help";
 import LoadingOverlay from "../Loading";
 import ClearChatGPTResponse from "../ClearChatGPTResponse";
 import Integration from "../Integration";
+
+const imageFormats = [
+  "1024x1024",
+  "1024x1792",
+  "1792x1024",
+]
 
 const Home = () => {
   const { formatMessage } = useIntl();
@@ -70,12 +78,25 @@ const Home = () => {
       return;
     }
     setLoading(true);
-    const { data } = await instance.post("/strapi-chatgpt/prompt", {
-      prompt: content,
-    });
-    if (data.error || !data.response) {
+
+    let response;
+
+    if (e.target.name === "picture") {
+      const { data } = await instance.post("/strapi-chatgpt/generateImage", {
+        prompt: content,
+        size: "1792x1024",
+      });
+      response = data;
+    } else {
+      const { data } = await instance.post("/strapi-chatgpt/prompt", {
+        prompt: content,
+      });
+      response = data
+    }
+
+    if (response.error || !response.response) {
       setLoading(false);
-      setError(data.error);
+      setError(response.error);
       return;
     }
 
@@ -83,9 +104,10 @@ const Home = () => {
       ...responses,
       {
         you: content,
-        bot: data.response,
+        bot: response.response,
       },
     ]);
+
     setLoading(false);
     setContent("");
   };
@@ -124,6 +146,13 @@ const Home = () => {
               >
                 API Integration
               </Button>
+              {/* <SingleSelect
+                name="imageFormats">
+                {imageFormats.map((format, idx) =>
+                (<SingleSelectOption key={idx}>
+                    {format}
+                </SingleSelectOption>))}
+              </SingleSelect> */}
             </Stack>
           }
           endActions={
@@ -178,7 +207,7 @@ const Home = () => {
           </Card>
 
           <Box>
-            <form onSubmit={handleSubmit}>
+            <form>
               <Grid gap={2} paddingTop={4}>
                 <GridItem col={10}>
                   <TextInput
@@ -196,14 +225,26 @@ const Home = () => {
                     }}
                   />
                 </GridItem>
-                <GridItem col={2}>
+                <GridItem>
                   <Button
                     size="L"
+                    name="prompt"
                     startIcon={<PaperPlane />}
-                    type="submit"
+                    value="prompt"
                     loading={loading}
+                    onClick={handleSubmit}
                   >
-                    Send
+                    Text
+                  </Button>
+                </GridItem>
+                <GridItem>
+                  <Button
+                    size={"L"}
+                    name="picture"
+                    value="picture"
+                    onClick={handleSubmit}
+                    startIcon={<Picture />}>
+                    Image
                   </Button>
                 </GridItem>
               </Grid>
