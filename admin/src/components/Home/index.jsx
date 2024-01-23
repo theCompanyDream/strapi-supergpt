@@ -32,6 +32,7 @@ import ClearChatGPTResponse from "../ClearChatGPTResponse";
 import Integration from "../Integration";
 
 const imageFormats = [
+  "Pick an image format",
   "1024x1024",
   "1024x1792",
   "1792x1024",
@@ -42,6 +43,7 @@ const Home = () => {
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
   const [responses, setResponses] = useState([]);
+  const [format, setFormat] = useState(imageFormats[0])
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -70,6 +72,10 @@ const Home = () => {
     setContent(e.target.value);
   };
 
+  const handleImageSizeChange = (e) => {
+    setFormat(e)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(false);
@@ -77,17 +83,22 @@ const Home = () => {
       setError("Prompt is required");
       return;
     }
-    setLoading(true);
 
     let response;
 
     if (e.target.name === "picture") {
+      if (format === imageFormats[0]) {
+        setError("Image size is required")
+        return;
+      }
+      setLoading(true);
       const { data } = await instance.post("/strapi-chatgpt/generateImage", {
         prompt: content,
-        size: "1792x1024",
+        size: format,
       });
       response = data;
     } else {
+      setLoading(true);
       const { data } = await instance.post("/strapi-chatgpt/prompt", {
         prompt: content,
       });
@@ -146,15 +157,15 @@ const Home = () => {
               >
                 API Integration
               </Button>
-              {/* <SingleSelect
-                name="imageFormats">
-                {imageFormats.map((format, idx) =>
-                (<SingleSelectOption key={idx}>
+              <SingleSelect onChange={handleImageSizeChange} value={format}>
+                {imageFormats.map((format, idx) => (
+                  <SingleSelectOption key={idx} value={format}>
                     {format}
-                </SingleSelectOption>))}
-              </SingleSelect> */}
+                  </SingleSelectOption>
+                ))}
+              </SingleSelect>
             </Stack>
-          }
+            }
           endActions={
             <Tooltip description="Clear chatGPT history" position="left">
               <IconButton
@@ -208,7 +219,7 @@ const Home = () => {
 
           <Box>
             <form>
-              <Grid gap={2} paddingTop={4}>
+              <Grid spacing={2} gap={2} paddingTop={4}>
                 <GridItem col={10}>
                   <TextInput
                     id="chatInput"
@@ -225,7 +236,7 @@ const Home = () => {
                     }}
                   />
                 </GridItem>
-                <GridItem>
+                <GridItem style={{width: 80}}>
                   <Button
                     size="L"
                     name="prompt"
@@ -237,7 +248,7 @@ const Home = () => {
                     Text
                   </Button>
                 </GridItem>
-                <GridItem>
+                <GridItem style={{float: screenLeft}}>
                   <Button
                     size={"L"}
                     name="picture"
