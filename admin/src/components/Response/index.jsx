@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Typography, Link } from "@strapi/design-system";
+import { Box, Typography } from "@strapi/design-system";
 
 const style = {
   wordBreak: "keep-all",
@@ -16,7 +16,7 @@ function transfromBotText(message) {
   }
 
   // If Url return render Img
-  return (<Typography style={style}>ChatGPT: <Link href={message} to={message}>Picture Link</Link>
+  return (<Typography style={style}>ChatGPT: <a href={message}>Picture Link</a>
     <br />
     <img src={message} height={300} width={350} />
   </Typography>)
