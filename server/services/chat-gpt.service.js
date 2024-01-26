@@ -68,16 +68,16 @@ module.exports = ({ strapi }) => ({
     try {
       const requestParams = {
         aiImageModelName: config.aiImageModelName,
-        size: size,
-        quality: quality,
-        prompt: prompt,
+        size,
+        quality,
+        prompt: prompt.trim(),
       };
 
       // Add optional parameters from request body if present
       const data = await openai.images.generate({
         prompt: requestParams.prompt,
         model: aiImageModelName ? aiImageModelName : requestParams.aiImageModelName,
-        size: size,
+        size,
       });
       return { response: data.data[0].url };
     } catch (error) {
@@ -98,7 +98,7 @@ module.exports = ({ strapi }) => ({
       const pluginStore = strapi.store({
         environment: strapi.config.environment,
         type: "plugin",
-        name: "strapi-chatgpt",
+        name: "strapi-supergpt",
       });
 
       return pluginStore.get({ key: "strapiChatGPTConfig" });
@@ -128,7 +128,7 @@ module.exports = ({ strapi }) => ({
       const pluginStore = strapi.store({
         environment: strapi.config.environment,
         type: "plugin",
-        name: "strapi-chatgpt",
+        name: "strapi-supergpt",
       });
 
       return pluginStore.set({
