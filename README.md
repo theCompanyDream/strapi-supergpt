@@ -1,26 +1,27 @@
 <div align="center">
-<img alt="stripe payment title" width="60" src="https://higheredlab.com/wp-content/uploads/chatgpt-96.png">
+![Logo](/docs/logo.png)
 </div>
-<h1 align="center">strapi-supergpt</h1>
+<h1 align="center">Strapi Supergpt</h1>
 <p align="center">Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications.</p>
 
 <p align="center">
  <a href="https://www.npmjs.com/package/strapi-supergpt">
-<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/AsyncWeb/strapi-supergpt?label=npm&logo=npm">
+<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/theCompanyDream/strapi-supergpt?label=npm&logo=npm">
 </a>
 <a href="https://www.npmjs.org/package/strapi-supergpt">
 <img src="https://img.shields.io/npm/dm/strapi-supergpt.svg" alt="Monthly download on NPM" />
 </a>
-<a href="https://github.com/AsyncWeb/strapi-supergpt/actions/workflows/eslint.yml/badge.svg">
-<img src="https://github.com/AsyncWeb/strapi-supergpt/actions/workflows/eslint.yml/badge.svg" alt="EsLint" />
+<a href="https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/eslint.yml/badge.svg">
+<img src="https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/eslint.yml/badge.svg" alt="EsLint" />
 </a>
 <br />
 <br />
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
 <br />
 <img style="width: 100%; height: auto;" src="https://higheredlab.com/wp-content/uploads/chatgpt.gif" alt="chatgpt-overview" /> <br/>
-
-<br/><br/>
-
+<br/>
+<br/>
 </p>
 <br>
 <!-- # ChatGPT plugin for Strapi -->
@@ -130,4 +131,4 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 
 [MIT License](LICENSE.md)
 
-Copyright © 2022 [AsyncWeb](https://higheredlab.com/)
+Copyright © 2022 [theCompanyDream](https://higheredlab.com/)
