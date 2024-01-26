@@ -3,7 +3,7 @@
 module.exports = ({ strapi }) => ({
   async prompt(ctx) {
     const data = await strapi
-      .plugin("strapi-chatgpt")
+      .plugin("strapi-supergpt")
       .service("chatGptService")
       .getResponsefromChatGpt(ctx);
     ctx.send(data);
@@ -11,7 +11,7 @@ module.exports = ({ strapi }) => ({
 
   async getConfig(ctx) {
     const config = await strapi
-      .plugin("strapi-chatgpt")
+      .plugin("strapi-supergpt")
       .service("chatGptService")
       .getConfig();
     ctx.send(config);
@@ -19,7 +19,7 @@ module.exports = ({ strapi }) => ({
 
   async updateConfig(ctx) {
     const config = await strapi
-      .plugin("strapi-chatgpt")
+      .plugin("strapi-supergpt")
       .service("chatGptService")
       .updateConfig(ctx);
     ctx.send(config);
@@ -27,7 +27,7 @@ module.exports = ({ strapi }) => ({
 
   async createImage(ctx) {
     const config = await strapi
-    .plugin("strapi-chatgpt")
+    .plugin("strapi-supergpt")
     .service("chatGptService")
     .getImageResponsefromChatGpt(ctx);
     ctx.send(config);

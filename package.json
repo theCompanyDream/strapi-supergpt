@@ -1,7 +1,7 @@
 {
-  "name": "strapi-chatgpt",
+  "name": "strapi-supergpt",
   "version": "1.0.3",
-  "description": "Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications.",
+  "description": "A fork of strapi chatgpt that improves upon the functionality of the original plugin",
   "scripts": {
     "format": "npm-run-all -p format:*",
     "format:code": "npm run prettier:code -- --write",
@@ -14,8 +14,8 @@
     "prettier:other": "prettier \"**/*.{md,css,scss,yaml,yml}\""
   },
   "strapi": {
-    "name": "strapi-chatgpt",
-    "description": "Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications.",
+    "name": "strapi-supergpt",
+    "description": "A fork of strapi chatgpt that improves upon the functionality of the original plugin",
     "kind": "plugin",
     "displayName": "ChatGPT"
   },
@@ -28,20 +28,20 @@
     "react-syntax-highlighter": "^15.5.0"
   },
   "author": {
-    "name": "AsyncWeb Technology",
-    "email": "support@asyncweb.io",
-    "url": "https://higheredlab.com/"
+    "name": "Timothy Brantley II",
+    "email": "tbrantleyii@gmail.com",
+    "url": "https://tbrantleyii.dev"
   },
-  "homepage": "https://github.com/AsyncWeb/strapi-chatgpt#readme",
+  "homepage": "https://github.com/theCompanyDream/strapi-supergpt#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AsyncWeb/strapi-chatgpt.git"
+    "url": "https://github.com/theCompanyDream/strapi-supergpt.git"
   },
   "maintainers": [
     {
-      "name": "AsyncWeb Technology",
-      "email": "support@asyncweb.io",
-      "url": "https://higheredlab.com/"
+      "name": "Timothy Brantley II",
+      "email": "tbrantleyii@gmail.com",
+      "url": "https://tbrantleyii.dev"
     }
   ],
   "engines": {
@@ -70,7 +70,7 @@
   "keywords": [
     "strapi",
     "strapi-plugin",
-    "strapi-chatgpt",
+    "strapi-supergpt",
     "openai",
     "openai-api",
     "chatgpt",
