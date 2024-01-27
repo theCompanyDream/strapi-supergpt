@@ -133,9 +133,9 @@ const Home = () => {
       <Helmet title={"strapi-supergpt"} />
       <Main aria-busy={false}>
         <HeaderLayout
-          title={"ChatGPT"}
+          title={"SuperGPT"}
           subtitle={formatMessage({
-            id: "chatgpt-headder",
+            id: "chatgpt-header",
             defaultMessage: "ChatGPT plugin for Strapi",
           })}
         />

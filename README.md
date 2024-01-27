@@ -2,7 +2,7 @@
 <img src="https://github.com/theCompanyDream/strapi-supergpt/docs/logo.png" alt="Super GPT Logo" />
 </div>
 <h1 align="center">Strapi Supergpt</h1>
-<p align="center">Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications.</p>
+<p align="center">Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications</p>
 
 <p align="center">
  <a href="https://www.npmjs.com/package/strapi-supergpt">
@@ -16,7 +16,6 @@
 </a>
 <br />
 <br />
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <br />
 <img style="width: 100%; height: auto;" src="https://higheredlab.com/wp-content/uploads/chatgpt.gif" alt="chatgpt-overview" /> <br/>
@@ -24,7 +23,6 @@
 <br/>
 </p>
 <br>
-<!-- # ChatGPT plugin for Strapi -->
 <br/>
 
 # ChatGPT plugin for Strapi
