@@ -1,7 +1,7 @@
 {
   "name": "strapi-supergpt",
   "version": "1.0.3",
-  "description": "A fork of strapi chatgpt that extends the functionality of the original plugin",
+  "description": "A plugin that gives you the ability to integrate ChatGPT into strapi",
   "scripts": {
     "format": "npm-run-all -p format:*",
     "format:code": "npm run prettier:code -- --write",
@@ -15,7 +15,7 @@
   },
   "strapi": {
     "name": "strapi-supergpt",
-    "description": "A fork of strapi chatgpt that extends the functionality of the original plugin",
+    "description": "A plugin that gives you the ability to integrate ChatGPT into strapi",
     "kind": "plugin",
     "displayName": "ChatGPT"
   },
