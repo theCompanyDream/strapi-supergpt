@@ -1,7 +1,7 @@
 {
   "name": "strapi-supergpt",
   "version": "1.0.3",
-  "description": "A fork of strapi chatgpt that improves upon the functionality of the original plugin",
+  "description": "A fork of strapi chatgpt that extends the functionality of the original plugin",
   "scripts": {
     "format": "npm-run-all -p format:*",
     "format:code": "npm run prettier:code -- --write",
@@ -15,7 +15,7 @@
   },
   "strapi": {
     "name": "strapi-supergpt",
-    "description": "A fork of strapi chatgpt that improves upon the functionality of the original plugin",
+    "description": "A fork of strapi chatgpt that extends the functionality of the original plugin",
     "kind": "plugin",
     "displayName": "ChatGPT"
   },
@@ -45,7 +45,7 @@
     }
   ],
   "engines": {
-    "node": ">=14.19.1 <=18.x.x",
+    "node": ">=14.19.1 <=20.x.x",
     "npm": ">=6.0.0"
   },
   "license": "MIT",
@@ -77,6 +77,9 @@
     "chatbot",
     "gpt",
     "gpt-3",
+    "gpt-4",
+    "dall-e 3",
+    "dall-e 2",
     "gpt3",
     "open-source",
     "machine-learning",
