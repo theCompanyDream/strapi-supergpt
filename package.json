@@ -17,7 +17,7 @@
     "name": "strapi-supergpt",
     "description": "A plugin that gives you the ability to integrate ChatGPT into strapi",
     "kind": "plugin",
-    "displayName": "ChatGPT"
+    "displayName": "SuperGPT"
   },
   "peerDependencies": {
     "@strapi/strapi": "^4.4.5"
