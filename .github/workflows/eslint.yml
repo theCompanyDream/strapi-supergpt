@@ -2,7 +2,7 @@ name: "EsLint"
 
 on:
   pull_request:
-    - main
+    # - main
 
 jobs:
   lint:
