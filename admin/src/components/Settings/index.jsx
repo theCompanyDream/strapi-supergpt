@@ -112,7 +112,7 @@ const Settings = () => {
     setLoading(true);
     const fetchChatGPTConfig = async () => {
       try {
-        const { data } = await instance.get("/strapi-chatgpt/config");
+        const { data } = await instance.get("/strapi-supergpt/config");
         setData(data);
       } catch (error) {
         console.log(error);
@@ -150,7 +150,7 @@ const Settings = () => {
     setLoading(true);
 
     try {
-      const { data } = await instance.post("/strapi-chatgpt/config/update", {
+      const { data } = await instance.post("/strapi-supergpt/config/update", {
         ...chatGPTConfig,
       });
       if (data && data.value) {
@@ -179,7 +179,7 @@ const Settings = () => {
 
   return (
     <Layout>
-      <Helmet title={"Strapi ChatGPT Configuration"} />
+      <Helmet title={" SuperGPT Configuration"} />
       <Main aria-busy={false}>
         <HeaderLayout
           title={"ChatGPT Configurations"}

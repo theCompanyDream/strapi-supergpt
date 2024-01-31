@@ -1,5 +1,10 @@
 "use strict";
+
+const crypto =  require("crypto");
 const { OpenAI } = require("openai");
+const mime = require('mime-types'); //used to detect file's mime type
+const fs = require('fs');
+const https = require('https');
 
 module.exports = ({ strapi }) => ({
   async getResponsefromChatGpt(ctx) {
@@ -68,18 +73,21 @@ module.exports = ({ strapi }) => ({
     try {
       const requestParams = {
         aiImageModelName: config.aiImageModelName,
-        size: size,
-        quality: quality,
-        prompt: prompt,
+        size,
+        quality,
+        prompt: prompt.trim(),
       };
 
       // Add optional parameters from request body if present
       const data = await openai.images.generate({
         prompt: requestParams.prompt,
         model: aiImageModelName ? aiImageModelName : requestParams.aiImageModelName,
-        size: size,
+        size,
       });
-      return { response: data.data[0].url };
+
+      const savedFile = await saveFile(data.data[0].url)
+
+      return { response: [savedFile, data.data[0].url]};
     } catch (error) {
       if (error.response) {
         strapi.log.error(error.response.data.error.message);
@@ -98,7 +106,7 @@ module.exports = ({ strapi }) => ({
       const pluginStore = strapi.store({
         environment: strapi.config.environment,
         type: "plugin",
-        name: "strapi-chatgpt",
+        name: "strapi-supergpt",
       });
 
       return pluginStore.get({ key: "strapiChatGPTConfig" });
@@ -128,7 +136,7 @@ module.exports = ({ strapi }) => ({
       const pluginStore = strapi.store({
         environment: strapi.config.environment,
         type: "plugin",
-        name: "strapi-chatgpt",
+        name: "strapi-supergpt",
       });
 
       return pluginStore.set({
@@ -143,5 +151,46 @@ module.exports = ({ strapi }) => ({
       };
     }
   },
-
 });
+
+async function saveFile(url) {
+  return new Promise((resolve, reject) => {
+    strapi.log.info(`Saving the picture ${url}`);
+    const fileName = crypto.randomUUID();
+    const rootDir = process.cwd();
+    const filePath = `${rootDir}/public/uploads/${fileName}.png`;
+    const file = fs.createWriteStream(filePath);
+    const request = https.get(url, function(response) {
+      response.pipe(file);
+
+      file.on("finish", async () => {
+        file.close();
+        strapi.log.info("Download Completed");
+
+        // Ensure the file is closed before accessing its stats
+        fs.stat(filePath, async (err, stats) => {
+          if (err) {
+            reject(strapi.log.error('Error getting file stats'));
+          }
+
+          // Now that the download is complete and file is closed, upload it
+          const upload = await strapi.plugins.upload.services.upload.upload({
+            data: {}, // mandatory declare the data (can be empty)
+            files: {
+              path: filePath,
+              name: `${fileName}.png`,
+              type: mime.lookup(filePath), // mime type of the file
+              size: stats.size,
+            },
+          });
+          strapi.log.info('Upload Completed');
+          resolve(upload[0].formats['medium'].url)
+        });
+      });
+    });
+
+    request.on('error', (e) => {
+      reject(strapi.log.error(`Request error: ${e.message}`));
+    });
+  })
+}

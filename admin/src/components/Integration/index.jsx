@@ -30,7 +30,7 @@ const Integration = ({ isOpen, onClose }) => {
             {/* Add code block */}
             <Typography variant="omega">
               1. Goto Settings -&gt; Users & Permissions plugin -&gt; Roles and
-              enable strapi chatGPT endpoint for a role.
+              enable   strapi-supergpt endpoint for a role.
             </Typography>
 
             <Box paddingTop={6} paddingBottom={6}>
@@ -47,7 +47,7 @@ const Integration = ({ isOpen, onClose }) => {
                 lineHeight: "1.5rem",
               }}
             >
-              {`curl --location --request POST '${process.env.STRAPI_ADMIN_BACKEND_URL}/api/strapi-chatgpt/prompt' \\
+              {`curl --location --request POST '${process.env.STRAPI_ADMIN_BACKEND_URL}/api/strapi-supergpt/prompt' \\
                                 --header 'Content-Type: application/json' \\
                                 --header 'Authorization: Bearer YOUR_STRAPI_AUTH_TOKEN' \\
                                 --data-raw '{"prompt": "Test prompt?"}'`}
@@ -68,7 +68,7 @@ const Integration = ({ isOpen, onClose }) => {
                 lineHeight: "1.5rem",
               }}
             >
-              {`curl --location --request POST '${process.env.STRAPI_ADMIN_BACKEND_URL}/api/strapi-chatgpt/prompt' \\
+              {`curl --location --request POST '${process.env.STRAPI_ADMIN_BACKEND_URL}/api/strapi-supergpt/prompt' \\
                                 --header 'Content-Type: application/json' \\
                                 --header 'Authorization: Bearer YOUR_STRAPI_AUTH_TOKEN' \\
                                 --data-raw '{"prompt": "Test prompt?",

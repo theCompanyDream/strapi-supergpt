@@ -92,14 +92,14 @@ const Home = () => {
         return;
       }
       setLoading(true);
-      const { data } = await instance.post("/strapi-chatgpt/generateImage", {
+      const { data } = await instance.post("/strapi-supergpt/generateImage", {
         prompt: content,
         size: format,
       });
       response = data;
     } else {
       setLoading(true);
-      const { data } = await instance.post("/strapi-chatgpt/prompt", {
+      const { data } = await instance.post("/strapi-supergpt/prompt", {
         prompt: content,
       });
       response = data
@@ -130,12 +130,12 @@ const Home = () => {
 
   return (
     <Layout>
-      <Helmet title={"Strapi ChatGPT"} />
+      <Helmet title={"strapi-supergpt"} />
       <Main aria-busy={false}>
         <HeaderLayout
-          title={"ChatGPT"}
+          title={"SuperGPT"}
           subtitle={formatMessage({
-            id: "chatgpt-headder",
+            id: "chatgpt-header",
             defaultMessage: "ChatGPT plugin for Strapi",
           })}
         />

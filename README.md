@@ -1,29 +1,28 @@
 <div align="center">
-<img alt="stripe payment title" width="60" src="https://higheredlab.com/wp-content/uploads/chatgpt-96.png">
+<img src="https://github.com/theCompanyDream/strapi-supergpt/docs/logo.png" alt="Super GPT Logo" />
 </div>
-<h1 align="center">Strapi ChatGPT</h1>
-<p align="center">Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications.</p>
+<h1 align="center">Strapi Supergpt</h1>
+<p align="center">Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications</p>
 
 <p align="center">
- <a href="https://www.npmjs.com/package/strapi-chatgpt">
-<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/AsyncWeb/strapi-chatgpt?label=npm&logo=npm">
+ <a href="https://www.npmjs.com/package/strapi-supergpt">
+<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/theCompanyDream/strapi-supergpt?label=npm&logo=npm">
 </a>
-<a href="https://www.npmjs.org/package/strapi-chatgpt">
-<img src="https://img.shields.io/npm/dm/strapi-chatgpt.svg" alt="Monthly download on NPM" />
+<a href="https://www.npmjs.org/package/strapi-supergpt">
+<img src="https://img.shields.io/npm/dm/strapi-supergpt.svg" alt="Monthly download on NPM" />
 </a>
-<a href="https://github.com/AsyncWeb/strapi-chatgpt/actions/workflows/eslint.yml/badge.svg">
-<img src="https://github.com/AsyncWeb/strapi-chatgpt/actions/workflows/eslint.yml/badge.svg" alt="EsLint" />
+<a href="https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/eslint.yml/badge.svg">
+<img src="https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/eslint.yml/badge.svg" alt="EsLint" />
 </a>
 <br />
 <br />
+
 <br />
 <img style="width: 100%; height: auto;" src="https://higheredlab.com/wp-content/uploads/chatgpt.gif" alt="chatgpt-overview" /> <br/>
-
-<br/><br/>
-
+<br/>
+<br/>
 </p>
 <br>
-<!-- # ChatGPT plugin for Strapi -->
 <br/>
 
 # ChatGPT plugin for Strapi
@@ -47,7 +46,8 @@ Thats it! You can now use ChatGPT in your Strapi application.
 
 1. **Easy to use**: The plugin is easy to use and can be set up within 10 minutes.
 1. **Customizable**: You can customize the model's parameters to suit your needs.
-1. **Open Source**: The plugin is open source and can be found on [GitHub]()
+1. **Open Source**: The plugin is open source and can be found on [GitHub]().
+1. **Generate Pictures** Can generate pictures based on the prompt given.
 
 ## 🖐 Requirements
 
@@ -65,7 +65,13 @@ Thats it! You can now use ChatGPT in your Strapi application.
 <!-- use npm for installing plugin -->
 
 ```bash
-npm install strapi-chatgpt
+npm install strapi-supergpt
+```
+
+or
+
+```bash
+yarn add strapi-supergpt
 ```
 
 ### 2. Enable the plugin
@@ -77,7 +83,7 @@ Goto `<strapi app root>/config/plugins.js` Add the following code snippet.
 ```js
 module.exports = ({ env }) => ({
   // ...
-  "strapi-chatgpt": {
+  "strapi-supergpt": {
     enabled: true,
   },
 });
@@ -123,4 +129,4 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 
 [MIT License](LICENSE.md)
 
-Copyright © 2022 [AsyncWeb](https://higheredlab.com/)
+Copyright © 2022 [theCompanyDream](https://higheredlab.com/)

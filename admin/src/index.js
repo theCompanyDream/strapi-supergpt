@@ -45,7 +45,7 @@ export default {
             id: `${pluginId}.plugin.name`,
             defaultMessage: "Configuration",
           },
-          id: "strapi-chatgpt",
+          id: "strapi-supergpt",
           to: `/settings/${pluginId}`,
           // permissions: pluginPermissions.settingsRoles,
           Component: async () => {
