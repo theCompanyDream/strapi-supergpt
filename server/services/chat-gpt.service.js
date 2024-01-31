@@ -1,10 +1,9 @@
 "use strict";
-
+const https = require('https');
+const fs = require('fs');
 const crypto =  require("crypto");
 const { OpenAI } = require("openai");
 const mime = require('mime-types'); //used to detect file's mime type
-const fs = require('fs');
-const https = require('https');
 
 module.exports = ({ strapi }) => ({
   async getResponsefromChatGpt(ctx) {
