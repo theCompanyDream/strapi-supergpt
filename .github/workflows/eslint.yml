@@ -2,6 +2,8 @@ name: "EsLint"
 
 on:
   pull_request:
+    branches:
+      - main
 
 jobs:
   lint:
