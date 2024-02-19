@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://www.tbrantleyii.dev/strapi-supergpt/logo.png" alt="Super GPT Logo" />
+  <img src="https://www.tbrantleyii.dev/strapi-supergpt/logo.png" width="35" height="35" alt="Super GPT Logo" />
 </div>
 <h1 align="center">Strapi Supergpt</h1>
 <p align="center">Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications</p>
