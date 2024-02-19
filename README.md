@@ -128,5 +128,3 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 ## 📝 License
 
 [MIT License](LICENSE.md)
-
-Copyright © 2022 [theCompanyDream](https://higheredlab.com/)
