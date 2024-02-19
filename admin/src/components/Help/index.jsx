@@ -46,7 +46,7 @@ const Help = ({ isOpen, onClose }) => {
             </Typography>
             <br />
             <Typography variant="omega">
-              <a href="https://classplusplus.com/chatgpt/" target="_blank">
+              <a href="https://prompts.chat" target="_blank">
                 Click here
               </a>{" "}
               for more ChatGPT prompts.
