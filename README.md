@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://www.tbrantleyii.dev/strapi-supergpt/logo.png" width="50" height="50" alt="Super GPT Logo" />
+  <img src="https://www.tbrantleyii.dev/strapi-supergpt/logo.png" width="100" height="100" alt="Super GPT Logo" />
 </div>
 <h1 align="center">Strapi Supergpt</h1><!-- slide -->
 
