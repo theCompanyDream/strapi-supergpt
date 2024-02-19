@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/theCompanyDream/strapi-supergpt/blob/main/docs/logo.png" alt="Super GPT Logo" />
+  <img src="https://www.tbrantleyii.dev/strapi-supergpt/logo.png" alt="Super GPT Logo" />
 </div>
 <h1 align="center">Strapi Supergpt</h1>
 <p align="center">Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications</p>
@@ -18,7 +18,7 @@
 <br />
 
 <br />
-<img style="width: 100%; height: auto;" src="https://higheredlab.com/wp-content/uploads/chatgpt.gif" alt="chatgpt-overview" /> <br/>
+<img style="width: 100%; height: auto;" src="https://www.tbrantleyii.dev/strapi-supergpt/howToUse.gif" alt="chatgpt-overview" /> <br/>
 <br/>
 <br/>
 </p>
