@@ -114,7 +114,15 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 - On the configiration page, Enter All the fields.
 - Click on Save to save the configuration.
 
-<br/><br/>
+## RoadMap
+
+- Automatically Translate parts
+- automatic summary
+- write email campagins
+- Click ChatGPT plugin in plugin section of the sidebar.
+- Click on Integration to get sample code integration code.
+- Copy the code and paste it in your terminal.
+- save chat's that it has with client
 
 ## 📖 Testing the plugin
 
