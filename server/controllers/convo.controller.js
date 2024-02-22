@@ -1,3 +1,4 @@
+"use strict";
 module.exports = ({strapi}) => ({
 	async createConvo(ctx) {
 		const data = await strapi
@@ -17,7 +18,7 @@ module.exports = ({strapi}) => ({
 		const data = await strapi
 			.plugin("strapi-supergpt")
 			.service("convoService")
-			.readConvoNames(ctx)
+			.readConvoNames()
 		ctx.send(data)
 	},
 	async updateConvo(ctx) {

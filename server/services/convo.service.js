@@ -28,7 +28,7 @@ module.exports = ({ strapi }) => ({
 		});
 		return convo
 	},
-	async readConvoNames(ctx) {
+	async readConvoNames() {
 		const convo = await strapi.db.query(convoObject).findMany({
 			select: ["name"],
 			where: {
@@ -47,11 +47,11 @@ module.exports = ({ strapi }) => ({
 		} = ctx.request.body;
 		const convo = await strapi.db.query(convoObject).update({
 			where:{
-				id: id
+				id
 			},
 			data: {
-				name: name,
-				conent: context
+				name,
+				content: context
 			}
 		})
 		return convo
@@ -62,7 +62,7 @@ module.exports = ({ strapi }) => ({
 		} = ctx.request.query;
 			const convo = await strapi.db.query(convoObject).delete({
 			where:{
-				id: id
+				id
 			}
 		})
 		return convo
