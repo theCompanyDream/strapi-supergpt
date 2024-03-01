@@ -1,18 +1,16 @@
+// @ts-nocheck
 "use strict";
-
+const utils = require('../utils')
 const convoObject = "plugin::strapi-supergpt.convo"
 
 module.exports = ({ strapi }) => ({
-
 	async createConvo(ctx) {
 		const {
-			convoName,
-			context
+			convoName
 		} = ctx.request.body;
 		const convo = await strapi.db.query(convoObject).create({
 			data: {
-				name: convoName,
-				content: context,
+				name: convoName
 			}
 		})
 		return convo
@@ -22,22 +20,34 @@ module.exports = ({ strapi }) => ({
 			convoId
 		} = ctx.request.query;
 		const convo = await strapi.db.query(convoObject).findOne({
+			select: ["id", "name", "content"],
 			where: {
 				id: convoId
 			}
 		});
-		return convo
+		return convo.map(conversations => {
+			return {
+				...conversations,
+				content: utils.conversationToArray(conversation.content)
+			}
+		})
 	},
 	async readConvoNames() {
-		const convo = await strapi.db.query(convoObject).findMany({
-			select: ["name"],
+		let convos = await strapi.db.query(convoObject).findMany({
+			select: ["id", "name"],
 			where: {
 				$not: {
 					name: null
 				}
 			}
 		})
-		return convo.map(convo => convo.name)
+		convos = convos.map(convo => {
+			return {...convo, content: []}
+		})
+
+		const firstConvo = this.readConvo(convos[0].id)
+		convos[0] = firstConvo
+		return convos
 	},
 	async updateConvo(ctx) {
 		const {

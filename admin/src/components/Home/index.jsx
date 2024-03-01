@@ -22,14 +22,20 @@ import {
   ActionLayout,
   Tooltip,
   Stack,
+  Tabs,
+  Tab,
+  TabGroup,
+  TabPanels,
+  TabPanel,
   Divider,
 } from "@strapi/design-system";
-import { PaperPlane, Command, Trash, Cog, Picture } from "@strapi/icons";
+import { PaperPlane, Command, Trash, Cog, Picture, Plus, Minus } from "@strapi/icons";
 import Response from "../Response";
 import Help from "../Help";
 import LoadingOverlay from "../Loading";
 import ClearChatGPTResponse from "../ClearChatGPTResponse";
 import Integration from "../Integration";
+import { convo } from "../../../../server/content-types";
 
 const imageFormats = [
   "Pick an image format",
@@ -41,8 +47,9 @@ const imageFormats = [
 const Home = () => {
   const { formatMessage } = useIntl();
   const [content, setContent] = useState("");
+  const [highlightedId, setHighlighted] = useState(0)
+  const [convos, setConvos] = useState([{content: []}]);
   const [error, setError] = useState("");
-  const [responses, setResponses] = useState([]);
   const [format, setFormat] = useState(imageFormats[0])
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
@@ -62,18 +69,46 @@ const Home = () => {
     },
   });
 
+  const setSelectedResponse = (e) => {
+    if (e.target.value >= convos.length) {
+      setError("This Tab is unselectable")
+      return
+    }
+    const selectedConvo = convos[e.target.value]
+    setHighlighted(selectedConvo.id)
+  }
+
   const clearResponses = () => {
-    setResponses([]);
+    let selectedConvo = convos[highlightedId]
+    selectedConvo.content = []
+
+    setConvos([...convos, selectedConvo])
     setIsClearChatGPTResponseModalVisible(false);
   };
 
-  const handleInputChange = (e) => {
+  const handlePromptChange = (e) => {
     setError(false);
     setContent(e.target.value);
   };
 
   const handleImageSizeChange = (e) => {
     setFormat(e)
+  }
+
+  const handleCreateTab = async (e) => {
+    await instance.post(`/strapi-supergpt/convo`, {
+      name: `New Convo ${convos.length + 1}`
+    })
+    .then(convo => setConvos([...convos, convo]))
+    setHighlighted(convos.length-1)
+  }
+
+  const handleDeleteTab = async (e) => {
+    const removedTab = await instance.delete(`/strapi-supergpt/convo/${e.target.value}`)
+    if (removedTab) {
+      const filteredlist = convos.filter(convo => convo !== e.target.value)
+      setConvos(filteredlist)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -111,13 +146,15 @@ const Home = () => {
       return;
     }
 
-    setResponses([
-      ...responses,
+    let highlightedConvo = convos[highlightedId]
+
+    highlightedConvo.content = [
+      ...highlightedConvo.content,
       {
         you: content,
         bot: response.response,
       },
-    ]);
+    ]
 
     setLoading(false);
     setContent("");
@@ -126,7 +163,13 @@ const Home = () => {
   useEffect(() => {
     if (!messagesEndRef.current) return;
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [responses]);
+    if(convos.length == 0) {
+      instance.get('/strapi-supergpt/convos')
+        .then(convoNames => setConvos(convoNames.data))
+    } else {
+      console.log(convos)
+    }
+  }, [convos, setConvos]);
 
   return (
     <Layout>
@@ -169,7 +212,7 @@ const Home = () => {
           endActions={
             <Tooltip description="Clear chatGPT history" position="left">
               <IconButton
-                disabled={loading || responses.length === 0}
+                disabled={loading || convos[highlightedId].content.length === 0}
                 onClick={() => setIsClearChatGPTResponseModalVisible(true)}
                 icon={<Trash />}
               />
@@ -183,40 +226,54 @@ const Home = () => {
             setIsOpen={setIsClearChatGPTResponseModalVisible}
             onConfirm={clearResponses}
           />
-          <Card style={{ position: "relative" }}>
-            <CardBody
-              style={{
-                height: "64vh",
-                overflowY: "scroll",
-              }}
-            >
-              <CardContent>
-                <LoadingOverlay isLoading={loading} />
-                <div>
-                  <div
+
+          <TabGroup onTabChange={setSelectedResponse}>
+            <Tabs>
+              {convos.length > 0 && convos.map(convo =><Tab value={convo.id}>
+                {convo.name}
+              </Tab>)}
+              <Tab onClick={handleCreateTab}><Plus /></Tab>
+            </Tabs>
+            <TabPanels>
+              {convos.length > 0 && convos.map(
+                convo => <TabPanel>
+                <Card style={{ position: "relative" }}>
+                  <CardBody
                     style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      height: "100%",
-                      overflow: "auto",
-                      justifyContent: "flex-end",
+                      height: "64vh",
+                      overflowY: "scroll",
                     }}
                   >
-                    {responses.map((response, index) => (
-                      <>
-                        <Response key={index + "123"} data={response} />
-                        <Box paddingTop={2} paddingBottom={4}>
-                          <Divider />
-                        </Box>
-                      </>
-                    ))}
-                    <div ref={messagesEndRef} />
-                  </div>
-                </div>
-              </CardContent>
-            </CardBody>
-          </Card>
-
+                <CardContent>
+                  <LoadingOverlay isLoading={loading} />
+                  <section>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%",
+                        overflow: "auto",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      {convo.content.map((response, index) => (
+                        <>
+                          <Response key={index + "123"} data={response} />
+                          <Box paddingTop={2} paddingBottom={4}>
+                            <Divider />
+                          </Box>
+                        </>
+                      ))}
+                      <div ref={messagesEndRef} />
+                    </div>
+                  </section>
+                </CardContent>
+              </CardBody>
+              </Card>
+            </TabPanel>
+              )}
+            </TabPanels>
+          </TabGroup>
           <Box>
             <form>
               <Grid spacing={2} gap={2} paddingTop={4}>
@@ -227,7 +284,7 @@ const Home = () => {
                     aria-label="Content"
                     name="content"
                     error={error}
-                    onChange={handleInputChange}
+                    onChange={handlePromptChange}
                     value={content}
                     disabled={loading}
                     onpaste={(e) => {
