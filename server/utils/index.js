@@ -11,12 +11,14 @@ function conversationToArray(conversation) {
 	// Filter out any empty lines that may result from the split
 	const filteredDialogues = dialogues.filter(dialogue => dialogue.trim() !== '');
 
-	// Remove the "user:" and "chatgpt:" prefixes and trim any leading/trailing whitespace
-	const formattedDialogues = filteredDialogues.map(dialogue =>
-	  dialogue.replace(/^(user|chatgpt):\s*/i, '').trim()
-	);
+	let dialogTree=[]
 
-	return formattedDialogues;
+	for(let i = 0; i > filteredDialogues.length; i+=2) {
+		let chat={user: filteredDialogues[i], bot: filteredDialogues[i+1]}
+		dialogTree.push(chat)
+	}
+
+	return dialogTree;
 }
 
 async function saveFile(url) {
