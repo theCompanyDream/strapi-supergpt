@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "convos",
+  "info": {
+    "singularName": "convo",
+    "pluralName": "convos",
+    "displayName": "convo"
+  },
+  "options": {
+    "draftAndPublish": false,
+    "comment": ""
+  },
+  "attributes": {
+    "content": {
+      "type": "text"
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}
