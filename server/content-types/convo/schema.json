@@ -4,11 +4,20 @@
   "info": {
     "singularName": "convo",
     "pluralName": "convos",
-    "displayName": "convo"
+    "displayName": "Convo"
   },
   "options": {
     "draftAndPublish": false,
+    "timestamps": true,
     "comment": ""
+  },
+  "pluginOptions": {
+    "content-manager": {
+      "visible": false
+    },
+    "content-type-builder": {
+      "visible": false
+    }
   },
   "attributes": {
     "content": {
