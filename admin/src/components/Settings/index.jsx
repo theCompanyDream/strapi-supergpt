@@ -112,7 +112,7 @@ const Settings = () => {
     setLoading(true);
     const fetchChatGPTConfig = async () => {
       try {
-        const { data } = await instance.get("/strapi-supergpt/config");
+        const { data } = await instance.get("/strapi-supergpt/cache");
         setData(data);
       } catch (error) {
         console.log(error);
@@ -150,7 +150,7 @@ const Settings = () => {
     setLoading(true);
 
     try {
-      const { data } = await instance.post("/strapi-supergpt/config/update", {
+      const { data } = await instance.post("/strapi-supergpt/cache/update", {
         ...chatGPTConfig,
       });
       if (data && data.value) {

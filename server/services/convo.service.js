@@ -44,9 +44,11 @@ module.exports = ({ strapi }) => ({
 		convos = convos.map(convo => {
 			return {...convo, content: []}
 		})
+		if (convos.length() > 0) {
+			const firstConvo = this.readConvo({query: {convoId: convos[0].id}})
+			convos[0] = firstConvo
+		}
 
-		const firstConvo = this.readConvo(convos[0].id)
-		convos[0] = firstConvo
 		return convos
 	},
 	async updateConvo(ctx) {
