@@ -25,11 +25,11 @@ const Response = ({ data }) => {
   return (
     <Box>
       <span>
-        <Typography style={style}>You: {data.you} </Typography>
+        <Typography style={style}>You: {data.you}</Typography>
       </span>
       <br />
       <span>
-        ChatGPT: <br/>{transfromBotText(data.bot)}
+        <br/>{transfromBotText(data.bot)}
       </span>
     </Box>
   );

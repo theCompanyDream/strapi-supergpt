@@ -13,12 +13,12 @@ import HomePage from '../HomePage';
 
 const App = () => {
   return (
-    <div>
+    <main>
       <Switch>
         <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
         <Route component={NoContent} />
       </Switch>
-    </div>
+    </main>
   );
 };
 
