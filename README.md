@@ -1,10 +1,8 @@
 <div align="center">
   <img src="https://www.tbrantleyii.dev/strapi-supergpt/logo.png" width="100" height="100" alt="Super GPT Logo" />
 </div>
-<h1 align="center">Strapi Supergpt</h1><!-- slide -->
-
+<h1 align="center">Strapi Supergpt</h1>
 <p align="center">Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications</p>
-
 <p align="center">
  <a href="https://www.npmjs.com/package/strapi-supergpt">
 <img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/theCompanyDream/strapi-supergpt?label=npm&logo=npm">
@@ -17,14 +15,10 @@
 </a>
 <br />
 <br />
-
-<br />
 <img style="width: 100%; height: auto;" src="https://www.tbrantleyii.dev/strapi-supergpt/howToUse.gif" alt="chatgpt-overview" /> <br/>
 <br/>
 <br/>
 </p>
-<br>
-<br/>
 
 # ChatGPT plugin for Strapi
 
@@ -61,15 +55,12 @@ Thats it! You can now use ChatGPT in your Strapi application.
 ## ⏳ Installation
 
 ### 1. Install the plugin
-
 <!-- use npm for installing plugin -->
 
 ```bash
 npm install strapi-supergpt
 ```
-
 or
-
 ```bash
 yarn add strapi-supergpt
 ```
@@ -121,8 +112,8 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 
 ## RoadMap
 
-- automated testing
-- Custom [Field](https://docs.strapi.io/dev-docs/custom-fields#:~:text=☑%EF%B8%8F%20Prerequisites-,Registering%20a%20custom%20field%20through%20a%20plugin%20requires%20creating%20and,method%20on%20the%20StrapiApp%20instance.) that generates content
+- automated testing.
+- Custom [Field](https://docs.strapi.io/dev-docs/custom-fields#:~:text=☑%EF%B8%8F%20Prerequisites-,Registering%20a%20custom%20field%20through%20a%20plugin%20requires%20creating%20and,method%20on%20the%20StrapiApp%20instance.) that generates content.
 - Click ChatGPT plugin in plugin section of the sidebar.
 - Click on Integration to get sample code integration code.
 - save chat's that it has with client
