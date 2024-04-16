@@ -47,7 +47,7 @@ Thats it! You can now use ChatGPT in your Strapi application.
 
 1. **Easy to use**: The plugin is easy to use and can be set up within 10 minutes.
 1. **Customizable**: You can customize the model's parameters to suit your needs.
-1. **Open Source**: The plugin is open source and can be found on [GitHub]().
+1. **Open Source**: The plugin is open source and can be found on [GitHub](https://github.com/theCompanyDream/strapi-supergpt).
 1. **Generate Pictures** Can generate pictures based on the prompt given.
 
 ## 🖐 Requirements
@@ -56,8 +56,7 @@ Thats it! You can now use ChatGPT in your Strapi application.
 1. [Strapi](https://strapi.io/) version v4.x or higher.
 
 > The ChatGPT plugin is designed for **Strapi v4.x**. It won't work with Strapi v3.x.
-
-<br/><br/>
+> working on support for **v5.0** when that officially comes out.
 
 ## ⏳ Installation
 
@@ -101,10 +100,16 @@ npm run build
 npm run develop
 ```
 
+or
+
+```bash
+yarn build
+yarn develop
+```
+
 The ChatGPT plugin should appear in the Plugins section of the Strapi sidebar after you run the app again.
 
-Now you are ready to integrate ChatGPT on your Strapi website 🎉
-<br/><br/>
+Now you are ready to integrate ChatGPT on your Strapi website.
 
 ## 🔧 Configuration
 
@@ -116,6 +121,7 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 
 ## RoadMap
 
+- automated testing
 - Custom [Field](https://docs.strapi.io/dev-docs/custom-fields#:~:text=☑%EF%B8%8F%20Prerequisites-,Registering%20a%20custom%20field%20through%20a%20plugin%20requires%20creating%20and,method%20on%20the%20StrapiApp%20instance.) that generates content
 - Click ChatGPT plugin in plugin section of the sidebar.
 - Click on Integration to get sample code integration code.
@@ -126,10 +132,6 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 - Click ChatGPT plugin in plugin section of the sidebar.
 - Click on Integration to get sample code integration code.
 - Copy the code and paste it in your terminal.
-
-<br/>
-
-<br/>
 
 ## 📝 License
 
