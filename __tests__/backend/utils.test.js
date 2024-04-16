@@ -28,8 +28,6 @@ describe("Testing utilty function", () => {
 	convert.forEach( item => {
 		expect(typeof item).toBe('object');
 		expect(Object.keys(item).sort()).toEqual(['ChatGPT', 'user'].sort());
-		// expect(item).to.have.property("user");
-		// expect(item).to.have.property("ChatGPT");
 	})
 	expect(convert).toHaveLength(2)
   });

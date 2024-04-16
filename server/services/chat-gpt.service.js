@@ -81,7 +81,7 @@ module.exports = ({ strapi }) => ({
         size,
       });
 
-      const savedFile = await utils.saveFile(data.data[0].url);
+      const savedFile = await utils.saveFile(data.data[0].url, strapi);
 
       return { response: [savedFile, data.data[0].url] };
     } catch (error) {

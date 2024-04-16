@@ -10,7 +10,7 @@ function conversationToArray(conversation) {
 
   // Filter out any empty lines that may result from the split
   const filteredDialogues = dialogues.filter(
-    (dialogue) => dialogue.trim() !== ""
+    (dialogue) => dialogue.trim() !== "",
   );
 
   let dialogTree = [];
@@ -23,19 +23,20 @@ function conversationToArray(conversation) {
   return dialogTree;
 }
 
-async function saveFile(url) {
+async function saveFile(url, strapi) {
   return new Promise((resolve, reject) => {
     strapi.log.info(`Saving the picture ${url}`);
     const fileName = crypto.randomUUID();
     const rootDir = process.cwd();
     const filePath = `${rootDir}/public/uploads/${fileName}.png`;
     const file = fs.createWriteStream(filePath);
+
     const request = https.get(url, function (response) {
       response.pipe(file);
 
       file.on("finish", async () => {
         file.close();
-        strapi.log.info("Download Completed");
+        strapi.log.debug("Download Completed");
 
         // Ensure the file is closed before accessing its stats
         fs.stat(filePath, async (err, stats) => {
@@ -53,7 +54,7 @@ async function saveFile(url) {
               size: stats.size,
             },
           });
-          strapi.log.info("Upload Completed");
+          strapi.log.info("Download Completed");
           resolve(upload[0].formats["medium"].url);
         });
       });

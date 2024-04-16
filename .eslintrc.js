@@ -1,6 +1,6 @@
 "use strict";
 
-const frontPaths = ["admin/src/**/*.js", "admin/src/**/**/*.js"];
+const frontPaths = ["admin/src/**/*.js"];
 
 module.exports = {
   parserOptions: {
