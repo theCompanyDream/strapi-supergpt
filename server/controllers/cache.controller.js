@@ -14,5 +14,5 @@ module.exports = ({ strapi }) => ({
       .service("cacheService")
       .getConfig();
     ctx.send(config);
-  }
+  },
 });

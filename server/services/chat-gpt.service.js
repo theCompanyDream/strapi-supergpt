@@ -1,13 +1,11 @@
 "use strict";
 const { OpenAI } = require("openai");
-const utils = require('../utils')
-
+const utils = require("../utils");
 
 module.exports = ({ strapi }) => ({
-  config: strapi.plugin("strapi-supergpt").service("cacheService"),
+  config: strapi.plugin("strapi-supergpt").service("cacheService").getConfig(),
 
   async getResponsefromChatGpt(ctx) {
-    this.config.getConfig();
     const openai = new OpenAI({
       apiKey: this.config.apiKey,
     });
@@ -25,13 +23,15 @@ module.exports = ({ strapi }) => ({
     try {
       const requestParams = {
         model: this.config.modelName,
-        max_tokens: this.config.maxTokens ? parseInt(this.config.maxTokens) : 2048,
+        max_tokens: this.config.maxTokens
+          ? parseInt(this.config.maxTokens)
+          : 2048,
         prompt: prompt.trim(),
       };
 
       // Add optional parameters from request body if present
       const data = await openai.chat.completions.create({
-        messages: [{role: 'user', content: requestParams.prompt}],
+        messages: [{ role: "user", content: requestParams.prompt }],
         temperature,
         model: model ? model : requestParams.model,
         max_tokens: max_tokens
@@ -63,12 +63,7 @@ module.exports = ({ strapi }) => ({
       apiKey: config.apiKey,
     });
 
-    const {
-      prompt,
-      aiImageModelName,
-      size,
-      quality,
-    } = ctx.request.body;
+    const { prompt, aiImageModelName, size, quality } = ctx.request.body;
     try {
       const requestParams = {
         aiImageModelName: config.aiImageModelName,
@@ -80,13 +75,15 @@ module.exports = ({ strapi }) => ({
       // Add optional parameters from request body if present
       const data = await openai.images.generate({
         prompt: requestParams.prompt,
-        model: aiImageModelName ? aiImageModelName : requestParams.aiImageModelName,
+        model: aiImageModelName
+          ? aiImageModelName
+          : requestParams.aiImageModelName,
         size,
       });
 
-      const savedFile = await utils.saveFile(data.data[0].url)
+      const savedFile = await utils.saveFile(data.data[0].url);
 
-      return { response: [savedFile, data.data[0].url]};
+      return { response: [savedFile, data.data[0].url] };
     } catch (error) {
       if (error.response) {
         strapi.log.error(error.response.data.error.message);
@@ -100,4 +97,3 @@ module.exports = ({ strapi }) => ({
     }
   },
 });
-

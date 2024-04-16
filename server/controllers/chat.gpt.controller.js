@@ -10,9 +10,9 @@ module.exports = ({ strapi }) => ({
   },
   async createImage(ctx) {
     const config = await strapi
-    .plugin("strapi-supergpt")
-    .service("superGptService")
-    .getImageResponsefromChatGpt(ctx);
+      .plugin("strapi-supergpt")
+      .service("superGptService")
+      .getImageResponsefromChatGpt(ctx);
     ctx.send(config);
   },
 });

@@ -16,7 +16,7 @@ module.exports = {
       handler: "chatGptController.createImage",
       config: {
         policies: [],
-      }
-    }
+      },
+    },
   ],
 };

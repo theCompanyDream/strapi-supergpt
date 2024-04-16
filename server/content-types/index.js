@@ -1,6 +1,6 @@
-"use strict"
-const convo = require("./convo")
+"use strict";
+const convo = require("./convo");
 
 module.exports = {
-	convo
+  convo,
 };
