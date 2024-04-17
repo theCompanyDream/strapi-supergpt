@@ -22,6 +22,7 @@
 	  "linebreak-style": ["error", "unix"],
 	  "no-console": 0,
 	  "quotes": ["error", "single"],
-	  "semi": ["error", "always"]
+	  "semi": ["error", "always"],
+	  "json": "always" // Explicitly allowing JSON extensions
 	}
   }

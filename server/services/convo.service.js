@@ -1,6 +1,7 @@
 // @ts-nocheck
 "use strict";
 const utils = require("../utils");
+
 const convoObject = "plugin::strapi-supergpt.convo";
 
 module.exports = ({ strapi }) => ({
@@ -22,9 +23,9 @@ module.exports = ({ strapi }) => ({
         id: convoId,
       },
     });
-    return convo.map((conversations) => {
+    return convo.map((conversation) => {
       return {
-        ...conversations,
+        ...conversation,
         content: utils.conversationToArray(conversation.content),
       };
     });
