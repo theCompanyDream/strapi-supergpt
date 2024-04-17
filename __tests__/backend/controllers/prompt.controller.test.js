@@ -1,7 +1,7 @@
 "use strict"
 const chatGPTController = require("../../../server/controllers/chat.gpt.controller");
 
-describe("ChatGPT Controller", () => {
+describe("Should ChatGPT Controller", () => {
   let strapi;
 
   beforeEach(() => {
@@ -14,8 +14,8 @@ describe("ChatGPT Controller", () => {
           getImageResponsefromChatGpt: jest.fn().mockResolvedValue(""),
         }),
       })
-    };
-  });
+    }
+  })
 
   // Cleanup or setup resources if necessary
   afterEach(() => {
@@ -23,7 +23,7 @@ describe("ChatGPT Controller", () => {
   });
 
 
-  it("should handle 'prompt' correctly", async () => {
+  it("handle 'prompt' correctly", async () => {
     // Mocking the ctx object with send method
     const ctx = {
       send: jest.fn(), // Mocking the send function
@@ -39,7 +39,7 @@ describe("ChatGPT Controller", () => {
     expect(ctx.send).toHaveBeenCalledWith("ChatGPT response");
   });
 
-  it("should handle 'createImage' correctly", async () => {
+  it("handle 'createImage' correctly", async () => {
     // Mocking the ctx object with send method
     const ctx = {
       send: jest.fn(), // Mocking the send function

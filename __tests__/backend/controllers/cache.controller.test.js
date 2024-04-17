@@ -1,7 +1,7 @@
-"use strict"
+"use strict";
 const cacheController = require("../../../server/controllers/cache.controller");
 
-describe("ChatGPT Controller", () => {
+describe("Should Caching Controller", () => {
   let strapi;
 
   beforeEach(() => {
@@ -9,11 +9,11 @@ describe("ChatGPT Controller", () => {
     strapi = {
       plugin: jest.fn().mockReturnValue({
         service: jest.fn().mockReturnValue({
-		  updateConfig: jest.fn().mockResolvedValue("This didn't work"),
+          updateConfig: jest.fn().mockResolvedValue("This didn't work"),
           // If more service methods are used, mock them similarly
           getConfig: jest.fn().mockResolvedValue("DO THE ROAR"),
         }),
-      })
+      }),
     };
   });
 
@@ -22,8 +22,7 @@ describe("ChatGPT Controller", () => {
     jest.resetAllMocks(); // Reset mocks to clean state after each test
   });
 
-
-  it("should handle 'updateConfig' correctly", async () => {
+  it("handle 'updateConfig' correctly", async () => {
     // Mocking the ctx object with send method
     const ctx = {
       send: jest.fn(), // Mocking the send function
@@ -33,15 +32,19 @@ describe("ChatGPT Controller", () => {
     await cacheController({ strapi }).updateConfig(ctx);
 
     // Check if getResponsefromChatGpt is called correctly
-    expect(strapi.plugin('strapi-supergpt').service('cacheController').updateConfig).toBeCalledWith(ctx);
+    expect(
+      strapi.plugin("strapi-supergpt").service("cacheController").updateConfig,
+    ).toBeCalledWith(ctx);
 
-	expect(strapi.plugin('strapi-supergpt').service('cacheController').updateConfig).toBeCalledTimes(1)
+    expect(
+      strapi.plugin("strapi-supergpt").service("cacheController").updateConfig,
+    ).toBeCalledTimes(1);
 
     // Check if the send method was called with the expected response
     expect(ctx.send).toHaveBeenCalledWith("This didn't work");
   });
 
-  it("should handle 'getConfig' correctly", async () => {
+  it("handle 'getConfig' correctly", async () => {
     // Mocking the ctx object with send method
     const ctx = {
       send: jest.fn(), // Mocking the send function
@@ -51,8 +54,12 @@ describe("ChatGPT Controller", () => {
     await cacheController({ strapi }).getConfig(ctx);
 
     // Check if getConfig is called correctly
-    expect(strapi.plugin('strapi-supergpt').service('cacheController').getConfig).toBeCalledWith(ctx);
+    expect(
+      strapi.plugin("strapi-supergpt").service("cacheController").getConfig,
+    ).toBeCalledWith(ctx);
 
-	expect(strapi.plugin('strapi-supergpt').service('cacheController').getConfig).toBeCalledTimes(1);
+    expect(
+      strapi.plugin("strapi-supergpt").service("cacheController").getConfig,
+    ).toBeCalledTimes(1);
   });
 });

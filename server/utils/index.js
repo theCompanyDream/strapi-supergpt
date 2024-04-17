@@ -10,33 +10,33 @@ function conversationToArray(conversation) {
   let currentSpeaker = null;
   let currentText = [];
 
-  lines.forEach(line => {
-      // Check if the line starts with 'user:' or 'chatgpt:'
-      const match = line.match(/(user|chatgpt):\s*(.*)$/i);
-      if (match) {
-          // If a new speaker starts speaking, and there is already a current speaker,
-          // push the current dialogue to dialogues array
-          if (currentSpeaker) {
-              dialogues.push({
-                  name: currentSpeaker,
-                  message: currentText.join(' ').trim()
-              });
-              currentText = [];
-          }
-          currentSpeaker = match[1].toLowerCase();
-          currentText.push(match[2].trim());
-      } else {
-          // If the same speaker continues or line does not start with a known speaker,
-          // append the line to the current text.
-          currentText.push(line.trim());
+  lines.forEach((line) => {
+    // Check if the line starts with 'user:' or 'chatgpt:'
+    const match = line.match(/(user|chatgpt):\s*(.*)$/i);
+    if (match) {
+      // If a new speaker starts speaking, and there is already a current speaker,
+      // push the current dialogue to dialogues array
+      if (currentSpeaker) {
+        dialogues.push({
+          name: currentSpeaker,
+          message: currentText.join(" ").trim(),
+        });
+        currentText = [];
       }
+      currentSpeaker = match[1].toLowerCase();
+      currentText.push(match[2].trim());
+    } else {
+      // If the same speaker continues or line does not start with a known speaker,
+      // append the line to the current text.
+      currentText.push(line.trim());
+    }
   });
 
   // Add the last spoken dialogue to the array if it exists
   if (currentSpeaker && currentText.length) {
     dialogues.push({
       name: currentSpeaker,
-      message: currentText.join(' ').trim()
+      message: currentText.join(" ").trim(),
     });
   }
 
@@ -44,11 +44,11 @@ function conversationToArray(conversation) {
 }
 
 function condenseArray(conversation) {
-  let test = ""
-  for (const {name, message} of conversation) {
-    test += `${name}: ${message}\n`
+  let test = "";
+  for (const { name, message } of conversation) {
+    test += `${name}: ${message}\n`;
   }
-  return test
+  return test;
 }
 
 async function saveFile(url, strapi) {

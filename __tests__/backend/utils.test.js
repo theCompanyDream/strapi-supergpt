@@ -19,14 +19,14 @@ describe("Utility Tests", () => {
 	`;
 
     const convert = utils.conversationToArray(message);
-	expect(convert).not.toBeNull();
-	expect(Array.isArray(convert)).toBe(true);
-	expect(convert).toHaveLength(5)
-	convert.forEach( item => {
-		expect(typeof item).toBe('object');
-		expect(Object.keys(item).sort()).toEqual(['name', 'message'].sort());
-	})
-	const revert = utils.condenseArray(convert).replace(/\s+/g, '').trim()
-	expect(message.replace(/\s+/g, '').trim()).toBe(revert)
+    expect(convert).not.toBeNull();
+    expect(Array.isArray(convert)).toBe(true);
+    expect(convert).toHaveLength(5);
+    convert.forEach((item) => {
+      expect(typeof item).toBe("object");
+      expect(Object.keys(item).sort()).toEqual(["name", "message"].sort());
+    });
+    const revert = utils.condenseArray(convert).replace(/\s+/g, "").trim();
+    expect(message.replace(/\s+/g, "").trim()).toBe(revert);
   });
 });

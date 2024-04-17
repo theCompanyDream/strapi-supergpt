@@ -103,7 +103,6 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 
 ## RoadMap
 
-- automated testing.
 - Custom [Field](https://docs.strapi.io/dev-docs/custom-fields#:~:text=☑%EF%B8%8F%20Prerequisites-,Registering%20a%20custom%20field%20through%20a%20plugin%20requires%20creating%20and,method%20on%20the%20StrapiApp%20instance.) that generates content.
 - Click ChatGPT plugin in plugin section of the sidebar.
 - Click on Integration to get sample code integration code.

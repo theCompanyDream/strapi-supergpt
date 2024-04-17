@@ -57,7 +57,7 @@ export default {
             return component;
           },
         },
-      ]
+      ],
     );
 
     app.registerPlugin({
@@ -89,7 +89,7 @@ export default {
               locale,
             };
           });
-      })
+      }),
     );
 
     return Promise.resolve(importedTrads);
