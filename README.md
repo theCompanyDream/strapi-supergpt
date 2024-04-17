@@ -55,12 +55,15 @@ Thats it! You can now use ChatGPT in your Strapi application.
 ## ⏳ Installation
 
 ### 1. Install the plugin
+
 <!-- use npm for installing plugin -->
 
 ```bash
 npm install strapi-supergpt
 ```
+
 or
+
 ```bash
 yarn add strapi-supergpt
 ```
