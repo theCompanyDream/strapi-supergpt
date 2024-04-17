@@ -41,5 +41,6 @@ module.exports = {
     "node/no-callback-literal": "error",
     "node/handle-callback-err": "error",
     "one-var": ["error", "never"],
+    "json": "always",
   },
 };

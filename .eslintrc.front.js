@@ -117,5 +117,6 @@ module.exports = {
     "react/display-name": 0,
     "react/jsx-wrap-multilines": 0,
     "react-hooks/exhaustive-deps": "off",
+    "json": "always",
   },
 };
