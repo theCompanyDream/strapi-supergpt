@@ -4,7 +4,7 @@ const frontPaths = ["admin/src/**/*.js"];
 
 module.exports = {
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2021,
   },
   overrides: [
     {
