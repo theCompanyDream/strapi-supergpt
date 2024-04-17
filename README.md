@@ -1,4 +1,6 @@
-![Super GPT Logo](https://www.tbrantleyii.dev/strapi-supergpt/logo.png)
+<div align="center">
+  <img src="https://www.tbrantleyii.dev/strapi-supergpt/logo.png" width="150" alt="Super GPT Logo" />
+</div>
 
 # Strapi Supergpt
 
