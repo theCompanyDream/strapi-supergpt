@@ -1,14 +1,10 @@
 <div align="center">
-  <img src="https://www.tbrantleyii.dev/strapi-supergpt/logo.png" width="150" alt="Super GPT Logo" />
+  <img src="https://www.tbrantleyii.dev/strapi-supergpt/logo.png" width="200" alt="Super GPT Logo" />
 </div>
 
-# Strapi Supergpt
+# Strapi Supergpt [![GitHub package.json version](https://img.shields.io/github/package-json/v/theCompanyDream/strapi-supergpt?label=npm&logo=npm)](https://www.npmjs.com/package/strapi-supergpt) ![Monthly download on NPM](https://img.shields.io/npm/dm/strapi-supergpt.svg) ![EsLint](https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/eslint.yml/badge.svg)
 
 Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications
-
-[![GitHub package.json version](https://img.shields.io/github/package-json/v/theCompanyDream/strapi-supergpt?label=npm&logo=npm)](https://www.npmjs.com/package/strapi-supergpt)
-![Monthly download on NPM](https://img.shields.io/npm/dm/strapi-supergpt.svg)
-![EsLint](https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/eslint.yml/badge.svg)
 
 ![chatgpt-overview](https://www.tbrantleyii.dev/strapi-supergpt/howToUse.gif)
 
