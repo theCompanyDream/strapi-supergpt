@@ -4,7 +4,6 @@
 
 # Strapi Supergpt ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) ![EsLint](https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/eslint.yml/badge.svg) [![GitHub package.json version](https://img.shields.io/github/package-json/v/theCompanyDream/strapi-supergpt?label=npm&logo=npm)](https://www.npmjs.com/package/strapi-supergpt) ![Monthly download on NPM](https://img.shields.io/npm/dm/strapi-supergpt.svg)
 
-
 Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications
 
 ![chatgpt-overview](https://www.tbrantleyii.dev/strapi-supergpt/howToUse.gif)

@@ -12,7 +12,7 @@ module.exports = ({ strapi }) => ({
     const config = await strapi
       .plugin("strapi-supergpt")
       .service("cacheService")
-      .getConfig();
+      .getConfig(ctx);
     ctx.send(config);
   },
 });

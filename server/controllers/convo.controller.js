@@ -18,7 +18,7 @@ module.exports = ({ strapi }) => ({
     const data = await strapi
       .plugin("strapi-supergpt")
       .service("convoService")
-      .readConvoNames();
+      .readConvoNames(ctx);
     ctx.send(data);
   },
   async updateConvo(ctx) {
