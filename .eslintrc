@@ -12,6 +12,7 @@
 		"experimentalObjectRestSpread": true,
 		"jsx": false
 	  },
+	  "ecmaVersion": 2021,
 	  "sourceType": "module"
 	},
 	"globals": {
@@ -22,7 +23,15 @@
 	  "linebreak-style": ["error", "unix"],
 	  "no-console": 0,
 	  "quotes": ["error", "single"],
-	  "semi": ["error", "always"],
-	  "json": "always" // Explicitly allowing JSON extensions
-	}
+	  "semi": ["error", "always"]
+	},
+	"overrides": [
+	  {
+		"files": ["server/**/*.js", "server/*.js"],
+		"excludedFiles": ["admin/src/**/*.js"]
+	  },
+	  {
+		"files": ["admin/src/**/*.js"]
+	  }
+	]
   }
