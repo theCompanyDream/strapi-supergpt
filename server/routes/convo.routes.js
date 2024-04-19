@@ -4,7 +4,7 @@ module.exports = {
   routes: [
     {
       method: "GET",
-      path: "/convo",
+      path: "/convo/:id",
       handler: "convoController.readConvo",
       config: {
         policies: [],
@@ -28,7 +28,7 @@ module.exports = {
     },
     {
       method: "PUT",
-      path: "/convo",
+      path: "/convo/:id",
       handler: "convoController.updateConvo",
       config: {
         policies: [],
@@ -36,7 +36,7 @@ module.exports = {
     },
     {
       method: "DELETE",
-      path: "/convo",
+      path: "/convo/:id",
       handler: "convoController.deleteConvo",
       config: {
         policies: [],

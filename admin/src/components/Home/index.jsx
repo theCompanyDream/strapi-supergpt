@@ -29,13 +29,12 @@ import {
   TabPanel,
   Divider,
 } from "@strapi/design-system";
-import { PaperPlane, Command, Trash, Cog, Picture, Plus, Minus } from "@strapi/icons";
+import { PaperPlane, Command, Trash, Cog, Picture, Plus } from "@strapi/icons";
 import Response from "../Response";
 import Help from "../Help";
 import LoadingOverlay from "../Loading";
 import ClearChatGPTResponse from "../ClearChatGPTResponse";
 import Integration from "../Integration";
-import { convo } from "../../../../server/content-types";
 
 const imageFormats = [
   "Pick an image format",
@@ -46,9 +45,9 @@ const imageFormats = [
 
 const Home = () => {
   const { formatMessage } = useIntl();
-  const [content, setContent] = useState("");
+  const [prompt, setPrompt] = useState("");
   const [highlightedId, setHighlighted] = useState(0)
-  const [convos, setConvos] = useState([{content: []}]);
+  const [convos, setConvos] = useState([]);
   const [error, setError] = useState("");
   const [format, setFormat] = useState(imageFormats[0])
   const [loading, setLoading] = useState(false);
@@ -70,25 +69,32 @@ const Home = () => {
   });
 
   const setSelectedResponse = (e) => {
-    if (e.target.value >= convos.length) {
+    if (e >= convos.length) {
       setError("This Tab is unselectable")
       return
     }
-    const selectedConvo = convos[e.target.value]
-    setHighlighted(selectedConvo.id)
+    const selectedConvo = convos[e]
+    if (selectedConvo.content.length === 0) {
+      instance.get(`/strapi-supergpt/convo/${selectedConvo.id}`)
+      .then(content => {
+        const newConvos = [...convos]
+        newConvos[selectedConvo] = content.data
+        setConvos(newConvos)
+      })
+    }
+    setHighlighted(e)
   }
 
   const clearResponses = () => {
     let selectedConvo = convos[highlightedId]
     selectedConvo.content = []
-
     setConvos([...convos, selectedConvo])
     setIsClearChatGPTResponseModalVisible(false);
   };
 
   const handlePromptChange = (e) => {
-    setError(false);
-    setContent(e.target.value);
+    setError("");
+    setPrompt(e.target.value);
   };
 
   const handleImageSizeChange = (e) => {
@@ -113,8 +119,8 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(false);
-    if (!content) {
+    setError("");
+    if (!prompt) {
       setError("Prompt is required");
       return;
     }
@@ -128,14 +134,14 @@ const Home = () => {
       }
       setLoading(true);
       const { data } = await instance.post("/strapi-supergpt/generateImage", {
-        prompt: content,
+        prompt: prompt,
         size: format,
       });
       response = data;
     } else {
       setLoading(true);
       const { data } = await instance.post("/strapi-supergpt/prompt", {
-        prompt: content,
+        prompt: prompt,
       });
       response = data
     }
@@ -151,25 +157,37 @@ const Home = () => {
     highlightedConvo.content = [
       ...highlightedConvo.content,
       {
-        you: content,
-        bot: response.response,
+        name: "you",
+        message: prompt
       },
+      {
+        name: "chatgpt",
+        message: response.response,
+      }
     ]
 
+    instance.put(`/strapi-supergpt/convo/${highlightedConvo.id}`, {
+      name: highlightedConvo.name,
+      content: highlightedConvo.content
+    })
+
     setLoading(false);
-    setContent("");
+    setPrompt("");
   };
 
   useEffect(() => {
-    if (!messagesEndRef.current) return;
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    if(convos.length == 0) {
+    if(convos.length === 0) {
       instance.get('/strapi-supergpt/convos')
-        .then(convoNames => setConvos(convoNames.data))
-    } else {
-      console.log(convos)
-    }
+          .then(convoNames => setConvos(convoNames.data))
+  }
   }, [convos, setConvos]);
+
+  useEffect(() => {
+      // Scrolling logic that depends on messagesEndRef
+      if (!messagesEndRef.current) return;
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, []); // This could potentially be adjusted based on when you need to scroll
+
 
   return (
     <Layout>
@@ -178,7 +196,7 @@ const Home = () => {
         <HeaderLayout
           title={"SuperGPT"}
           subtitle={formatMessage({
-            id: "chatgpt-header",
+            id: "supergpt-header",
             defaultMessage: "ChatGPT plugin for Strapi",
           })}
         />
@@ -210,9 +228,9 @@ const Home = () => {
             </Stack>
             }
           endActions={
-            <Tooltip description="Clear chatGPT history" position="left">
+            <Tooltip description="Delete Tab or clear history" position="left">
               <IconButton
-                disabled={loading || convos[highlightedId].content.length === 0}
+                disabled={loading || convos.length > 0 && convos[highlightedId].content.length === 0}
                 onClick={() => setIsClearChatGPTResponseModalVisible(true)}
                 icon={<Trash />}
               />
@@ -229,9 +247,9 @@ const Home = () => {
 
           <TabGroup onTabChange={setSelectedResponse}>
             <Tabs>
-              {convos.length > 0 && convos.map(convo =><Tab value={convo.id}>
-                {convo.name}
-              </Tab>)}
+              {convos.length > 0 && convos.map(convo => (
+                <Tab key={convo.id} value={convo.id}>{convo.name}</Tab>
+              ))}
               <Tab onClick={handleCreateTab}><Plus /></Tab>
             </Tabs>
             <TabPanels>
@@ -246,7 +264,7 @@ const Home = () => {
                   >
                 <CardContent>
                   <LoadingOverlay isLoading={loading} />
-                  <section>
+                   <section>
                     <div
                       style={{
                         display: "flex",
@@ -258,7 +276,9 @@ const Home = () => {
                     >
                       {convo.content.map((response, index) => (
                         <>
-                          <Response key={index + "123"} data={response} />
+                          <Response key={index + "123"}>
+                            {response}
+                          </Response>
                           <Box paddingTop={2} paddingBottom={4}>
                             <Divider />
                           </Box>
@@ -276,24 +296,24 @@ const Home = () => {
           </TabGroup>
           <Box>
             <form>
-              <Grid spacing={2} gap={2} paddingTop={4}>
+              <Grid spacing={1} gap={2} paddingTop={4}>
                 <GridItem col={10}>
                   <TextInput
                     id="chatInput"
                     placeholder="Enter your prompt here"
                     aria-label="Content"
-                    name="content"
+                    name="prompt"
                     error={error}
                     onChange={handlePromptChange}
-                    value={content}
+                    value={prompt}
                     disabled={loading}
                     onpaste={(e) => {
                       e.preventDefault();
-                      setError(false);
+                      setError("");
                     }}
                   />
                 </GridItem>
-                <GridItem style={{width: 80}}>
+                <GridItem style={{width: 90}}>
                   <Button
                     size="L"
                     name="prompt"
@@ -305,7 +325,7 @@ const Home = () => {
                     Text
                   </Button>
                 </GridItem>
-                <GridItem style={{float: screenLeft}}>
+                <GridItem>
                   <Button
                     size={"L"}
                     name="picture"
@@ -319,7 +339,6 @@ const Home = () => {
             </form>
           </Box>
         </ContentLayout>
-
         <Help
           isOpen={isModalVisible}
           onClose={() => setIsModalVisible(false)}

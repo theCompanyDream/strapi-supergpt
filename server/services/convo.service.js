@@ -7,33 +7,28 @@ const convoObject = "plugin::strapi-supergpt.convo";
 module.exports = ({ strapi }) => ({
   config: strapi.plugin("strapi-supergpt").service("cacheService").getConfig(),
   async createConvo(ctx) {
-    const { convoName } = ctx.request.body;
+    const { name } = ctx.request.body;
     const convo = await strapi.db.query(convoObject).create({
       data: {
-        name: convoName,
+        name: name,
+        content: ""
       },
     });
     return convo;
   },
   async readConvo(ctx) {
-    const { convoId } = ctx.request.query;
+    const { id } = ctx.params;
     const convo = await strapi.db.query(convoObject).findOne({
-      select: ["id", "name", "content"],
+      select: ["content"],
       where: {
-        id: convoId,
+        id: id,
       },
     });
-    return convo.map((conversation) => {
-      return {
-        ...conversation,
-        content: utils.conversationToArray(conversation.content),
-      };
-    });
+    return utils.conversationToArray(convo.content)
   },
   async readConvoNames() {
-    strapi.log.debug(this.config.convoCount);
     if (this.config.convoCount == 1) {
-      const convo = this.readConvo({ query: { convoId: convos[0].id } });
+      const convo = this.readConvo({ query: { id: convos[0].id } });
       return [convo];
     }
     let convos = await strapi.db.query(convoObject).findMany({
@@ -48,26 +43,27 @@ module.exports = ({ strapi }) => ({
       return { ...convo, content: [] };
     });
     if (convos.length > 0) {
-      const firstConvo = this.readConvo({ query: { convoId: convos[0].id } });
-      convos[0] = firstConvo;
+      const conversation = await this.readConvo({ params: { id: convos[0].id } });
+      convos[0].content = conversation;
     }
     return convos;
   },
   async updateConvo(ctx) {
-    const { id, name, context } = ctx.request.body;
+    const { id } = ctx.params;
+    const { name, content } = ctx.request.body;
     const convo = await strapi.db.query(convoObject).update({
       where: {
         id,
       },
       data: {
         name,
-        content: context,
+        content: utils.condenseArray(content),
       },
     });
     return convo;
   },
   async deleteConvo(ctx) {
-    const { id } = ctx.request.query;
+    const { id } = ctx.params;
     const convo = await strapi.db.query(convoObject).delete({
       where: {
         id,

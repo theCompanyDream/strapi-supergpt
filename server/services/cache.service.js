@@ -8,7 +8,7 @@ module.exports = ({ strapi }) => ({
         name: "strapi-supergpt",
       });
 
-      return pluginStore.get({ key: "superGPTConfig" });
+      return pluginStore.get({ key: "supergpt" });
     } catch (error) {
       strapi.log.error(error.message);
       return {
@@ -19,18 +19,18 @@ module.exports = ({ strapi }) => ({
   },
   updateConfig(ctx) {
     try {
-      const reqBody = ctx.request.body;
+      const body = ctx.request.body;
       const data = {
-        apiKey: reqBody.apiKey,
-        modelName: reqBody.modelName || "gpt-3.5-turbo",
-        aiImageModelName: reqBody.aiImageModelName || "dall-e-3",
-        temperature: reqBody.temperature || 0.0,
-        maxTokens: reqBody.maxTokens || 2048,
-        topP: reqBody.topP,
-        frequencyPenalty: reqBody.frequencyPenalty || 0.0,
-        presencePenalty: reqBody.presencePenalty || 0.0,
-        stop: reqBody.stop || "",
-        convoCount: reqBody.Count || "",
+        apiKey: body.apiKey,
+        modelName: body.modelName || "gpt-3.5-turbo",
+        aiImageModelName: body.aiImageModelName || "dall-e-3",
+        temperature: body.temperature || 0.0,
+        maxTokens: body.maxTokens || 2048,
+        topP: body.topP,
+        frequencyPenalty: body.frequencyPenalty || 0.0,
+        presencePenalty: body.presencePenalty || 0.0,
+        stop: body.stop || "",
+        convoCount: body.Count || "",
       };
       const pluginStore = strapi.store({
         environment: strapi.config.environment,
@@ -38,14 +38,14 @@ module.exports = ({ strapi }) => ({
         name: "strapi-supergpt",
       });
       return pluginStore.set({
-        key: "superGPTConfig",
+        key: "supergpt",
         value: data,
       });
     } catch (error) {
       strapi.log.error(error.message);
       return {
         error:
-          "An error occurred while updting the chatGPT config. Please try after some time",
+          "An error occurred while updating the chatGPT config. Please try after some time",
       };
     }
   },

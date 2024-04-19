@@ -3,11 +3,11 @@ const { OpenAI } = require("openai");
 const utils = require("../utils");
 
 module.exports = ({ strapi }) => ({
-  config: strapi.plugin("strapi-supergpt").service("cacheService").getConfig(),
 
   async getResponsefromChatGpt(ctx) {
+    const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
     const openai = new OpenAI({
-      apiKey: this.config.apiKey,
+      apiKey: config.apiKey,
     });
 
     const {
@@ -22,9 +22,9 @@ module.exports = ({ strapi }) => ({
     } = ctx.request.body;
     try {
       const requestParams = {
-        model: this.config.modelName,
-        max_tokens: this.config.maxTokens
-          ? parseInt(this.config.maxTokens)
+        model: config.modelName,
+        max_tokens: config.maxTokens
+          ? parseInt(config.maxTokens)
           : 2048,
         prompt: prompt.trim(),
       };

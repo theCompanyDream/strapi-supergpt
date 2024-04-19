@@ -5,6 +5,9 @@ const crypto = require("crypto");
 const mime = require("mime-types"); //used to detect file's mime type
 
 function conversationToArray(conversation) {
+  if (conversation === "" ){
+    return []
+  }
   const lines = conversation.split("\n");
   let dialogues = [];
   let currentSpeaker = null;
@@ -12,7 +15,7 @@ function conversationToArray(conversation) {
 
   lines.forEach((line) => {
     // Check if the line starts with 'user:' or 'chatgpt:'
-    const match = line.match(/(user|chatgpt):\s*(.*)$/i);
+    const match = line.match(/(you|chatgpt):\s*(.*)$/i);
     if (match) {
       // If a new speaker starts speaking, and there is already a current speaker,
       // push the current dialogue to dialogues array

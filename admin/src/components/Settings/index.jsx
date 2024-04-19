@@ -77,7 +77,6 @@ const Settings = () => {
   };
 
   const handleChatGPTConfigChange = (key) => (e) => {
-    console.log("key", e);
     // update the refs
     if (key === "modelName" || key === "aiImageModelName") {
       setChatGPTConfig({
