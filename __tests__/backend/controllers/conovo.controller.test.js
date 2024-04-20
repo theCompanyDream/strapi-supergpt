@@ -1,6 +1,7 @@
 const convoController = require("../../../server/controllers/convo.controller");
 
 describe("Should Conversation Controller", () => {
+  let strapi;
   beforeEach(() => {
     // Mocking strapi.plugin().service() structure
     strapi = {
