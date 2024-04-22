@@ -23,6 +23,10 @@ import { Check } from "@strapi/icons";
 
 const AiModels = [
   {
+    value: "gpt-4-turbo",
+    label: "The latest GPT-4 Turbo model with vision capabilities. Vision requests can now use JSON mode and function calling."
+  },
+  {
     value: "gpt-4",
     label: "A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code"
   },
@@ -48,7 +52,7 @@ const Settings = () => {
   const toggleNotification = useNotification();
   const [loading, setLoading] = useState(false);
   const apiKeyRef = useRef("");
-  const modelNameRef = useRef("gpt-3.5-turbo");
+  const modelNameRef = useRef("gpt-4");
   const imageModelNameRef = useRef("dalle-3")
   const maxTokensRef = useRef(2048);
 

@@ -57,7 +57,7 @@ module.exports = ({ strapi }) => ({
   },
 
   async getImageResponsefromChatGpt(ctx) {
-    const config = await this.getConfig();
+    const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
 
     const openai = new OpenAI({
       apiKey: config.apiKey,
@@ -83,7 +83,7 @@ module.exports = ({ strapi }) => ({
 
       const savedFile = await utils.saveFile(data.data[0].url, strapi);
 
-      return { response: [savedFile, data.data[0].url] };
+      return { response: `<p>Sure,</p><a href="${savedFile}">Picture</a><a href="${data.data[0].url}">Original Location</a>` };
     } catch (error) {
       if (error.response) {
         strapi.log.error(error.response.data.error.message);

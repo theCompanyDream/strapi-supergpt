@@ -143,7 +143,7 @@ const Home = () => {
     } else {
       setLoading(true);
       const { data } = await instance.post("/strapi-supergpt/prompt", {
-        prompt: prompt,
+        prompt: `${prompt}\nCan format your response in html? Please encase the human responses in <p></p>`,
       });
       response = data
     }
@@ -285,9 +285,6 @@ const Home = () => {
                           <Response key={index + "123"}>
                             {response}
                           </Response>
-                          <Box paddingTop={2} paddingBottom={4}>
-                            <Divider />
-                          </Box>
                         </>
                       ))}
                       <div ref={messagesEndRef} />
