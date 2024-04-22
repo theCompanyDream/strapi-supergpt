@@ -180,8 +180,14 @@ const Home = () => {
   useEffect(() => {
     if(convos.length === 0) {
       instance.get('/strapi-supergpt/convos')
-          .then(convoNames => setConvos(convoNames.data))
-  }
+          .then(conversations => {
+            if (conversations.data.length > 0) {
+              setConvos(conversations.data)
+            } else {
+              return handleCreateTab(null)
+            }
+          })
+    }
   }, [convos, setConvos]);
 
   useEffect(() => {

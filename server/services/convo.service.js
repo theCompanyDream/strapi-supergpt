@@ -47,7 +47,9 @@ module.exports = ({ strapi }) => ({
       return { ...convo, content: [] };
     });
     if (convos.length > 0) {
-      const conversation = await this.readConvo({ params: { id: convos[0].id } });
+      let mockCTX = ctx
+      mockCTX.params.id = convos[0].id
+      const conversation = await this.readConvo(mockCTX);
       convos[0].content = conversation;
     }
     return convos;
