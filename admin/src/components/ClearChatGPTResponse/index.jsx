@@ -21,7 +21,7 @@ const ClearChatGPTResponse = ({ isOpen, setIsOpen, onConfirm }) => {
         <Stack spacing={2}>
           <Flex justifyContent="center">
             <Typography id="confirm-description">
-              Are you sure you want to clear chatGPT history?
+              Are you sure you want to delete chatGPT history?
             </Typography>
           </Flex>
         </Stack>

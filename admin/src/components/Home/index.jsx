@@ -82,15 +82,8 @@ const Home = () => {
         setConvos(newConvos)
       })
     }
-    setHighlighted(e)
+    setHighlighted(selectedConvo.id)
   }
-
-  const clearResponses = () => {
-    let selectedConvo = convos[highlightedId]
-    selectedConvo.content = []
-    setConvos([...convos, selectedConvo])
-    setIsClearChatGPTResponseModalVisible(false);
-  };
 
   const handlePromptChange = (e) => {
     setError("");
@@ -105,17 +98,26 @@ const Home = () => {
     await instance.post(`/strapi-supergpt/convo`, {
       name: `New Convo ${convos.length + 1}`
     })
-    .then(convo => setConvos([...convos, convo]))
+    .then(convo => setConvos([...convos, convo.data]))
     setHighlighted(convos.length-1)
   }
 
   const handleDeleteTab = async (e) => {
-    const removedTab = await instance.delete(`/strapi-supergpt/convo/${e.target.value}`)
-    if (removedTab) {
-      const filteredlist = convos.filter(convo => convo !== e.target.value)
-      setConvos(filteredlist)
+    if (convos.length > 1) {
+      await instance.delete(`/strapi-supergpt/convo/${highlightedId}`).then( convo => {
+        const filteredlist = convos.filter(convo => convo.id !== highlightedId)
+        console.log(filteredlist)
+        setConvos(filteredlist)
+      })
+    } else {
+      instance.put(`/strapi-supergpt/convo/${highlightedId}`, {
+        name: convos[0].name,
+        content: []
+      }).then( convo => setConvos([convo]))
     }
+    setIsClearChatGPTResponseModalVisible(false);
   }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -228,13 +230,11 @@ const Home = () => {
             </Stack>
             }
           endActions={
-            <Tooltip description="Delete Tab or clear history" position="left">
-              <IconButton
-                disabled={loading || convos.length > 0 && convos[highlightedId].content.length === 0}
-                onClick={() => setIsClearChatGPTResponseModalVisible(true)}
-                icon={<Trash />}
-              />
-            </Tooltip>
+            <IconButton
+              disabled={loading || convos.length === 0}
+              onClick={() => setIsClearChatGPTResponseModalVisible(true)}
+              icon={<Trash />}
+            />
           }
         />
 
@@ -242,7 +242,7 @@ const Home = () => {
           <ClearChatGPTResponse
             isOpen={isClearChatGPTResponseModalVisible}
             setIsOpen={setIsClearChatGPTResponseModalVisible}
-            onConfirm={clearResponses}
+            onConfirm={handleDeleteTab}
           />
 
           <TabGroup onTabChange={setSelectedResponse}>
@@ -297,7 +297,7 @@ const Home = () => {
           <Box>
             <form>
               <Grid spacing={1} gap={2} paddingTop={4}>
-                <GridItem col={10}>
+                <GridItem col={11}>
                   <TextInput
                     id="chatInput"
                     placeholder="Enter your prompt here"
@@ -313,7 +313,7 @@ const Home = () => {
                     }}
                   />
                 </GridItem>
-                <GridItem style={{width: 90}}>
+                <GridItem style={{ display: 'flex', justifyContent: 'space-between', gap: '0.5rem' }}>
                   <Button
                     size="L"
                     name="prompt"
@@ -324,14 +324,13 @@ const Home = () => {
                   >
                     Text
                   </Button>
-                </GridItem>
-                <GridItem>
                   <Button
-                    size={"L"}
+                    size="L"
                     name="picture"
                     value="picture"
                     onClick={handleSubmit}
-                    startIcon={<Picture />}>
+                    startIcon={<Picture />}
+                  >
                     Image
                   </Button>
                 </GridItem>

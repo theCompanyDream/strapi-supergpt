@@ -8,12 +8,14 @@ module.exports = ({ strapi }) => ({
   config: strapi.plugin("strapi-supergpt").service("cacheService").getConfig(),
   async createConvo(ctx) {
     const { name } = ctx.request.body;
-    const convo = await strapi.db.query(convoObject).create({
+    let convo = await strapi.db.query(convoObject).create({
       data: {
         name: name,
-        content: ""
+        content: "",
+        userId: ctx.state.user.id
       },
     });
+    convo.content = []
     return convo;
   },
   async readConvo(ctx) {
@@ -22,11 +24,12 @@ module.exports = ({ strapi }) => ({
       select: ["content"],
       where: {
         id: id,
+        userId: ctx.state.user.id
       },
     });
     return utils.conversationToArray(convo.content)
   },
-  async readConvoNames() {
+  async readConvoNames(ctx) {
     if (this.config.convoCount == 1) {
       const convo = this.readConvo({ query: { id: convos[0].id } });
       return [convo];
@@ -37,6 +40,7 @@ module.exports = ({ strapi }) => ({
         $not: {
           name: null,
         },
+        userId: ctx.state.user.id
       },
     });
     convos = convos.map((convo) => {
