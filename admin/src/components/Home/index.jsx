@@ -3,6 +3,7 @@ import { useIntl } from "react-intl";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { auth } from "@strapi/helper-plugin";
+import { useTheme } from '@strapi/design-system';
 import {
   Button,
   TextInput,
@@ -18,23 +19,23 @@ import {
   CardContent,
   Grid,
   GridItem,
-  IconButton,
   ActionLayout,
-  Tooltip,
+  Tab,
   Stack,
   Tabs,
-  Tab,
   TabGroup,
   TabPanels,
   TabPanel,
   Divider,
 } from "@strapi/design-system";
-import { PaperPlane, Command, Trash, Cog, Picture, Plus } from "@strapi/icons";
+import { PaperPlane, Command, Cog, Picture, Plus } from "@strapi/icons";
+
+import CustomTab from "./tab";
 import Response from "../Response";
 import Help from "../Help";
 import LoadingOverlay from "../Loading";
-import ClearChatGPTResponse from "../ClearChatGPTResponse";
 import Integration from "../Integration";
+
 
 const imageFormats = [
   "Pick an image format",
@@ -45,6 +46,7 @@ const imageFormats = [
 
 const Home = () => {
   const { formatMessage } = useIntl();
+  const theme = useTheme();
   const [prompt, setPrompt] = useState("");
   const [highlightedId, setHighlighted] = useState(0)
   const [convos, setConvos] = useState([]);
@@ -55,10 +57,6 @@ const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isApiIntegrationModalVisible, setIsApiIntegrationModalVisible] =
     useState(false);
-  const [
-    isClearChatGPTResponseModalVisible,
-    setIsClearChatGPTResponseModalVisible,
-  ] = useState(false);
 
   const instance = axios.create({
     baseURL: process.env.STRAPI_ADMIN_BACKEND_URL,
@@ -102,22 +100,27 @@ const Home = () => {
     setHighlighted(convos.length-1)
   }
 
+  const handleSaveTab = async (e) => {
+    await instance.put(`/strapi-supergpt/convo`, {
+      name: e,
+      content: convos[highlightedId],
+    })
+    .then(convo => setConvos([...convos, convo.data]))
+  }
+
   const handleDeleteTab = async (e) => {
     if (convos.length > 1) {
       await instance.delete(`/strapi-supergpt/convo/${highlightedId}`).then( convo => {
         const filteredlist = convos.filter(convo => convo.id !== highlightedId)
-        console.log(filteredlist)
         setConvos(filteredlist)
       })
     } else {
       instance.put(`/strapi-supergpt/convo/${highlightedId}`, {
-        name: convos[0].name,
+        name: "Default Convo",
         content: []
       }).then( convo => setConvos([convo]))
     }
-    setIsClearChatGPTResponseModalVisible(false);
   }
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -211,6 +214,15 @@ const Home = () => {
 
         <ActionLayout
           startActions={
+            <SingleSelect onChange={handleImageSizeChange} value={format}>
+              {imageFormats.map((format, idx) => (
+                <SingleSelectOption key={idx} value={format}>
+                  {format}
+                </SingleSelectOption>
+              ))}
+            </SingleSelect>
+            }
+          endActions={
             <Stack horizontal gap={2}>
               <Button
                 variant="secondary"
@@ -226,35 +238,22 @@ const Home = () => {
               >
                 API Integration
               </Button>
-              <SingleSelect onChange={handleImageSizeChange} value={format}>
-                {imageFormats.map((format, idx) => (
-                  <SingleSelectOption key={idx} value={format}>
-                    {format}
-                  </SingleSelectOption>
-                ))}
-              </SingleSelect>
             </Stack>
-            }
-          endActions={
-            <IconButton
-              disabled={loading || convos.length === 0}
-              onClick={() => setIsClearChatGPTResponseModalVisible(true)}
-              icon={<Trash />}
-            />
           }
         />
 
         <ContentLayout>
-          <ClearChatGPTResponse
-            isOpen={isClearChatGPTResponseModalVisible}
-            setIsOpen={setIsClearChatGPTResponseModalVisible}
-            onConfirm={handleDeleteTab}
-          />
-
           <TabGroup onTabChange={setSelectedResponse}>
             <Tabs>
               {convos.length > 0 && convos.map(convo => (
-                <Tab key={convo.id} value={convo.id}>{convo.name}</Tab>
+                <CustomTab
+                  key={convo.id}
+                  value={convo.id}
+                  onRename={handleSaveTab}
+                  onDelete={handleDeleteTab}
+                  >
+                  {convo.name}
+                </CustomTab>
               ))}
               <Tab onClick={handleCreateTab}><Plus /></Tab>
             </Tabs>

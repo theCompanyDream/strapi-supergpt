@@ -110,6 +110,7 @@ const Settings = () => {
         break;
       case 'aiImageModelName':
         imageModelNameRef.current = e;
+        break;
       default:
         break;
     }
@@ -136,7 +137,7 @@ const Settings = () => {
     setLoading(false);
   }, []);
 
-  const handelSave = async () => {
+  const handleSave = async () => {
     const config = {
       apiKey: apiKeyRef.current,
       modelName: modelNameRef.current,
@@ -186,10 +187,10 @@ const Settings = () => {
 
   return (
     <Layout>
-      <Helmet title={" SuperGPT Configuration"} />
+      <Helmet title={"SuperGPT Configuration"} />
       <Main aria-busy={false}>
         <HeaderLayout
-          title={"ChatGPT Configurations"}
+          title={"SuperGPT Configurations"}
           subtitle={formatMessage({
             id: "chatgpt-config-headder",
             defaultMessage:
@@ -198,7 +199,7 @@ const Settings = () => {
           primaryAction={
             <Button
               startIcon={<Check />}
-              onClick={handelSave}
+              onClick={handleSave}
               loading={loading}
             >
               Save
@@ -217,7 +218,7 @@ const Settings = () => {
             hasRadius
           >
             <Grid gap={6}>
-              <GridItem col={6}>
+              <GridItem col={12}>
                 <TextInput
                   type="text"
                   id="apiKey"
@@ -242,7 +243,7 @@ const Settings = () => {
                   onChange={handleChatGPTConfigChange("maxTokens")}
                 />
               </GridItem>
-              <GridItem>
+              <GridItem col={6}>
                 <SingleSelect
                   name="modelName"
                   id="modelName"
@@ -259,9 +260,7 @@ const Settings = () => {
                   ))}
                 </SingleSelect>
               </GridItem>
-            </Grid>
-            <Grid paddingTop={3}>
-              <GridItem col={1}>
+              <GridItem col={6}>
                   <SingleSelect
                     name="aiImageModelName"
                     id="aiImageModelName"
