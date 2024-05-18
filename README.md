@@ -1,30 +1,12 @@
 <div align="center">
-  <img src="https://www.tbrantleyii.dev/strapi-supergpt/logo.png" width="100" height="100" alt="Super GPT Logo" />
+  <img src="https://www.tbrantleyii.dev/strapi-supergpt/logo.png" width="200" alt="Super GPT Logo" />
 </div>
-<h1 align="center">Strapi Supergpt</h1><!-- slide -->
 
-<p align="center">Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications</p>
+# Strapi Supergpt | ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) ![EsLint](https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/eslint.yml/badge.svg) ![GitHub package.json version](https://img.shields.io/github/package-json/v/theCompanyDream/strapi-supergpt?label=npm&logo=npm) ![Monthly download on NPM](https://img.shields.io/npm/dm/strapi-supergpt.svg)
 
-<p align="center">
- <a href="https://www.npmjs.com/package/strapi-supergpt">
-<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/theCompanyDream/strapi-supergpt?label=npm&logo=npm">
-</a>
-<a href="https://www.npmjs.org/package/strapi-supergpt">
-<img src="https://img.shields.io/npm/dm/strapi-supergpt.svg" alt="Monthly download on NPM" />
-</a>
-<a href="https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/eslint.yml/badge.svg">
-<img src="https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/eslint.yml/badge.svg" alt="EsLint" />
-</a>
-<br />
-<br />
+Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications
 
-<br />
-<img style="width: 100%; height: auto;" src="https://www.tbrantleyii.dev/strapi-supergpt/howToUse.gif" alt="chatgpt-overview" /> <br/>
-<br/>
-<br/>
-</p>
-<br>
-<br/>
+![chatgpt-overview](https://www.tbrantleyii.dev/strapi-supergpt/howToUse.gif)
 
 # ChatGPT plugin for Strapi
 
@@ -47,17 +29,16 @@ Thats it! You can now use ChatGPT in your Strapi application.
 
 1. **Easy to use**: The plugin is easy to use and can be set up within 10 minutes.
 1. **Customizable**: You can customize the model's parameters to suit your needs.
-1. **Open Source**: The plugin is open source and can be found on [GitHub]().
 1. **Generate Pictures** Can generate pictures based on the prompt given.
+1. **Use GPT-4-Turbo** you can ulitize GPT-4-Turbo which is only avaible from Api.
 
 ## 🖐 Requirements
 
-1. [Node.js](https://nodejs.org/en/) version 14 or higher.
+1. [Node.js](https://nodejs.org/en/) version 18 or higher.
 1. [Strapi](https://strapi.io/) version v4.x or higher.
 
 > The ChatGPT plugin is designed for **Strapi v4.x**. It won't work with Strapi v3.x.
-
-<br/><br/>
+> working on support for **v5.0** when that officially comes out.
 
 ## ⏳ Installation
 
@@ -101,10 +82,16 @@ npm run build
 npm run develop
 ```
 
+or
+
+```bash
+yarn build
+yarn develop
+```
+
 The ChatGPT plugin should appear in the Plugins section of the Strapi sidebar after you run the app again.
 
-Now you are ready to integrate ChatGPT on your Strapi website 🎉
-<br/><br/>
+Now you are ready to integrate ChatGPT on your Strapi website.
 
 ## 🔧 Configuration
 
@@ -114,7 +101,13 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 - On the configiration page, Enter All the fields.
 - Click on Save to save the configuration.
 
-<br/><br/>
+## RoadMap
+
+- Custom [Field](https://docs.strapi.io/dev-docs/custom-fields#:~:text=☑%EF%B8%8F%20Prerequisites-,Registering%20a%20custom%20field%20through%20a%20plugin%20requires%20creating%20and,method%20on%20the%20StrapiApp%20instance.) that generates content.
+- Click ChatGPT plugin in plugin section of the sidebar.
+- Click on Integration to get sample code integration code.
+- Save chat's that it has with client
+- Add voice to models
 
 ## 📖 Testing the plugin
 
@@ -122,10 +115,6 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 - Click on Integration to get sample code integration code.
 - Copy the code and paste it in your terminal.
 
-<br/>
-
-<br/>
-
 ## 📝 License
 
-[MIT License](LICENSE.md)
+[MIT License](LICENSE)

@@ -23,6 +23,14 @@ import { Check } from "@strapi/icons";
 
 const AiModels = [
   {
+    value: "gpt-4o",
+    label: "Our most advanced, multimodal flagship model that’s cheaper and faster than GPT-4 Turbo. Currently points to gpt-4o-2024-05-13."
+  },
+  {
+    value: "gpt-4-turbo",
+    label: "The latest GPT-4 Turbo model with vision capabilities. Vision requests can now use JSON mode and function calling."
+  },
+  {
     value: "gpt-4",
     label: "A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code"
   },
@@ -48,7 +56,7 @@ const Settings = () => {
   const toggleNotification = useNotification();
   const [loading, setLoading] = useState(false);
   const apiKeyRef = useRef("");
-  const modelNameRef = useRef("gpt-3.5-turbo");
+  const modelNameRef = useRef("gpt-4");
   const imageModelNameRef = useRef("dalle-3")
   const maxTokensRef = useRef(2048);
 
@@ -77,7 +85,6 @@ const Settings = () => {
   };
 
   const handleChatGPTConfigChange = (key) => (e) => {
-    console.log("key", e);
     // update the refs
     if (key === "modelName" || key === "aiImageModelName") {
       setChatGPTConfig({
@@ -103,6 +110,7 @@ const Settings = () => {
         break;
       case 'aiImageModelName':
         imageModelNameRef.current = e;
+        break;
       default:
         break;
     }
@@ -112,7 +120,7 @@ const Settings = () => {
     setLoading(true);
     const fetchChatGPTConfig = async () => {
       try {
-        const { data } = await instance.get("/strapi-supergpt/config");
+        const { data } = await instance.get("/strapi-supergpt/cache");
         setData(data);
       } catch (error) {
         console.log(error);
@@ -129,7 +137,7 @@ const Settings = () => {
     setLoading(false);
   }, []);
 
-  const handelSave = async () => {
+  const handleSave = async () => {
     const config = {
       apiKey: apiKeyRef.current,
       modelName: modelNameRef.current,
@@ -150,7 +158,7 @@ const Settings = () => {
     setLoading(true);
 
     try {
-      const { data } = await instance.post("/strapi-supergpt/config/update", {
+      const { data } = await instance.post("/strapi-supergpt/cache/update", {
         ...chatGPTConfig,
       });
       if (data && data.value) {
@@ -179,10 +187,10 @@ const Settings = () => {
 
   return (
     <Layout>
-      <Helmet title={" SuperGPT Configuration"} />
+      <Helmet title={"SuperGPT Configuration"} />
       <Main aria-busy={false}>
         <HeaderLayout
-          title={"ChatGPT Configurations"}
+          title={"SuperGPT Configurations"}
           subtitle={formatMessage({
             id: "chatgpt-config-headder",
             defaultMessage:
@@ -191,7 +199,7 @@ const Settings = () => {
           primaryAction={
             <Button
               startIcon={<Check />}
-              onClick={handelSave}
+              onClick={handleSave}
               loading={loading}
             >
               Save
@@ -210,7 +218,7 @@ const Settings = () => {
             hasRadius
           >
             <Grid gap={6}>
-              <GridItem col={6}>
+              <GridItem col={12}>
                 <TextInput
                   type="text"
                   id="apiKey"
@@ -235,7 +243,7 @@ const Settings = () => {
                   onChange={handleChatGPTConfigChange("maxTokens")}
                 />
               </GridItem>
-              <GridItem>
+              <GridItem col={6}>
                 <SingleSelect
                   name="modelName"
                   id="modelName"
@@ -252,9 +260,7 @@ const Settings = () => {
                   ))}
                 </SingleSelect>
               </GridItem>
-            </Grid>
-            <Grid paddingTop={3}>
-              <GridItem col={1}>
+              <GridItem col={6}>
                   <SingleSelect
                     name="aiImageModelName"
                     id="aiImageModelName"

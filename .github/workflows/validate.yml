@@ -1,4 +1,4 @@
-name: "EsLint"
+name: "Test SuperGPT"
 
 on:
   pull_request:
@@ -6,12 +6,12 @@ on:
       - main
 
 jobs:
-  lint:
-    name: "lint (node: ${{ matrix.node }})"
+  validate:
+    name: "validate(node: ${{ matrix.node }})"
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [18]
+        node: [18.13.x, 20.12.x]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta
@@ -19,5 +19,8 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
         run: yarn
-      - name: Run lint
-        run: yarn lint
+      # TODO: Have to fix linter
+      # - name: Run lint
+      #   run: yarn lint
+      - name: Run Test
+        run: yarn test

@@ -18,17 +18,20 @@ import {
   CardContent,
   Grid,
   GridItem,
-  IconButton,
   ActionLayout,
-  Tooltip,
+  Tab,
   Stack,
-  Divider,
+  Tabs,
+  TabGroup,
+  TabPanels,
+  TabPanel,
 } from "@strapi/design-system";
-import { PaperPlane, Command, Trash, Cog, Picture } from "@strapi/icons";
-import Response from "../Response";
+import { PaperPlane, Command, Cog, Picture, Plus } from "@strapi/icons";
+
+import CustomTab from "./tab";
+import Response from "./response";
 import Help from "../Help";
 import LoadingOverlay from "../Loading";
-import ClearChatGPTResponse from "../ClearChatGPTResponse";
 import Integration from "../Integration";
 
 const imageFormats = [
@@ -40,19 +43,16 @@ const imageFormats = [
 
 const Home = () => {
   const { formatMessage } = useIntl();
-  const [content, setContent] = useState("");
+  const [prompt, setPrompt] = useState("");
+  const [highlightedId, setHighlighted] = useState(0)
+  const [convos, setConvos] = useState([]);
   const [error, setError] = useState("");
-  const [responses, setResponses] = useState([]);
   const [format, setFormat] = useState(imageFormats[0])
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isApiIntegrationModalVisible, setIsApiIntegrationModalVisible] =
     useState(false);
-  const [
-    isClearChatGPTResponseModalVisible,
-    setIsClearChatGPTResponseModalVisible,
-  ] = useState(false);
 
   const instance = axios.create({
     baseURL: process.env.STRAPI_ADMIN_BACKEND_URL,
@@ -62,24 +62,66 @@ const Home = () => {
     },
   });
 
-  const clearResponses = () => {
-    setResponses([]);
-    setIsClearChatGPTResponseModalVisible(false);
-  };
+  const setSelectedResponse = (e) => {
+    if (e >= convos.length) {
+      setError("This Tab is unselectable")
+      return
+    }
+    const selectedConvo = convos[e]
+    if (selectedConvo.content.length === 0) {
+      instance.get(`/strapi-supergpt/convo/${selectedConvo.id}`)
+      .then(content => {
+        const newConvos = [...convos]
+        newConvos[selectedConvo] = content.data
+        setConvos(newConvos)
+      })
+    }
+    setHighlighted(selectedConvo.id)
+  }
 
-  const handleInputChange = (e) => {
-    setError(false);
-    setContent(e.target.value);
+  const handlePromptChange = (e) => {
+    setError("");
+    setPrompt(e.target.value);
   };
 
   const handleImageSizeChange = (e) => {
     setFormat(e)
   }
 
+  const handleCreateTab = async (e) => {
+    await instance.post(`/strapi-supergpt/convo`, {
+      name: `New Convo ${convos.length + 1}`
+    })
+    .then(convo => setConvos([...convos, convo.data]))
+    setHighlighted(convos.length-1)
+  }
+
+  const handleSaveTab = async (e) => {
+    await instance.put(`/strapi-supergpt/convo`, {
+      name: e,
+      content: convos[highlightedId],
+    })
+    .then(convo => setConvos([...convos, convo.data]))
+  }
+
+  const handleDeleteTab = async (e) => {
+    if (convos.length > 1) {
+      await instance.delete(`/strapi-supergpt/convo/${highlightedId}`).then( convo => {
+        const filteredlist = convos.filter(convo => convo.id !== highlightedId)
+        setConvos(filteredlist)
+      })
+    } else {
+      instance.put(`/strapi-supergpt/convo/${highlightedId}`, {
+        name: "Default Convo",
+        content: []
+      }).then( convo => setConvos([convo]))
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(false);
-    if (!content) {
+    setError("");
+    if (!prompt) {
       setError("Prompt is required");
       return;
     }
@@ -93,14 +135,14 @@ const Home = () => {
       }
       setLoading(true);
       const { data } = await instance.post("/strapi-supergpt/generateImage", {
-        prompt: content,
+        prompt: prompt,
         size: format,
       });
       response = data;
     } else {
       setLoading(true);
       const { data } = await instance.post("/strapi-supergpt/prompt", {
-        prompt: content,
+        prompt: `${prompt}\nCan format your response in html? Please encase the human responses in <p></p>`,
       });
       response = data
     }
@@ -111,22 +153,48 @@ const Home = () => {
       return;
     }
 
-    setResponses([
-      ...responses,
+    let highlightedConvo = convos[highlightedId]
+
+    highlightedConvo.content = [
+      ...highlightedConvo.content,
       {
-        you: content,
-        bot: response.response,
+        name: "you",
+        message: prompt
       },
-    ]);
+      {
+        name: "chatgpt",
+        message: response.response,
+      }
+    ]
+
+    instance.put(`/strapi-supergpt/convo/${highlightedConvo.id}`, {
+      name: highlightedConvo.name,
+      content: highlightedConvo.content
+    })
 
     setLoading(false);
-    setContent("");
+    setPrompt("");
   };
 
   useEffect(() => {
-    if (!messagesEndRef.current) return;
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [responses]);
+    if(convos.length === 0) {
+      instance.get('/strapi-supergpt/convos')
+          .then(conversations => {
+            if (conversations.data.length > 0) {
+              setConvos(conversations.data)
+            } else {
+              return handleCreateTab(null)
+            }
+          })
+    }
+  }, [convos, setConvos]);
+
+  useEffect(() => {
+      // Scrolling logic that depends on messagesEndRef
+      if (!messagesEndRef.current) return;
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, []); // This could potentially be adjusted based on when you need to scroll
+
 
   return (
     <Layout>
@@ -135,13 +203,22 @@ const Home = () => {
         <HeaderLayout
           title={"SuperGPT"}
           subtitle={formatMessage({
-            id: "chatgpt-header",
+            id: "supergpt-header",
             defaultMessage: "ChatGPT plugin for Strapi",
           })}
         />
 
         <ActionLayout
           startActions={
+            <SingleSelect onChange={handleImageSizeChange} value={format}>
+              {imageFormats.map((format, idx) => (
+                <SingleSelectOption key={idx} value={format}>
+                  {format}
+                </SingleSelectOption>
+              ))}
+            </SingleSelect>
+            }
+          endActions={
             <Stack horizontal gap={2}>
               <Button
                 variant="secondary"
@@ -157,86 +234,82 @@ const Home = () => {
               >
                 API Integration
               </Button>
-              <SingleSelect onChange={handleImageSizeChange} value={format}>
-                {imageFormats.map((format, idx) => (
-                  <SingleSelectOption key={idx} value={format}>
-                    {format}
-                  </SingleSelectOption>
-                ))}
-              </SingleSelect>
             </Stack>
-            }
-          endActions={
-            <Tooltip description="Clear chatGPT history" position="left">
-              <IconButton
-                disabled={loading || responses.length === 0}
-                onClick={() => setIsClearChatGPTResponseModalVisible(true)}
-                icon={<Trash />}
-              />
-            </Tooltip>
           }
         />
 
         <ContentLayout>
-          <ClearChatGPTResponse
-            isOpen={isClearChatGPTResponseModalVisible}
-            setIsOpen={setIsClearChatGPTResponseModalVisible}
-            onConfirm={clearResponses}
-          />
-          <Card style={{ position: "relative" }}>
-            <CardBody
-              style={{
-                height: "64vh",
-                overflowY: "scroll",
-              }}
-            >
-              <CardContent>
-                <LoadingOverlay isLoading={loading} />
-                <div>
-                  <div
+          <TabGroup onTabChange={setSelectedResponse}>
+            <Tabs>
+              {convos.length > 0 && convos.map(convo => (
+                <CustomTab
+                  key={convo.id}
+                  value={convo.id}
+                  onRename={handleSaveTab}
+                  onDelete={handleDeleteTab}
+                  >
+                  {convo.name}
+                </CustomTab>
+              ))}
+              <Tab onClick={handleCreateTab}><Plus /></Tab>
+            </Tabs>
+            <TabPanels>
+              {convos.length > 0 && convos.map(
+                convo => <TabPanel>
+                <Card style={{ position: "relative" }}>
+                  <CardBody
                     style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      height: "100%",
-                      overflow: "auto",
-                      justifyContent: "flex-end",
+                      height: "64vh",
+                      overflowY: "scroll",
                     }}
                   >
-                    {responses.map((response, index) => (
-                      <>
-                        <Response key={index + "123"} data={response} />
-                        <Box paddingTop={2} paddingBottom={4}>
-                          <Divider />
-                        </Box>
-                      </>
-                    ))}
-                    <div ref={messagesEndRef} />
-                  </div>
-                </div>
-              </CardContent>
-            </CardBody>
-          </Card>
-
+                <CardContent>
+                  <LoadingOverlay isLoading={loading} />
+                   <section>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%",
+                        overflow: "auto",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      {convo.content.map((response, index) => (
+                        <Response key={index + "123"}>
+                          {response}
+                        </Response>
+                      ))}
+                      <div ref={messagesEndRef} />
+                    </div>
+                  </section>
+                </CardContent>
+              </CardBody>
+              </Card>
+            </TabPanel>
+              )}
+            </TabPanels>
+          </TabGroup>
           <Box>
             <form>
-              <Grid spacing={2} gap={2} paddingTop={4}>
-                <GridItem col={10}>
+              <Grid spacing={1} gap={2} paddingTop={4}>
+                <GridItem col={11}>
                   <TextInput
                     id="chatInput"
                     placeholder="Enter your prompt here"
                     aria-label="Content"
-                    name="content"
+                    name="prompt"
                     error={error}
-                    onChange={handleInputChange}
-                    value={content}
+                    onChange={handlePromptChange}
+                    value={prompt}
                     disabled={loading}
                     onpaste={(e) => {
                       e.preventDefault();
-                      setError(false);
+                      setError("");
                     }}
                   />
                 </GridItem>
-                <GridItem style={{width: 80}}>
+                <GridItem style={{ display: 'flex', justifyContent: 'space-between', gap: '0.5rem' }}>
                   <Button
                     size="L"
                     name="prompt"
@@ -247,14 +320,13 @@ const Home = () => {
                   >
                     Text
                   </Button>
-                </GridItem>
-                <GridItem style={{float: screenLeft}}>
                   <Button
-                    size={"L"}
+                    size="L"
                     name="picture"
                     value="picture"
                     onClick={handleSubmit}
-                    startIcon={<Picture />}>
+                    startIcon={<Picture />}
+                  >
                     Image
                   </Button>
                 </GridItem>
@@ -262,7 +334,6 @@ const Home = () => {
             </form>
           </Box>
         </ContentLayout>
-
         <Help
           isOpen={isModalVisible}
           onClose={() => setIsModalVisible(false)}
