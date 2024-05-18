@@ -3,7 +3,6 @@ import { useIntl } from "react-intl";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { auth } from "@strapi/helper-plugin";
-import { useTheme } from '@strapi/design-system';
 import {
   Button,
   TextInput,
@@ -26,16 +25,14 @@ import {
   TabGroup,
   TabPanels,
   TabPanel,
-  Divider,
 } from "@strapi/design-system";
 import { PaperPlane, Command, Cog, Picture, Plus } from "@strapi/icons";
 
 import CustomTab from "./tab";
-import Response from "../Response";
+import Response from "./response";
 import Help from "../Help";
 import LoadingOverlay from "../Loading";
 import Integration from "../Integration";
-
 
 const imageFormats = [
   "Pick an image format",
@@ -46,7 +43,6 @@ const imageFormats = [
 
 const Home = () => {
   const { formatMessage } = useIntl();
-  const theme = useTheme();
   const [prompt, setPrompt] = useState("");
   const [highlightedId, setHighlighted] = useState(0)
   const [convos, setConvos] = useState([]);
@@ -280,11 +276,9 @@ const Home = () => {
                       }}
                     >
                       {convo.content.map((response, index) => (
-                        <>
-                          <Response key={index + "123"}>
-                            {response}
-                          </Response>
-                        </>
+                        <Response key={index + "123"}>
+                          {response}
+                        </Response>
                       ))}
                       <div ref={messagesEndRef} />
                     </div>
