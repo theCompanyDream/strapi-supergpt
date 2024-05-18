@@ -23,6 +23,10 @@ import { Check } from "@strapi/icons";
 
 const AiModels = [
   {
+    value: "gpt-4o",
+    label: "Our most advanced, multimodal flagship model that’s cheaper and faster than GPT-4 Turbo. Currently points to gpt-4o-2024-05-13."
+  },
+  {
     value: "gpt-4-turbo",
     label: "The latest GPT-4 Turbo model with vision capabilities. Vision requests can now use JSON mode and function calling."
   },
