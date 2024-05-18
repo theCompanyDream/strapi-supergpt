@@ -1,6 +1,6 @@
 {
   "name": "strapi-supergpt",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A plugin that gives you the ability to integrate ChatGPT into strapi",
   "scripts": {
     "format": "npm-run-all -p format:*",
