@@ -26,7 +26,7 @@ import {
   TabPanels,
   TabPanel,
 } from "@strapi/design-system";
-import { PaperPlane, Command, Cog, Picture, Plus } from "@strapi/icons";
+import { PaperPlane, Command, Cog, Picture, PlusCircle } from "@strapi/icons";
 
 import CustomTab from "./tab";
 import Response from "./response";
@@ -251,7 +251,7 @@ const Home = () => {
                   {convo.name}
                 </CustomTab>
               ))}
-              <Tab onClick={handleCreateTab}><Plus /></Tab>
+              <Tab onClick={handleCreateTab}><PlusCircle /></Tab>
             </Tabs>
             <TabPanels>
               {convos.length > 0 && convos.map(

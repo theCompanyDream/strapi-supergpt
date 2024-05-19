@@ -3,7 +3,7 @@ import pluginPkg from "../../package.json";
 import pluginId from "./pluginId";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
-import { SuperSelect, SuperInput, SuperTextArea, SuperImage} from './components/SuperFields'
+import { SuperSelect, SuperInput, SuperTextarea, SuperImage} from './components/SuperFields'
 
 const name = pluginPkg.strapi.name;
 
@@ -122,7 +122,7 @@ export default {
       },
       icon: PluginIcon,
       components: {
-        Input: SuperTextarea,
+        Input: async () => SuperTextarea,
       },
     });
 
@@ -130,7 +130,7 @@ export default {
     app.customFields.register({
       name: "super-image",
       pluginId: pluginId,
-      type: "media",
+      type: "string",
       intlLabel: {
         id: `${pluginId}.super-image.label`,
         defaultMessage: "Super Image",
@@ -141,7 +141,7 @@ export default {
       },
       icon: PluginIcon,
       components: {
-        Input: SuperImage,
+        Input: async () => SuperImage,
       },
     });
   },

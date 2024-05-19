@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, TextInput, Typography } from '@strapi/design-system';
-import { useContentManagerEditViewDataManager, useFetchClient } from '@strapi/helper-plugin';
+import { useCMEditViewDataManager, useFetchClient } from '@strapi/helper-plugin';
 
 const SuperImage = ({ name, value, onChange }) => {
-  const { modifiedData } = useContentManagerEditViewDataManager();
-  const relatedFieldValue = modifiedData.relatedFieldName; // Change 'relatedFieldName' to the actual name of the field you want to use
+  const { modifiedData } = useCMEditViewDataManager();
   const { post } = useFetchClient();
   const [imageUrl, setImageUrl] = useState(value);
 
@@ -19,10 +18,10 @@ const SuperImage = ({ name, value, onChange }) => {
   };
 
   useEffect(() => {
-    if (relatedFieldValue) {
+    if (modifiedData.relatedFieldValue) {
       generateImage();
     }
-  }, [relatedFieldValue]);
+  }, [modifiedData]);
 
   return (
     <Box>
