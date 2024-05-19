@@ -31,6 +31,7 @@ export default {
         // },
       ],
     });
+
     app.createSettingSection(
       {
         id: pluginId,
@@ -59,16 +60,56 @@ export default {
         },
       ],
     );
+
     app.registerPlugin({
       id: pluginId,
       initializer: Initializer,
       isReady: false,
       name,
     });
+
+    // Register the first custom field
+    app.customFields.register({
+      name: "super-input",
+      pluginId: pluginId,
+      type: "string",
+      intlLabel: {
+        id: `${pluginId}.super-input.label`,
+        defaultMessage: "Super Input",
+      },
+      intlDescription: {
+        id: `${pluginId}.super-input.description`,
+        defaultMessage: "A super input field",
+      },
+      icon: PluginIcon,
+      components: {
+        Input: async () => import("./components/SuperInput"),
+      },
+    });
+
+    // Register the second custom field
+    app.customFields.register({
+      name: "super-select",
+      pluginId: pluginId,
+      type: "string",
+      intlLabel: {
+        id: `${pluginId}.super-select.label`,
+        defaultMessage: "Super Select",
+      },
+      intlDescription: {
+        id: `${pluginId}.super-select.description`,
+        defaultMessage: "A super select field",
+      },
+      icon: PluginIcon,
+      components: {
+        Input: async () => import("./components/SuperSelect"),
+      },
+    });
   },
 
   // eslint-disable-next-line no-unused-vars
   bootstrap(app) {},
+
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
       locales.map((locale) => {
