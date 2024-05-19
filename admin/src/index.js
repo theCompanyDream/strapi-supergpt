@@ -3,6 +3,7 @@ import pluginPkg from "../../package.json";
 import pluginId from "./pluginId";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
+import { SuperSelect, SuperInput, SuperTextArea, SuperImage} from './components/SuperFields'
 
 const name = pluginPkg.strapi.name;
 
@@ -68,7 +69,7 @@ export default {
       name,
     });
 
-    // Register the first custom field
+    // Register the input custom field
     app.customFields.register({
       name: "super-input",
       pluginId: pluginId,
@@ -79,15 +80,15 @@ export default {
       },
       intlDescription: {
         id: `${pluginId}.super-input.description`,
-        defaultMessage: "A super input field",
+        defaultMessage: "A input field powered by chatgpt",
       },
       icon: PluginIcon,
       components: {
-        Input: async () => import("./components/SuperInput"),
+        Input: async () => SuperInput,
       },
     });
 
-    // Register the second custom field
+    // Register the select custom field
     app.customFields.register({
       name: "super-select",
       pluginId: pluginId,
@@ -98,11 +99,49 @@ export default {
       },
       intlDescription: {
         id: `${pluginId}.super-select.description`,
-        defaultMessage: "A super select field",
+        defaultMessage: "A select field powered by chatgpt",
       },
       icon: PluginIcon,
       components: {
-        Input: async () => import("./components/SuperSelect"),
+        Input: async () => SuperSelect,
+      },
+    });
+
+    // Register SuperTextarea custom field
+    app.customFields.register({
+      name: "super-textarea",
+      pluginId: pluginId,
+      type: "text",
+      intlLabel: {
+        id: `${pluginId}.super-textarea.label`,
+        defaultMessage: "Super Textarea",
+      },
+      intlDescription: {
+        id: `${pluginId}.super-textarea.description`,
+        defaultMessage: "A super textarea field",
+      },
+      icon: PluginIcon,
+      components: {
+        Input: SuperTextarea,
+      },
+    });
+
+    // Regist the Image custom field
+    app.customFields.register({
+      name: "super-image",
+      pluginId: pluginId,
+      type: "media",
+      intlLabel: {
+        id: `${pluginId}.super-image.label`,
+        defaultMessage: "Super Image",
+      },
+      intlDescription: {
+        id: `${pluginId}.super-image.description`,
+        defaultMessage: "A super image field",
+      },
+      icon: PluginIcon,
+      components: {
+        Input: SuperImage,
       },
     });
   },
