@@ -25,9 +25,6 @@
       "./jest.setup.js"
     ]
   },
-  "peerDependencies": {
-    "@strapi/strapi": "^4.4.5"
-  },
   "author": {
     "name": "Timothy Brantley II",
     "email": "tbrantleyii@gmail.com",
@@ -81,6 +78,11 @@
     "lint-staged": "10.5.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.2.5"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^4.4.5",
+    "@strapi/plugin-users-permissions": "4.24.2",
+    "styled-components": "5.3.3"
   },
   "keywords": [
     "strapi",
