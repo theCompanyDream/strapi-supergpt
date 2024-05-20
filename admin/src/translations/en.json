@@ -1,1 +1,28 @@
-{}
+{
+	"strapi-supergpt": {
+	  "name": "Super GPT",
+	  "description": "A description for Super GPT plugin",
+	  "customFields": {
+		"super-input": {
+		  "label": "Super Input",
+		  "description": "An input field powered by chatgpt"
+		},
+		"super-single-select": {
+		  "label": "Super Single Select",
+		  "description": "A single select field powered by chatgpt"
+		},
+		"super-multi-select": {
+		  "label": "Super Multi Select",
+		  "description": "A multi select field powered by chatgpt"
+		},
+		"super-textarea": {
+		  "label": "Super Textarea",
+		  "description": "A super textarea field"
+		},
+		"super-image": {
+		  "label": "Super Image",
+		  "description": "A super image field"
+		}
+	  }
+	}
+  }

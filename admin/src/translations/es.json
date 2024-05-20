@@ -1,0 +1,28 @@
+{
+	"strapi-supergpt": {
+	  "plugin.name": "Super GPT",
+	  "plugin.description": "Una descripción para el plugin Super GPT",
+	  "customFields": {
+		"super-input": {
+		  "label": "Entrada Súper",
+		  "description": "Un campo de entrada impulsado por chatgpt"
+		},
+		"super-single-select": {
+		  "label": "Selección Única Súper",
+		  "description": "Un campo de selección única impulsado por chatgpt"
+		},
+		"super-multi-select": {
+		  "label": "Selección Múltiple Súper",
+		  "description": "Un campo de selección múltiple impulsado por chatgpt"
+		},
+		"super-textarea": {
+		  "label": "Área de Texto Súper",
+		  "description": "Un campo de área de texto súper"
+		},
+		"super-image": {
+		  "label": "Imagen Súper",
+		  "description": "Un campo de imagen súper"
+		}
+	  }
+	}
+  }

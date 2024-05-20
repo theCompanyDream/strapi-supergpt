@@ -3,7 +3,7 @@ import pluginPkg from "../../package.json";
 import pluginId from "./pluginId";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
-import { SuperSingleSelect, SuperMultiSelect, SuperInput, SuperTextArea, SuperImage} from './components/SuperFields'
+import { SuperSingleSelect, SuperMultiSelect, SuperInput, SuperTextArea, SuperImage } from './components/SuperFields';
 
 const name = pluginPkg.strapi.name;
 
@@ -24,13 +24,7 @@ export default {
 
         return component;
       },
-      permissions: [
-        // Uncomment to set the permissions of the plugin here
-        // {
-        //   action: '', // the action name should be plugin::plugin-name.actionType
-        //   subject: null,
-        // },
-      ],
+      permissions: [],
     });
 
     app.createSettingSection(
@@ -49,7 +43,6 @@ export default {
           },
           id: "strapi-supergpt",
           to: `/settings/${pluginId}`,
-          // permissions: pluginPermissions.settingsRoles,
           Component: async () => {
             const component = await import(
               /* webpackChunkName: "stripe-page" */
@@ -69,102 +62,36 @@ export default {
       name,
     });
 
-    // Register the input custom field
-    app.customFields.register({
-      name: "super-input",
-      pluginId: pluginId,
-      type: "string",
-      intlLabel: {
-        id: `${pluginId}.super-input.label`,
-        defaultMessage: "Super Input",
-      },
-      intlDescription: {
-        id: `${pluginId}.super-input.description`,
-        defaultMessage: "A input field powered by chatgpt",
-      },
-      icon: PluginIcon,
-      components: {
-        Input: async () => SuperInput,
-      },
-    });
+    // Register custom fields with translations
+    const customFields = [
+      { name: 'super-input', type: 'string', component: SuperInput },
+      { name: 'super-single-select', type: 'string', component: SuperSingleSelect },
+      { name: 'super-multi-select', type: 'string', component: SuperMultiSelect },
+      { name: 'super-textarea', type: 'text', component: SuperTextArea },
+      { name: 'super-image', type: 'string', component: SuperImage },
+    ];
 
-    // Register the select custom field
-    app.customFields.register({
-      name: "super-single-select",
-      pluginId: pluginId,
-      type: "string",
-      intlLabel: {
-        id: `${pluginId}.super-single-select.label`,
-        defaultMessage: "Super Select",
-      },
-      intlDescription: {
-        id: `${pluginId}.super-select.description`,
-        defaultMessage: "A single select field powered by chatgpt",
-      },
-      icon: PluginIcon,
-      components: {
-        Input: async () => SuperSingleSelect,
-      },
-    });
-
-    app.customFields.register({
-      name: "super-single-multi-select",
-      pluginId: pluginId,
-      type: "string",
-      intlLabel: {
-        id: `${pluginId}.super-multi-select.label`,
-        defaultMessage: "Super Select",
-      },
-      intlDescription: {
-        id: `${pluginId}.super-multi-select.description`,
-        defaultMessage: "A single select field powered by chatgpt",
-      },
-      icon: PluginIcon,
-      components: {
-        Input: async () => SuperMultiSelect,
-      },
-    });
-
-    // Register SuperTextArea custom field
-    app.customFields.register({
-      name: "super-textarea",
-      pluginId: pluginId,
-      type: "text",
-      intlLabel: {
-        id: `${pluginId}.super-textarea.label`,
-        defaultMessage: "Super Textarea",
-      },
-      intlDescription: {
-        id: `${pluginId}.super-textarea.description`,
-        defaultMessage: "A super textarea field",
-      },
-      icon: PluginIcon,
-      components: {
-        Input: async () => SuperTextArea,
-      },
-    });
-
-    // Regist the Image custom field
-    app.customFields.register({
-      name: "super-image",
-      pluginId: pluginId,
-      type: "string",
-      intlLabel: {
-        id: `${pluginId}.super-image.label`,
-        defaultMessage: "Super Image",
-      },
-      intlDescription: {
-        id: `${pluginId}.super-image.description`,
-        defaultMessage: "A super image field",
-      },
-      icon: PluginIcon,
-      components: {
-        Input: async () => SuperImage,
-      },
+    customFields.forEach(field => {
+      app.customFields.register({
+        name: field.name,
+        pluginId: pluginId,
+        type: field.type,
+        intlLabel: {
+          id: `${pluginId}.customFields.${field.name}.label`,
+          defaultMessage: field.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
+        },
+        intlDescription: {
+          id: `${pluginId}.customFields.${field.name}.description`,
+          defaultMessage: `A ${field.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} field powered by chatgpt`,
+        },
+        icon: PluginIcon,
+        components: {
+          Input: async () => field.component,
+        },
+      });
     });
   },
 
-  // eslint-disable-next-line no-unused-vars
   bootstrap(app) {},
 
   async registerTrads({ locales }) {
