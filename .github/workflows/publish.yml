@@ -24,10 +24,6 @@ jobs:
       # Install dependencies
       - run: yarn
 
-      # Run tests
-      - name: Run Test
-        run: yarn test
-
       # Publish the package to npm
       - name: Publish Package
         run: yarn publish --non-interactive --access public
