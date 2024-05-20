@@ -3,7 +3,7 @@ import { SingleSelect as Select, SingleSelectOption as Option } from '@strapi/de
 import { useCMEditViewDataManager } from '@strapi/helper-plugin';
 import { useFetchClient } from '@strapi/helper-plugin';
 
-const SuperSelect = ({ name, value, onChange }) => {
+const SuperSingleSelect = ({ name, value, onChange }) => {
   const { modifiedData } = useCMEditViewDataManager();
   const { get } = useFetchClient();
   const [options, setOptions] = useState([]);
@@ -26,4 +26,4 @@ const SuperSelect = ({ name, value, onChange }) => {
   );
 };
 
-export default SuperSelect;
+export default SuperSingleSelect;

@@ -3,7 +3,7 @@ import { MultiSelect as Select, MultiSelectOption as Option } from '@strapi/desi
 import { useCMEditViewDataManager } from '@strapi/helper-plugin';
 import { useFetchClient } from '@strapi/helper-plugin';
 
-const SuperSelect = ({ name, value, onChange }) => {
+const SuperMultiSelect = ({ name, value, onChange }) => {
   const { modifiedData } = useCMEditViewDataManager();
   const { get } = useFetchClient();
   const [options, setOptions] = useState([]);
@@ -26,4 +26,4 @@ const SuperSelect = ({ name, value, onChange }) => {
   );
 };
 
-export default SuperSelect;
+export default SuperMultiSelect;

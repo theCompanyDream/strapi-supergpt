@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { PromptProvider } from './promptContext';
+import { Prompt } from './promptContext';
 import { useFetchClient } from '@strapi/helper-plugin';
 
 const usePrompt = (fieldName, relatedFieldValue) => {

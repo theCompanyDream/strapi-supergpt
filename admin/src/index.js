@@ -3,7 +3,7 @@ import pluginPkg from "../../package.json";
 import pluginId from "./pluginId";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
-import { SuperSelect, SuperInput, SuperTextarea, SuperImage} from './components/SuperFields'
+import { SuperSingleSelect, SuperMultiSelect, SuperInput, SuperTextArea, SuperImage} from './components/SuperFields'
 
 const name = pluginPkg.strapi.name;
 
@@ -90,24 +90,24 @@ export default {
 
     // Register the select custom field
     app.customFields.register({
-      name: "super-select",
+      name: "super-single-select",
       pluginId: pluginId,
       type: "string",
       intlLabel: {
-        id: `${pluginId}.super-select.label`,
+        id: `${pluginId}.super-single-select.label`,
         defaultMessage: "Super Select",
       },
       intlDescription: {
         id: `${pluginId}.super-select.description`,
-        defaultMessage: "A select field powered by chatgpt",
+        defaultMessage: "A single select field powered by chatgpt",
       },
       icon: PluginIcon,
       components: {
-        Input: async () => SuperSelect,
+        Input: async () => SuperSingleSelect,
       },
     });
 
-    // Register SuperTextarea custom field
+    // Register SuperTextArea custom field
     app.customFields.register({
       name: "super-textarea",
       pluginId: pluginId,
@@ -122,7 +122,7 @@ export default {
       },
       icon: PluginIcon,
       components: {
-        Input: async () => SuperTextarea,
+        Input: async () => SuperTextArea,
       },
     });
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 import { TextInput } from '@strapi/design-system';
 import { useCMEditViewDataManager } from '@strapi/helper-plugin';
 import axios from 'axios';
@@ -10,14 +10,23 @@ const SuperInput = ({ name, value, onChange }) => {
   useEffect(() => {
     if (modifiedData.relatedFieldValue) {
       // Call OpenAI API to generate text based on related field value
-      axios.post('/your-api-endpoint', { prompt: relatedFieldValue })
+      axios.post('/your-api-endpoint', { prompt: modifiedData.relatedFieldValue })
         .then(response => setText(response.data.text))
         .catch(error => console.error(error));
     }
   }, [modifiedData]);
 
   return (
-    <TextInput name={name} value={text} onChange={onChange} />
+    <TextInput
+      ref={ref}
+      name={name}
+      value={inputValue}
+      onChange={(e) => {
+        setInputValue(e.target.value);
+        onChange(e);
+      }}
+      placeholder="Generated input"
+    />
   );
 };
 
