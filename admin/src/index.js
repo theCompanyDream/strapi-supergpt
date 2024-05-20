@@ -107,6 +107,24 @@ export default {
       },
     });
 
+    app.customFields.register({
+      name: "super-single-multi-select",
+      pluginId: pluginId,
+      type: "string",
+      intlLabel: {
+        id: `${pluginId}.super-multi-select.label`,
+        defaultMessage: "Super Select",
+      },
+      intlDescription: {
+        id: `${pluginId}.super-multi-select.description`,
+        defaultMessage: "A single select field powered by chatgpt",
+      },
+      icon: PluginIcon,
+      components: {
+        Input: async () => SuperMultiSelect,
+      },
+    });
+
     // Register SuperTextArea custom field
     app.customFields.register({
       name: "super-textarea",
