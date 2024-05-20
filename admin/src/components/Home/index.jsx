@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useIntl } from "react-intl";
 import { Helmet } from "react-helmet";
+
+import GitHubButton from 'react-github-btn'
 import axios from "axios";
-import { auth } from "@strapi/helper-plugin";
+import { auth, useFetchClient } from "@strapi/helper-plugin";
 import {
   Button,
   TextInput,
@@ -24,7 +26,7 @@ import {
   Tabs,
   TabGroup,
   TabPanels,
-  TabPanel,
+  TabPanel
 } from "@strapi/design-system";
 import { PaperPlane, Command, Cog, Picture, PlusCircle } from "@strapi/icons";
 
@@ -42,6 +44,7 @@ const imageFormats = [
 ]
 
 const Home = () => {
+  const {post, put, get} = useFetchClient()
   const { formatMessage } = useIntl();
   const [prompt, setPrompt] = useState("");
   const [highlightedId, setHighlighted] = useState(0)
@@ -234,6 +237,7 @@ const Home = () => {
               >
                 API Integration
               </Button>
+              <GitHubButton href="https://github.com/theCompanyDream/strapi-supergpt" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-size="large" aria-label="Star theCompanyDream/strapi-supergpt on GitHub">Star</GitHubButton>
             </Stack>
           }
         />
