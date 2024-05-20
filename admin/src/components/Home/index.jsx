@@ -26,7 +26,8 @@ import {
   Tabs,
   TabGroup,
   TabPanels,
-  TabPanel
+  TabPanel,
+  Typography
 } from "@strapi/design-system";
 import { PaperPlane, Command, Cog, Picture, PlusCircle } from "@strapi/icons";
 
@@ -204,7 +205,24 @@ const Home = () => {
       <Helmet title={"strapi-supergpt"} />
       <Main aria-busy={false}>
         <HeaderLayout
-          title={"SuperGPT"}
+          title={
+          <Box display="flex" alignItems="center">
+            <Typography variant="alpha" as="h1">
+              SuperGPT
+            </Typography>
+            <Box marginLeft={2}>
+              <GitHubButton
+                href="https://github.com/theCompanyDream/strapi-supergpt"
+                data-color-scheme="no-preference: light; light: light; dark: dark;"
+                data-icon="octicon-star"
+                data-size="small"
+                aria-label="Star theCompanyDream/strapi-supergpt on GitHub"
+              >
+                Star
+              </GitHubButton>
+            </Box>
+          </Box>
+        }
           subtitle={formatMessage({
             id: "supergpt-header",
             defaultMessage: "ChatGPT plugin for Strapi",
@@ -237,7 +255,6 @@ const Home = () => {
               >
                 API Integration
               </Button>
-              <GitHubButton href="https://github.com/theCompanyDream/strapi-supergpt" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-size="large" aria-label="Star theCompanyDream/strapi-supergpt on GitHub">Star</GitHubButton>
             </Stack>
           }
         />
