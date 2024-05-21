@@ -26,6 +26,11 @@ module.exports = ({ strapi }) => {
   strapi.customFields.register({
     name: 'super-image',
     plugin: 'strapi-supergpt',
-    type: 'string',
+    type: 'media',
+  });
+  strapi.customFields.register({
+    name: 'super-audio',
+    plugin: 'strapi-supergpt',
+    type: 'media',
   });
 };

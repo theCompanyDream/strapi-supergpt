@@ -1,6 +1,14 @@
+# Directories
 .github
-README.md
-Dockerfile
+node_modules
+__tests__
+coverage
+dist
+build
+logs
+
+# Configuration Files
+.babelrc
 .eslintrc
 .eslintignore
 .eslintrc.back.js
@@ -8,7 +16,16 @@ Dockerfile
 .eslintrc.js
 .prettierignore
 .prettierrc.js
-node_modules
-LICENSE
-__tests__
+.DS_Store
+
+# Development Files
+Dockerfile
 jest.setup.js
+docs
+
+# Miscellaneous
+npm-debug.log
+yarn-error.log
+*.log
+*.swp
+jsconfig.json

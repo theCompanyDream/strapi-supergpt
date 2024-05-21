@@ -51,6 +51,17 @@ const ImageAiModels = [
   }
 ]
 
+const ttsAiModels = [
+  {
+    value: "tts-1",
+    label: "The latest text to speech model, optimized for speed."
+  },
+  {
+    value: "tts-1-hd",
+    label: "The latest text to speech model, optimized for quality."
+  }
+]
+
 const Settings = () => {
   const { formatMessage } = useIntl();
   const toggleNotification = useNotification();

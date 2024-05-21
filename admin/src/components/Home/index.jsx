@@ -216,6 +216,7 @@ const Home = () => {
                 data-color-scheme="no-preference: light; light: light; dark: dark;"
                 data-icon="octicon-star"
                 data-size="small"
+                data-show-count="true"
                 aria-label="Star theCompanyDream/strapi-supergpt on GitHub"
               >
                 Star

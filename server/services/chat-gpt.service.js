@@ -96,4 +96,33 @@ module.exports = ({ strapi }) => ({
       };
     }
   },
+  async getAudioFromText(ctx) {
+    // const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
+    // const openai = new OpenAI({
+    //   apiKey: config.apiKey,
+    // });
+    // const {
+    //   prompt,
+    //   model,
+    //   stop,
+    // } = ctx.request.body;
+    // try {
+    //   const requestParams = {
+    //     model: config.modelName,
+    //     max_tokens: config.maxTokens
+    //       ? parseInt(config.maxTokens)
+    //       : 2048,
+    //     prompt: prompt.trim(),
+    //   };
+
+    // const mp3 = await openai.audio.speech.create({
+    //   model: "tts-1",
+    //   voice: config.voice,
+    //   input: "Today is a wonderful day to build something people love!",
+    // });
+
+    // const buffer = Buffer.from(await mp3.arrayBuffer());
+    // await fs.promises.writeFile(speechFile, buffer);
+    // }
+  }
 });

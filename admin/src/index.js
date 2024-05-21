@@ -3,7 +3,7 @@ import pluginPkg from "../../package.json";
 import pluginId from "./pluginId";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
-import { SuperSingleSelect, SuperMultiSelect, SuperInput, SuperTextArea, SuperImage } from './components/SuperFields';
+import { SuperSingleSelect, SuperMultiSelect, SuperInput, SuperTextArea, SuperImage, SuperAudio } from './components/SuperFields';
 
 const name = pluginPkg.strapi.name;
 
@@ -68,7 +68,8 @@ export default {
       { name: 'super-single-select', type: 'string', component: SuperSingleSelect },
       { name: 'super-multi-select', type: 'string', component: SuperMultiSelect },
       { name: 'super-textarea', type: 'text', component: SuperTextArea },
-      { name: 'super-image', type: 'string', component: SuperImage },
+      { name: 'super-image', type: 'media', component: SuperImage },
+      { name: 'super-audio', type: 'media', component: SuperAudio },
     ];
 
     customFields.forEach(field => {
