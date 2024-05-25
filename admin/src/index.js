@@ -68,8 +68,8 @@ export default {
       { name: 'super-single-select', type: 'string', component: SuperSingleSelect },
       { name: 'super-multi-select', type: 'string', component: SuperMultiSelect },
       { name: 'super-textarea', type: 'text', component: SuperTextArea },
-      { name: 'super-image', type: 'media', component: SuperImage },
-      { name: 'super-audio', type: 'media', component: SuperAudio },
+      { name: 'super-image', type: 'string', component: SuperImage },
+      { name: 'super-audio', type: 'string', component: SuperAudio },
     ];
 
     customFields.forEach(field => {
