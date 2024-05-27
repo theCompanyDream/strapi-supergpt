@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { TextInput } from '@strapi/design-system/TextInput';
-import { Stack } from '@strapi/design-system/Stack';
-import { Button } from '@strapi/design-system/Button';
-import { Textarea } from '@strapi/design-system';
-import { auth } from '@strapi/helper-plugin'
+import { TextInput, Box, Button, Textarea } from '@strapi/design-system';
+import { auth } from '@strapi/helper-plugin';
 
 export default function SuperTextArea({
   name,
@@ -40,19 +37,19 @@ export default function SuperTextArea({
       const result = await response.json();
       const parsedResult = result.choices[0].text.replace(/(?:\r\n|\r|\n)/g, '');
 
-      onChange({ target: { name, value: parsedResult, type: attribute.type } })
+      onChange({ target: { name, value: parsedResult, type: attribute.type } });
     } catch (err) {
       setErr(err.message);
     }
-  }
+  };
 
   const clearGeneratedText = async (event) => {
     event.preventDefault(); // Prevent the default form submission
-    onChange({ target: { name, value: '', type: attribute.type } })
-  }
+    onChange({ target: { name, value: '', type: attribute.type } });
+  };
 
   return (
-    <Stack spacing={1}>
+    <Box padding={4} spacing={2}>
       <TextInput
         placeholder="Please write a prompt for content to generate"
         label="Prompt"
@@ -60,7 +57,7 @@ export default function SuperTextArea({
         onChange={(e) => setPrompt(e.target.value)}
         value={prompt}
       />
-      <Stack padding={4} spacing={2}>
+      <Box paddingTop={4}>
         <Textarea
           placeholder="Generated text"
           label="Content"
@@ -73,11 +70,11 @@ export default function SuperTextArea({
         >
           {value}
         </Textarea>
-        <Stack horizontal spacing={4}>
+        <Box display="flex" justifyContent="space-between" paddingTop={4}>
           <Button onClick={(e) => generateText(e)}>Generate</Button>
           <Button onClick={(e) => clearGeneratedText(e)}>Clear</Button>
-        </Stack>
-      </Stack>
-    </Stack>
-  )
+        </Box>
+      </Box>
+    </Box>
+  );
 }

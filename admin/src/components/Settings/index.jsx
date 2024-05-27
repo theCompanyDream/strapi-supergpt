@@ -14,9 +14,7 @@ import {
   TextInput,
   Main,
   SingleSelect,
-  Typography,
   SingleSelectOption,
-  Link,
 } from "@strapi/design-system";
 
 import { Check } from "@strapi/icons";
@@ -137,7 +135,7 @@ const Settings = () => {
       toggleNotification({
         type: "warning",
         message: {
-          id: "chatgpt-config-api-key-required",
+          id: "strapi-supergpt.settingsPage.notifications.api-key-required",
           defaultMessage: "Please enter the API key",
         },
       });
@@ -146,19 +144,9 @@ const Settings = () => {
     if (!modelNameRef.current) {
       toggleNotification({
         type: "warning",
-        message: {
-          id: "chatgpt-config-ai-model-required",
-          defaultMessage: "Please enter the API key",
-        },
-      });
-      return;
-    }
-    if (!maxTokensRef.current) {
-      toggleNotification({
-        type: "warning",
         message: formatMessage({
           id: "chatgpt-config-ai-model-required",
-          defaultMessage: "Please enter the API key",
+          defaultMessage: "Select AI Model",
         }),
       });
       return;
@@ -172,19 +160,19 @@ const Settings = () => {
       }
       toggleNotification({
         type: "success",
-        message: {
+        message: formatMessage({
           id: "strapi-supergpt.settingsPage.notifications.success",
           defaultMessage: "ChatGPT configurations saved successfully",
-        },
+        }),
       });
     } catch (error) {
       console.error(error);
       toggleNotification({
         type: "warning",
-        message: {
-          id: "chatgpt-config-save-error",
+        message: formatMessage({
+          id: "strapi-supergpt.settingsPage.notifications.saving-error",
           defaultMessage: "Error while saving the chatGPT configurations",
-        },
+        }),
       });
     } finally {
       setLoading(false);
@@ -198,8 +186,7 @@ const Settings = () => {
         <HeaderLayout
           title="SuperGPT Configurations"
           subtitle={formatMessage({
-            id: "chatgpt-config-header",
-            defaultMessage: "Configure the API key, model name, and other parameters",
+            id: "strapi-supergpt.settingsPage.description",
           })}
           primaryAction={
             <Button
@@ -228,7 +215,7 @@ const Settings = () => {
                   id="apiKey"
                   name="apiKey"
                   placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                  label="API Key"
+                  label={formatMessage({id: "strapi-supergpt.settingsPage.labels.api-key"})}
                   ref={apiKeyRef}
                   value={chatGPTConfig.apiKey}
                   onChange={handleConfigChange("apiKey")}
@@ -239,7 +226,7 @@ const Settings = () => {
                   type="text"
                   id="maxTokens"
                   name="maxTokens"
-                  label="Max Tokens"
+                  label={formatMessage({id: "strapi-supergpt.settingsPage.labels.max-tokens"})}
                   placeholder="2048"
                   ref={maxTokensRef}
                   value={chatGPTConfig.maxTokens}
@@ -250,8 +237,8 @@ const Settings = () => {
                 <SingleSelect
                   name="modelName"
                   id="modelName"
-                  label="Model Name"
-                  placeholder="Select a model"
+                  label={formatMessage({id: "strapi-supergpt.settingsPage.labels.text-model"})}
+                  placeholder={formatMessage({id: "strapi-supergpt.settingsPage.placeholder.image-model"})}
                   ref={modelNameRef}
                   value={chatGPTConfig.modelName}
                   onChange={handleConfigChange("modelName")}
@@ -267,8 +254,8 @@ const Settings = () => {
                 <SingleSelect
                   name="aiImageModelName"
                   id="aiImageModelName"
-                  label="Image Model Name"
-                  placeholder="Select an image model"
+                  label={formatMessage({id: "strapi-supergpt.settingsPage.labels.image-model"})}
+                  placeholder={formatMessage({id: "strapi-supergpt.settingsPage.placeholder.image-model"})}
                   ref={imageModelNameRef}
                   value={chatGPTConfig.aiImageModelName}
                   onChange={handleConfigChange("aiImageModelName")}
@@ -284,8 +271,8 @@ const Settings = () => {
                 <SingleSelect
                   name="ttsModelName"
                   id="ttsModelName"
-                  label="Text To Speech Model Name"
-                  placeholder="Select a text-to-speech model"
+                  label={formatMessage({id: "strapi-supergpt.settingsPage.labels.tts-model"})}
+                  placeholder={formatMessage({id: "strapi-supergpt.settingsPage.placeholder.tts-model"})}
                   ref={ttsModelNameRef}
                   value={chatGPTConfig.ttsModelName}
                   onChange={handleConfigChange("ttsModelName")}

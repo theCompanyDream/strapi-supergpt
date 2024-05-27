@@ -1,40 +1,45 @@
 {
-	"strapi-supergpt": {
-	  "name": "SuperGPT",
-	  "description": "A description for Super GPT plugin",
-	  "home": {
-
-	  },
-	  "settingsPage": {
-		"labels": {
-			"api": ""
-		},
-		"notifications": {
-			"success": "ChatGPT configurations saved successfully",
-			"api-key": ""
-		}
-	  },
-	  "customFields": {
-		"super-input": {
-		  "label": "Super Input",
-		  "description": "An input field powered by chatgpt"
-		},
-		"super-single-select": {
-		  "label": "Super Single Select",
-		  "description": "A single select field powered by chatgpt"
-		},
-		"super-multi-select": {
-		  "label": "Super Multi Select",
-		  "description": "A multi select field powered by chatgpt"
-		},
-		"super-textarea": {
-		  "label": "Super Textarea",
-		  "description": "A super textarea field"
-		},
-		"super-image": {
-		  "label": "Super Image",
-		  "description": "A super image field"
-		}
-	  }
-	}
+  "strapi-supergpt": {
+    "name": "SuperGPT",
+    "description": "A description for Super GPT plugin",
+    "home": {},
+    "settingsPage": {
+      "description": "Configure the API key, model name, and other parameters",
+      "labels": {
+        "api-key": "API Key",
+        "max-tokens": "Max Tokens",
+        "text-model": "Model Name",
+        "image-model": "Image Model Name",
+        "tts-model": "Text To Speech Model Name"
+      },
+      "placeholder": {
+        "text-model": "Select a model",
+        "image-model": "Select an image model",
+        "tts-model": "Select a text-to-speech model"
+      },
+      "notifications": {
+        "success": "ChatGPT configurations saved successfully",
+        "api-key-required": "Please enter the API key",
+        "saving-error": "Error while saving the chatGPT configurations"
+      }
+    },
+    "customFields": {
+      "super-single-select": {
+        "label": "Super Single Select",
+        "description": "A single select field powered by chatgpt"
+      },
+      "super-multi-select": {
+        "label": "Super Multi Select",
+        "description": "A multi select field powered by chatgpt"
+      },
+      "super-textarea": {
+        "label": "Super Textarea",
+        "description": "A super textarea field"
+      },
+      "super-image": {
+        "label": "Super Image",
+        "description": "A super image field"
+      }
+    }
   }
+}

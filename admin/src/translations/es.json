@@ -3,10 +3,6 @@
 	  "plugin.name": "Super GPT",
 	  "plugin.description": "Una descripción para el plugin Super GPT",
 	  "customFields": {
-		"super-input": {
-		  "label": "Entrada Súper",
-		  "description": "Un campo de entrada impulsado por chatgpt"
-		},
 		"super-single-select": {
 		  "label": "Selección Única Súper",
 		  "description": "Un campo de selección única impulsado por chatgpt"
