@@ -4,11 +4,6 @@
 module.exports = ({ strapi }) => {
   // registeration phase
   strapi.customFields.register({
-    name: 'super-input',
-    plugin: 'strapi-supergpt',
-    type: 'string',
-  });
-  strapi.customFields.register({
     name: 'super-single-select',
     plugin: 'strapi-supergpt',
     type: 'string',

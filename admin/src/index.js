@@ -3,7 +3,6 @@ import pluginPkg from "../../package.json";
 import pluginId from "./pluginId";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
-import { SuperSingleSelect, SuperMultiSelect, SuperInput, SuperTextArea, SuperImage, SuperAudio } from './components/SuperFields';
 
 const name = pluginPkg.strapi.name;
 
@@ -64,12 +63,11 @@ export default {
 
     // Register custom fields with translations
     const customFields = [
-      { name: 'super-input', type: 'string', component: SuperInput },
-      { name: 'super-single-select', type: 'string', component: SuperSingleSelect },
-      { name: 'super-multi-select', type: 'string', component: SuperMultiSelect },
-      { name: 'super-textarea', type: 'text', component: SuperTextArea },
-      { name: 'super-image', type: 'string', component: SuperImage },
-      { name: 'super-audio', type: 'string', component: SuperAudio },
+      { name: 'super-single-select', type: 'string', component: import('./components/SuperFields/SuperSingleSelect.jsx') },
+      { name: 'super-multi-select', type: 'string', component: import('./components/SuperFields/SuperMultiSelect.jsx') },
+      { name: 'super-textarea', type: 'text', component: import('./components/SuperFields/SuperTextArea.jsx') },
+      { name: 'super-image', type: 'string', component: import('./components/SuperFields/SuperImage.jsx') },
+      { name: 'super-audio', type: 'string', component: import('./components/SuperFields/SuperAudio.jsx') },
     ];
 
     customFields.forEach(field => {
@@ -87,10 +85,11 @@ export default {
         },
         icon: PluginIcon,
         components: {
-          Input: async () => field.component,
+          Input: async () => await field.component,
         },
       });
     });
+
   },
 
   bootstrap(app) {},
