@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SuperAudio = () => {
+const SuperAudio = ({name, value, onChange}) => {
 	return (
 		<div></div>
 	);

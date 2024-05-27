@@ -1,7 +1,19 @@
 {
 	"strapi-supergpt": {
-	  "name": "Super GPT",
+	  "name": "SuperGPT",
 	  "description": "A description for Super GPT plugin",
+	  "home": {
+
+	  },
+	  "settingsPage": {
+		"labels": {
+			"api": ""
+		},
+		"notifications": {
+			"success": "ChatGPT configurations saved successfully",
+			"api-key": ""
+		}
+	  },
 	  "customFields": {
 		"super-input": {
 		  "label": "Super Input",

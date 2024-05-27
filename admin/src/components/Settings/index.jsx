@@ -22,53 +22,30 @@ import {
 import { Check } from "@strapi/icons";
 
 const AiModels = [
-  {
-    value: "gpt-4o",
-    label: "Our most advanced, multimodal flagship model that’s cheaper and faster than GPT-4 Turbo. Currently points to gpt-4o-2024-05-13."
-  },
-  {
-    value: "gpt-4-turbo",
-    label: "The latest GPT-4 Turbo model with vision capabilities. Vision requests can now use JSON mode and function calling."
-  },
-  {
-    value: "gpt-4",
-    label: "A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code"
-  },
-  {
-    value: "gpt-3.5-turbo",
-    label: "A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code"
-  },
+  { value: "gpt-4o", label: "Our most advanced, multimodal flagship model that’s cheaper and faster than GPT-4 Turbo. Currently points to gpt-4o-2024-05-13." },
+  { value: "gpt-4-turbo", label: "The latest GPT-4 Turbo model with vision capabilities. Vision requests can now use JSON mode and function calling." },
+  { value: "gpt-4", label: "A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code" },
+  { value: "gpt-3.5-turbo", label: "A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code" },
 ];
 
 const ImageAiModels = [
-  {
-    value: "dall-e-3",
-    label: "The latest DALL·E model released in Nov 2023."
-  },
-  {
-    value: "dall-e-2",
-    label: "The latest DALL·E model released in Nov 2023."
-  }
-]
+  { value: "dall-e-3", label: "The latest DALL·E model released in Nov 2023." },
+  { value: "dall-e-2", label: "An earlier version of DALL·E model released in Nov 2022." },
+];
 
 const ttsAiModels = [
-  {
-    value: "tts-1",
-    label: "The latest text to speech model, optimized for speed."
-  },
-  {
-    value: "tts-1-hd",
-    label: "The latest text to speech model, optimized for quality."
-  }
-]
+  { value: "tts-1", label: "The latest text to speech model, optimized for speed." },
+  { value: "tts-1-hd", label: "The latest text to speech model, optimized for quality." },
+];
 
 const Settings = () => {
   const { formatMessage } = useIntl();
   const toggleNotification = useNotification();
   const [loading, setLoading] = useState(false);
   const apiKeyRef = useRef("");
-  const modelNameRef = useRef("gpt-4");
-  const imageModelNameRef = useRef("dalle-3")
+  const modelNameRef = useRef("gpt-4o");
+  const imageModelNameRef = useRef("dall-e-3");
+  const ttsModelNameRef = useRef("tts-1-hd");
   const maxTokensRef = useRef(2048);
 
   const instance = axios.create({
@@ -81,46 +58,43 @@ const Settings = () => {
 
   const [chatGPTConfig, setChatGPTConfig] = useState({
     apiKey: "",
-    modelName: "gpt-3.5-turbo",
+    modelName: "gpt-4o",
     maxTokens: 2048,
-    aiImageModelName: "dalle-3"
+    aiImageModelName: "dall-e-3",
+    ttsModelName: "tts-1-hd",
   });
 
   const setData = (data) => {
     setChatGPTConfig(data);
-    // update the refs
     apiKeyRef.current = data.apiKey;
     modelNameRef.current = data.modelName;
     maxTokensRef.current = data.maxTokens;
     imageModelNameRef.current = data.aiImageModelName;
+    ttsModelNameRef.current = data.ttsModelName;
   };
 
-  const handleChatGPTConfigChange = (key) => (e) => {
-    // update the refs
-    if (key === "modelName" || key === "aiImageModelName") {
-      setChatGPTConfig({
-        ...chatGPTConfig,
-        [key]: e,
-      });
-    } else {
-      setChatGPTConfig({
-        ...chatGPTConfig,
-        [key]: e.target.value,
-      });
-    }
+  const handleConfigChange = (key) => (e) => {
+    const value = key === "modelName" || key === "aiImageModelName" || key === "ttsModelName" ? e : e.target.value;
+    setChatGPTConfig((prevConfig) => ({
+      ...prevConfig,
+      [key]: value,
+    }));
 
     switch (key) {
       case "apiKey":
-        apiKeyRef.current = e.target.value;
+        apiKeyRef.current = value;
         break;
       case "modelName":
-        modelNameRef.current = e;
+        modelNameRef.current = value;
         break;
       case "maxTokens":
-        maxTokensRef.current = e.target.value;
+        maxTokensRef.current = value;
         break;
-      case 'aiImageModelName':
-        imageModelNameRef.current = e;
+      case "aiImageModelName":
+        imageModelNameRef.current = value;
+        break;
+      case "ttsModelName":
+        ttsModelNameRef.current = value;
         break;
       default:
         break;
@@ -128,13 +102,13 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
     const fetchChatGPTConfig = async () => {
+      setLoading(true);
       try {
         const { data } = await instance.get("/strapi-supergpt/cache");
         setData(data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
         toggleNotification({
           type: "warning",
           message: {
@@ -142,10 +116,12 @@ const Settings = () => {
             defaultMessage: "Error while fetching the chatGPT configurations",
           },
         });
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchChatGPTConfig();
-    setLoading(false);
   }, []);
 
   const handleSave = async () => {
@@ -153,39 +129,56 @@ const Settings = () => {
       apiKey: apiKeyRef.current,
       modelName: modelNameRef.current,
       maxTokens: maxTokensRef.current,
+      aiImageModelName: imageModelNameRef.current,
+      ttsModelName: ttsModelNameRef.current,
     };
 
-    // check if the api key  entered
-    if (!config.apiKey) {
+    if (!apiKeyRef.current) {
       toggleNotification({
         type: "warning",
         message: {
           id: "chatgpt-config-api-key-required",
-          defaultMessage: "Please enter the api key",
+          defaultMessage: "Please enter the API key",
         },
       });
       return;
     }
-    setLoading(true);
-
-    try {
-      const { data } = await instance.post("/strapi-supergpt/cache/update", {
-        ...chatGPTConfig,
+    if (!modelNameRef.current) {
+      toggleNotification({
+        type: "warning",
+        message: {
+          id: "chatgpt-config-ai-model-required",
+          defaultMessage: "Please enter the API key",
+        },
       });
+      return;
+    }
+    if (!maxTokensRef.current) {
+      toggleNotification({
+        type: "warning",
+        message: formatMessage({
+          id: "chatgpt-config-ai-model-required",
+          defaultMessage: "Please enter the API key",
+        }),
+      });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { data } = await instance.post("/strapi-supergpt/cache/update", chatGPTConfig);
       if (data && data.value) {
         setData(JSON.parse(data.value));
       }
-      setLoading(false);
       toggleNotification({
         type: "success",
         message: {
-          id: "chatgpt-config-save-success",
+          id: "strapi-supergpt.settingsPage.notifications.success",
           defaultMessage: "ChatGPT configurations saved successfully",
         },
       });
     } catch (error) {
-      setLoading(false);
-      console.log(error);
+      console.error(error);
       toggleNotification({
         type: "warning",
         message: {
@@ -193,19 +186,20 @@ const Settings = () => {
           defaultMessage: "Error while saving the chatGPT configurations",
         },
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Layout>
-      <Helmet title={"SuperGPT Configuration"} />
-      <Main aria-busy={false}>
+      <Helmet title="SuperGPT Configuration" />
+      <Main aria-busy={loading}>
         <HeaderLayout
-          title={"SuperGPT Configurations"}
+          title="SuperGPT Configurations"
           subtitle={formatMessage({
-            id: "chatgpt-config-headder",
-            defaultMessage:
-              "Configure the api key, model name and other parameters",
+            id: "chatgpt-config-header",
+            defaultMessage: "Configure the API key, model name, and other parameters",
           })}
           primaryAction={
             <Button
@@ -217,7 +211,6 @@ const Settings = () => {
             </Button>
           }
         />
-
         <ContentLayout>
           <Box
             shadow="tableShadow"
@@ -236,12 +229,11 @@ const Settings = () => {
                   name="apiKey"
                   placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
                   label="API Key"
-                  refs={apiKeyRef}
+                  ref={apiKeyRef}
                   value={chatGPTConfig.apiKey}
-                  onChange={handleChatGPTConfigChange("apiKey")}
+                  onChange={handleConfigChange("apiKey")}
                 />
               </GridItem>
-
               <GridItem col={6}>
                 <TextInput
                   type="text"
@@ -249,9 +241,9 @@ const Settings = () => {
                   name="maxTokens"
                   label="Max Tokens"
                   placeholder="2048"
-                  refs={maxTokensRef}
+                  ref={maxTokensRef}
                   value={chatGPTConfig.maxTokens}
-                  onChange={handleChatGPTConfigChange("maxTokens")}
+                  onChange={handleConfigChange("maxTokens")}
                 />
               </GridItem>
               <GridItem col={6}>
@@ -260,9 +252,9 @@ const Settings = () => {
                   id="modelName"
                   label="Model Name"
                   placeholder="Select a model"
-                  refs={modelNameRef}
+                  ref={modelNameRef}
                   value={chatGPTConfig.modelName}
-                  onChange={handleChatGPTConfigChange("modelName")}
+                  onChange={handleConfigChange("modelName")}
                 >
                   {AiModels.map((model) => (
                     <SingleSelectOption key={model.value} value={model.value}>
@@ -272,39 +264,40 @@ const Settings = () => {
                 </SingleSelect>
               </GridItem>
               <GridItem col={6}>
-                  <SingleSelect
-                    name="aiImageModelName"
-                    id="aiImageModelName"
-                    label="Image Model Name"
-                    placeholder="Select an image model"
-                    refs={imageModelNameRef}
-                    value={chatGPTConfig.aiImageModelName}
-                    onChange={handleChatGPTConfigChange("aiImageModelName")}
-                  >
-                    {ImageAiModels.map((model) => (
-                      <SingleSelectOption key={model.value} value={model.value}>
-                        {model.value} - {model.label}
-                      </SingleSelectOption>
-                    ))}
-                  </SingleSelect>
+                <SingleSelect
+                  name="aiImageModelName"
+                  id="aiImageModelName"
+                  label="Image Model Name"
+                  placeholder="Select an image model"
+                  ref={imageModelNameRef}
+                  value={chatGPTConfig.aiImageModelName}
+                  onChange={handleConfigChange("aiImageModelName")}
+                >
+                  {ImageAiModels.map((model) => (
+                    <SingleSelectOption key={model.value} value={model.value}>
+                      {model.value} - {model.label}
+                    </SingleSelectOption>
+                  ))}
+                </SingleSelect>
+              </GridItem>
+              <GridItem col={6}>
+                <SingleSelect
+                  name="ttsModelName"
+                  id="ttsModelName"
+                  label="Text To Speech Model Name"
+                  placeholder="Select a text-to-speech model"
+                  ref={ttsModelNameRef}
+                  value={chatGPTConfig.ttsModelName}
+                  onChange={handleConfigChange("ttsModelName")}
+                >
+                  {ttsAiModels.map((model) => (
+                    <SingleSelectOption key={model.value} value={model.value}>
+                      {model.value} - {model.label}
+                    </SingleSelectOption>
+                  ))}
+                </SingleSelect>
               </GridItem>
             </Grid>
-            <Box paddingTop={3}>
-              <Typography>
-                You can set additional parameters{" ("}
-                <span>
-                  <Link
-                    href="https://platform.openai.com/docs/api-reference/completions"
-                    target="_blank"
-                  >
-                    ChatGPT doc
-                  </Link>
-                </span>
-                {") "}
-                with the API Integration, available from Plugin &gt; ChatGPT
-                menu.
-              </Typography>
-            </Box>
           </Box>
         </ContentLayout>
       </Main>
