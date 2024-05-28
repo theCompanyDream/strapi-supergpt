@@ -1,6 +1,7 @@
 {
 	"name": "SuperGPT",
 	"description": "A description for Super GPT plugin",
+	"settingsPage.saveButton": "Save",
 	"settingsPage.description": "Configure the API key, model name, and other parameters",
 	"settingsPage.labels.api-key": "API Key",
 	"settingsPage.labels.max-tokens": "Max Tokens",

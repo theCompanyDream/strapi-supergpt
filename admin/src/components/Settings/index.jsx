@@ -77,7 +77,7 @@ const Settings = () => {
         subtitle={formatMessage({ id: 'strapi-supergpt.settingsPage.description' })}
         primaryAction={
           <Button startIcon={<Check />} onClick={handleSave} loading={loading}>
-            {formatMessage({ id: 'strapi-supergpt.settingsPage.saveButton', defaultMessage: 'Save' })}
+            {formatMessage({ id: 'strapi-supergpt.settingsPage.saveButton' })}
           </Button>
         }
       />
