@@ -1,45 +1,24 @@
 {
-  "strapi-supergpt": {
-    "name": "SuperGPT",
-    "description": "A description for Super GPT plugin",
-    "home": {},
-    "settingsPage": {
-      "description": "Configure the API key, model name, and other parameters",
-      "labels": {
-        "api-key": "API Key",
-        "max-tokens": "Max Tokens",
-        "text-model": "Model Name",
-        "image-model": "Image Model Name",
-        "tts-model": "Text To Speech Model Name"
-      },
-      "placeholder": {
-        "text-model": "Select a model",
-        "image-model": "Select an image model",
-        "tts-model": "Select a text-to-speech model"
-      },
-      "notifications": {
-        "success": "ChatGPT configurations saved successfully",
-        "api-key-required": "Please enter the API key",
-        "saving-error": "Error while saving the chatGPT configurations"
-      }
-    },
-    "customFields": {
-      "super-single-select": {
-        "label": "Super Single Select",
-        "description": "A single select field powered by chatgpt"
-      },
-      "super-multi-select": {
-        "label": "Super Multi Select",
-        "description": "A multi select field powered by chatgpt"
-      },
-      "super-textarea": {
-        "label": "Super Textarea",
-        "description": "A super textarea field"
-      },
-      "super-image": {
-        "label": "Super Image",
-        "description": "A super image field"
-      }
-    }
+	"name": "SuperGPT",
+	"description": "A description for Super GPT plugin",
+	"settingsPage.description": "Configure the API key, model name, and other parameters",
+	"settingsPage.labels.api-key": "API Key",
+	"settingsPage.labels.max-tokens": "Max Tokens",
+	"settingsPage.labels.text-model": "Model Name",
+	"settingsPage.labels.image-model": "Image Model Name",
+	"settingsPage.labels.tts-model": "Text To Speech Model Name",
+	"settingsPage.placeholder.text-model": "Select a model",
+	"settingsPage.placeholder.image-model": "Select an image model",
+	"settingsPage.placeholder.tts-model": "Select a text-to-speech model",
+	"settingsPage.notifications.success": "ChatGPT configurations saved successfully",
+	"settingsPage.notifications.api-key-required": "Please enter the API key",
+	"settingsPage.notifications.saving-error": "Error while saving the chatGPT configurations",
+	"customFields.super-single-select.label": "Super Single Select",
+	"customFields.super-single-select.description": "A single select field powered by chatgpt",
+	"customFields.super-multi-select.label": "Super Multi Select",
+	"customFields.super-multi-select.description": "A multi select field powered by chatgpt",
+	"customFields.super-textarea.label": "Super Textarea",
+	"customFields.super-textarea.description": "A super textarea field",
+	"customFields.super-image.label": "Super Image",
+	"customFields.super-image.description": "A super image field"
   }
-}
