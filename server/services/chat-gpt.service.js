@@ -97,32 +97,25 @@ module.exports = ({ strapi }) => ({
     }
   },
   async getAudioFromText(ctx) {
-    // const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
-    // const openai = new OpenAI({
-    //   apiKey: config.apiKey,
-    // });
-    // const {
-    //   prompt,
-    //   model,
-    //   stop,
-    // } = ctx.request.body;
-    // try {
-    //   const requestParams = {
-    //     model: config.modelName,
-    //     max_tokens: config.maxTokens
-    //       ? parseInt(config.maxTokens)
-    //       : 2048,
-    //     prompt: prompt.trim(),
-    //   };
+    const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
+    const openai = new OpenAI({
+      apiKey: config.apiKey,
+    });
+    const {
+      prompt,
+      title,
+      voice,
+    } = ctx.request.body;
 
-    // const mp3 = await openai.audio.speech.create({
-    //   model: "tts-1",
-    //   voice: config.voice,
-    //   input: "Today is a wonderful day to build something people love!",
-    // });
+    const mp3 = await openai.audio.speech.create({
+      model: config.model,
+      voice: voice,
+      input: prompt.trim(),
+    });
 
-    // const buffer = Buffer.from(await mp3.arrayBuffer());
-    // await fs.promises.writeFile(speechFile, buffer);
-    // }
+    const buffer = Buffer.from(await mp3.arrayBuffer());
+    const savedFile = utils.saveMp3FileFromBuffer(buffer, strapi)
+
+    return { response: `<p>Sure,</p><a href="${savedFile}">Picture</a>` };
   }
 });
