@@ -37,16 +37,14 @@ import Help from "../Help";
 import LoadingOverlay from "../Loading";
 import Integration from "../Integration";
 
-const imageFormats = [
-  "Pick an image format",
-  "1024x1024",
-  "1024x1792",
-  "1792x1024",
-]
-
 const Home = () => {
-  const {post, put, get} = useFetchClient()
   const { formatMessage } = useIntl();
+  const imageFormats = [
+    formatMessage({id: "strapi-supergpt.homePage.imageFormat"}),
+    "1024x1024",
+    "1024x1792",
+    "1792x1024",
+  ]
   const [prompt, setPrompt] = useState("");
   const [highlightedId, setHighlighted] = useState(0)
   const [convos, setConvos] = useState([]);
@@ -65,6 +63,7 @@ const Home = () => {
       "Content-Type": "application/json",
     },
   });
+
 
   const setSelectedResponse = (e) => {
     if (e >= convos.length) {
@@ -225,8 +224,7 @@ const Home = () => {
           </Box>
         }
           subtitle={formatMessage({
-            id: "supergpt-header",
-            defaultMessage: "ChatGPT plugin for Strapi",
+            id: "strapi-supergpt.homePage.header",
           })}
         />
 
@@ -247,14 +245,14 @@ const Home = () => {
                 startIcon={<Command />}
                 onClick={() => setIsModalVisible(true)}
               >
-                Prompt
+                {formatMessage({id: "strapi-supergpt.homePage.prompt.button"})}
               </Button>
               <Button
                 variant="secondary"
                 startIcon={<Cog />}
                 onClick={() => setIsApiIntegrationModalVisible(true)}
               >
-                API Integration
+                {formatMessage({id: "strapi-supergpt.homePage.API_Integration.button"})}
               </Button>
             </Stack>
           }
@@ -318,14 +316,14 @@ const Home = () => {
                 <GridItem col={11}>
                   <TextInput
                     id="chatInput"
-                    placeholder="Enter your prompt here"
+                    placeholder={formatMessage({ id: "strapi-supergpt.homePage.prompt.placeholder" })}
                     aria-label="Content"
                     name="prompt"
                     error={error}
                     onChange={handlePromptChange}
                     value={prompt}
                     disabled={loading}
-                    onpaste={(e) => {
+                    onPaste={(e) => {
                       e.preventDefault();
                       setError("");
                     }}
@@ -340,7 +338,7 @@ const Home = () => {
                     loading={loading}
                     onClick={handleSubmit}
                   >
-                    Text
+                    {formatMessage({id: "strapi-supergpt.homePage.prompt.button"})}
                   </Button>
                   <Button
                     size="L"
@@ -349,7 +347,7 @@ const Home = () => {
                     onClick={handleSubmit}
                     startIcon={<Picture />}
                   >
-                    Image
+                    {formatMessage({id: "strapi-supergpt.homePage.image.button"})}
                   </Button>
                 </GridItem>
               </Grid>

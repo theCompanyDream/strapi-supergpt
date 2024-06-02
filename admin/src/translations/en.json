@@ -1,6 +1,12 @@
 {
 	"name": "SuperGPT",
 	"description": "A description for Super GPT plugin",
+	"homePage.header": "ChatGPT plugin for Strapi",
+	"homePage.imageFormat": "Pick an image format",
+	"homePage.API_Integration.button": "API Integration",
+	"homePage.prompt.placeholder": "Enter your prompt here",
+	"homePage.prompt.button": "Text",
+	"homePage.image.button": "Image",
 	"settingsPage.saveButton": "Save",
 	"settingsPage.description": "Configure the API key, model name, and other parameters",
 	"settingsPage.labels.api-key": "API Key",
