@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 
 import GitHubButton from 'react-github-btn'
 import axios from "axios";
-import { auth, useFetchClient } from "@strapi/helper-plugin";
+import { auth } from "@strapi/helper-plugin";
 import {
   Button,
   TextInput,
@@ -242,17 +242,17 @@ const Home = () => {
             <Stack horizontal gap={2}>
               <Button
                 variant="secondary"
-                startIcon={<Command />}
-                onClick={() => setIsModalVisible(true)}
-              >
-                {formatMessage({id: "strapi-supergpt.homePage.prompt.button"})}
-              </Button>
-              <Button
-                variant="secondary"
                 startIcon={<Cog />}
                 onClick={() => setIsApiIntegrationModalVisible(true)}
               >
                 {formatMessage({id: "strapi-supergpt.homePage.API_Integration.button"})}
+              </Button>
+              <Button
+                variant="secondary"
+                startIcon={<Command />}
+                onClick={() => setIsModalVisible(true)}
+              >
+                {formatMessage({id: "strapi-supergpt.homePage.help.button"})}
               </Button>
             </Stack>
           }
