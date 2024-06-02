@@ -1,24 +1,39 @@
 {
-	"strapi-supergpt": {
-	  "plugin.name": "Super GPT",
-	  "plugin.description": "Una descripción para el plugin Super GPT",
-	  "customFields": {
-		"super-single-select": {
-		  "label": "Selección Única Súper",
-		  "description": "Un campo de selección única impulsado por chatgpt"
-		},
-		"super-multi-select": {
-		  "label": "Selección Múltiple Súper",
-		  "description": "Un campo de selección múltiple impulsado por chatgpt"
-		},
-		"super-textarea": {
-		  "label": "Área de Texto Súper",
-		  "description": "Un campo de área de texto súper"
-		},
-		"super-image": {
-		  "label": "Imagen Súper",
-		  "description": "Un campo de imagen súper"
-		}
-	  }
-	}
+	"name": "SuperGPT",
+	"description": "Una descripción para el plugin Super GPT",
+	"homePage.header": "Plugin ChatGPT para Strapi",
+	"homePage.imageFormat": "Elige un formato de imagen",
+	"homePage.help.button": "Ayuda",
+	"homePage.API_Integration.button": "Integración API",
+	"homePage.prompt.placeholder": "Introduce tu solicitud aquí",
+	"homePage.prompt.button": "Texto",
+	"homePage.image.button": "Imagen",
+	"integration.instructions": "1. Ve a Configuración -> Plugin de Usuarios y Permisos -> Roles y habilita el endpoint strapi-supergpt para un rol.",
+	"integration.sampleRequest": "Solicitud de ejemplo",
+	"integration.openAiParams": "Solicitud de ejemplo con parámetros adicionales de OpenAi",
+	"helpModal.promptUse": "Puedes usar indicaciones como las siguientes para obtener respuestas significativas de chatGPT:",
+	"helpModal.promptList": "<ol><li>Crea un cuestionario con 5 preguntas de opción múltiple que evalúen la comprensión de los estudiantes sobre [concepto enseñado]</li><li>Encuentra el error en este código: [publicar código abajo]</li><li>¿Qué hace exactamente esta expresión regular? rege(x(es)?|xps?)</li><li>Describe [tema de tu elección] en detalle</li><li>Proporciona una definición del término médico 'taquicardia'</li><li>Genera un resumen del [documento especificado]</li><li>Traduce el siguiente texto a [idioma especificado]</li><li>Proporciona ejemplos de codificación en [lenguaje de programación especificado]</li><li>Explica la importancia del [evento histórico]</li><li>Ayuda a generar ideas para [proyecto o tema]</li><li>Genera una imagen basada en la descripción que proporciones</li></ol>",
+	"helpModal.clickHere": "Haz clic aquí",
+	"helpModal.morePrompts": "para más indicaciones de ChatGPT.",
+	"settingsPage.saveButton": "Guardar",
+	"settingsPage.description": "Configura la clave API, el nombre del modelo y otros parámetros",
+	"settingsPage.labels.api-key": "Clave API",
+	"settingsPage.labels.max-tokens": "Máximo de Tokens",
+	"settingsPage.labels.text-model": "Nombre del Modelo",
+	"settingsPage.labels.image-model": "Nombre del Modelo de Imagen",
+	"settingsPage.labels.tts-model": "Nombre del Modelo de Texto a Voz",
+	"settingsPage.placeholder.text-model": "Selecciona un modelo",
+	"settingsPage.placeholder.image-model": "Selecciona un modelo de imagen",
+	"settingsPage.placeholder.tts-model": "Selecciona un modelo de texto a voz",
+	"settingsPage.notifications.success": "Configuraciones de ChatGPT guardadas exitosamente",
+	"settingsPage.notifications.api-key-required": "Por favor, introduce la clave API",
+	"settingsPage.notifications.saving-error": "Error al guardar las configuraciones de chatGPT",
+	"customFields.super-single-select.label": "Super Selección Única",
+	"customFields.super-single-select.description": "Un campo de selección única potenciado por chatgpt",
+	"customFields.super-multi-select.label": "Super Selección Múltiple",
+	"customFields.super-multi-select.description": "Un campo de selección múltiple potenciado por chatgpt",
+	"customFields.super-textarea.label": "Super Área de Texto",
+	"customFields.super-textarea.description": "Un super campo de área de texto",
+	"customFields.super-image.label": "Super Imagen",
+	"customFields.super-image.description": "Un super campo de imagen"
   }
