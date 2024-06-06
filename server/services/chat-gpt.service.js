@@ -3,7 +3,6 @@ const { OpenAI } = require("openai");
 const utils = require("../utils");
 
 module.exports = ({ strapi }) => ({
-
   async getResponsefromChatGpt(ctx) {
     const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
     const openai = new OpenAI({
@@ -55,7 +54,6 @@ module.exports = ({ strapi }) => ({
       };
     }
   },
-
   async getImageResponsefromChatGpt(ctx) {
     const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
 
