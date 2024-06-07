@@ -39,13 +39,13 @@ const CustomTab = ({ children, onRename, onDelete, ...props }) => {
   return (
     <Tab {...props}>
       <Box display="flex" justifyContent="space-between" width="100%">
-        <Typography variant="omega">{name}</Typography>
-        <Box alignItems="right">
+        <Box alignItems="left">
           <SimpleMenu label={<More />} onClick={handleClick} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
             <MenuItem onClick={handleRename}>Rename</MenuItem>
             <MenuItem onClick={handleDelete}>Delete</MenuItem>
           </SimpleMenu>
         </Box>
+        <Typography variant="omega">{name}</Typography>
       </Box>
     </Tab>
   );
