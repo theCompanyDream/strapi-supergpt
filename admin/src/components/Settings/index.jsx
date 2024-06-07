@@ -73,7 +73,7 @@ const Settings = () => {
   return (
     <Box padding={4}>
       <HeaderLayout
-        title="SuperGPT Configurations"
+        title={formatMessage({ id: 'strapi-supergpt.settingsPage.title' })}
         subtitle={formatMessage({ id: 'strapi-supergpt.settingsPage.description' })}
         primaryAction={
           <Button startIcon={<Check />} onClick={handleSave} loading={loading}>

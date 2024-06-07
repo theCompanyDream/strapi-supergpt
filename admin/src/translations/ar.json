@@ -1,6 +1,7 @@
 {
 	"name": "SuperGPT",
 	"description": "وصف لمكون Super GPT الإضافي",
+	"configuration": "تكوين",
 	"homePage.header": "مكون ChatGPT الإضافي لـ Strapi",
 	"homePage.imageFormat": "اختر تنسيق صورة",
 	"homePage.help.button": "مساعدة",
@@ -15,6 +16,7 @@
 	"helpModal.promptList": "<ol><li>إنشاء اختبار يحتوي على 5 أسئلة متعددة الخيارات لتقييم فهم الطلاب للمفهوم الذي يتم تدريسه</li><li>اكتشاف الخطأ في هذا الكود: [أدخل الكود أدناه]</li><li>ماذا يفعل هذا التعبير النمطي بالضبط؟ rege(x(es)?|xps?)</li><li>وصف [الموضوع الذي تختاره] بالتفصيل</li><li>يرجى تقديم تعريف للمصطلح الطبي 'تسرع القلب'</li><li>إنشاء ملخص للمستند المحدد</li><li>ترجمة النص التالي إلى [اللغة المحددة]</li><li>تقديم أمثلة على البرمجة بلغة [لغة البرمجة المحددة]</li><li>شرح أهمية [الحدث التاريخي]</li><li>المساعدة في توليد أفكار لمشروع أو موضوع</li><li>توليد صورة بناءً على الوصف الذي تقدمه</li></ol>",
 	"helpModal.clickHere": "انقر هنا",
 	"helpModal.morePrompts": "للمزيد من مطالبات ChatGPT.",
+	"settingsPage.title": "تكوينات سوبر جي بي تي",
 	"settingsPage.saveButton": "حفظ",
 	"settingsPage.description": "تكوين مفتاح API، واسم النموذج، والمعلمات الأخرى",
 	"settingsPage.labels.api-key": "مفتاح API",

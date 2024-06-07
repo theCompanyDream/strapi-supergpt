@@ -1,6 +1,7 @@
 {
 	"name": "SuperGPT",
 	"description": "Super GPT 플러그인에 대한 설명",
+	"configuration": "구성",
 	"homePage.header": "Strapi용 ChatGPT 플러그인",
 	"homePage.imageFormat": "이미지 형식 선택",
 	"homePage.help.button": "도움말",
@@ -15,6 +16,7 @@
 	"helpModal.promptList": "<ol><li>[가르친 개념]에 대한 학생들의 이해를 평가하는 5가지 선택형 질문이 포함된 퀴즈 만들기</li><li>이 코드에서 버그 찾기: [아래 코드 게시]</li><li>이 정규 표현식은 정확히 무엇을 하나요? rege(x(es)?|xps?)</li><li>[선택한 주제]를 자세히 설명하기</li><li>의학 용어 '빈맥'에 대한 정의 제공</li><li>[지정된 문서]의 요약 생성</li><li>다음 텍스트를 [지정된 언어]로 번역하기</li><li>[지정된 프로그래밍 언어]의 코딩 예제 제공</li><li>[역사적 사건]의 중요성 설명하기</li><li>[프로젝트 또는 주제]에 대한 아이디어 브레인스토밍 지원</li><li>제공한 설명을 기반으로 이미지 생성</li></ol>",
 	"helpModal.clickHere": "여기를 클릭",
 	"helpModal.morePrompts": "더 많은 ChatGPT 프롬프트를 보려면.",
+	"settingsPage.title": "슈퍼 GPT 구성",
 	"settingsPage.saveButton": "저장",
 	"settingsPage.description": "API 키, 모델 이름 및 기타 매개변수 구성",
 	"settingsPage.labels.api-key": "API 키",

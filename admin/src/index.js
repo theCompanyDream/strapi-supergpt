@@ -12,7 +12,7 @@ export default {
       to: `/plugins/${pluginId}`,
       icon: PluginIcon,
       intlLabel: {
-        id: `${pluginId}.plugin.name`,
+        id: `strapi-supergpt.name`,
         defaultMessage: pluginPkg.strapi.displayName,
       },
       Component: async () => {
@@ -30,17 +30,17 @@ export default {
       {
         id: pluginId,
         intlLabel: {
-          id: `${pluginId}.plugin.name`,
+          id: `${pluginId}.name`,
           defaultMessage: `${pluginPkg.strapi.displayName} ${pluginPkg.strapi.kind}`,
         },
       },
       [
         {
           intlLabel: {
-            id: `${pluginId}.plugin.name`,
+            id: `${pluginId}.configuration`,
             defaultMessage: "Configuration",
           },
-          id: "strapi-supergpt",
+          id: "strapi-supergpt.name",
           to: `/settings/${pluginId}`,
           Component: async () => {
             const component = await import(

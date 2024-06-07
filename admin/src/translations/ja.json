@@ -1,6 +1,7 @@
 {
 	"name": "SuperGPT",
 	"description": "Super GPT プラグインの説明",
+	"configuration": "設定",
 	"homePage.header": "Strapi 用 ChatGPT プラグイン",
 	"homePage.imageFormat": "画像フォーマットを選択",
 	"homePage.help.button": "ヘルプ",
@@ -15,6 +16,7 @@
 	"helpModal.promptList": "<ol><li>[教えた概念] の理解を評価する 5 つの選択式質問でクイズを作成する</li><li>このコードのバグを見つける：[以下にコードを投稿]</li><li>この正規表現は何をするのですか？ rege(x(es)?|xps?)</li><li>[選択したトピック] を詳細に説明する</li><li>医療用語 '頻脈' の定義を提供する</li><li>[指定されたドキュメント] の要約を生成する</li><li>以下のテキストを [指定された言語] に翻訳する</li><li>[指定されたプログラミング言語] のコーディング例を提供する</li><li>[歴史的な出来事] の重要性を説明する</li><li>[プロジェクトまたはトピック] のアイデア出しを支援する</li><li>提供された説明に基づいて画像を生成する</li></ol>",
 	"helpModal.clickHere": "ここをクリック",
 	"helpModal.morePrompts": "ChatGPT プロンプトの詳細はこちら。",
+	"settingsPage.title": "SuperGPT の設定",
 	"settingsPage.saveButton": "保存",
 	"settingsPage.description": "API キー、モデル名、およびその他のパラメータを構成する",
 	"settingsPage.labels.api-key": "API キー",

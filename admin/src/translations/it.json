@@ -1,6 +1,7 @@
 {
 	"name": "SuperGPT",
 	"description": "Una descrizione per il plugin Super GPT",
+	"configuration": "Configurazione",
 	"homePage.header": "Plugin ChatGPT per Strapi",
 	"homePage.imageFormat": "Scegli un formato immagine",
 	"homePage.help.button": "Aiuto",
@@ -15,6 +16,7 @@
 	"helpModal.promptList": "<ol><li>Crea un quiz con 5 domande a scelta multipla che valutino la comprensione degli studenti sul [concetto insegnato]</li><li>Trova il bug in questo codice: [inserisci codice sotto]</li><li>Cosa fa esattamente questa regex? rege(x(es)?|xps?)</li><li>Descrivi [argomento a tua scelta] in dettaglio</li><li>Fornisci una definizione per il termine medico 'tachicardia'</li><li>Genera un riassunto del [documento specificato]</li><li>Traduci il testo seguente in [lingua specificata]</li><li>Fornisci esempi di codice in [linguaggio di programmazione specificato]</li><li>Spiega l'importanza di [evento storico]</li><li>Aiuta a generare idee per [progetto o argomento]</li><li>Genera un'immagine basata sulla descrizione fornita</li></ol>",
 	"helpModal.clickHere": "Clicca qui",
 	"helpModal.morePrompts": "per ulteriori prompt di ChatGPT.",
+	"settingsPage.title": "Configurazioni di SuperGPT",
 	"settingsPage.saveButton": "Salva",
 	"settingsPage.description": "Configura la chiave API, il nome del modello e altri parametri",
 	"settingsPage.labels.api-key": "Chiave API",
