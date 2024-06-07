@@ -108,6 +108,22 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 - Click on Integration to get sample code integration code.
 - Copy the code and paste it in your terminal.
 
+## 🌐 Supported Languages
+
+- Arabic (العربية)
+- German (Deutsch)
+- Spanish (Español)
+- French (Français)
+- Hindi (हिन्दी)
+- Italian (Italiano)
+- Japanese (日本語)
+- Korean (한국어)
+- Polish (Polski)
+- Portuguese (Português)
+- Simplified Chinese (简体中文)
+
+Please note that the translations may vary and are provided by contributors. If you notice any inaccuracies or have suggestions for improvement, feel free to contribute!
+
 ## 📝 License
 
 [MIT License](LICENSE)
