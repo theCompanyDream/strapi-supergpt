@@ -33,11 +33,11 @@ describe("Should Conversation Controller", () => {
     // Check if Create is called correctly
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").createConvo,
-    ).toBeCalledWith(ctx);
+    ).toHaveBeenCalledWith(ctx);
 
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").createConvo,
-    ).toBeCalledTimes(1);
+    ).toHaveBeenCalledTimes(1);
   });
 
   it("handle test createConvo works correctly", async () => {
@@ -50,11 +50,11 @@ describe("Should Conversation Controller", () => {
     // Check if Create is called correctly
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").createConvo,
-    ).toBeCalledWith(ctx);
+    ).toHaveBeenCalledWith(ctx);
 
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").createConvo,
-    ).toBeCalledTimes(1);
+    ).toHaveBeenCalledTimes(1);
   });
 
   it("handle test readConvo works correctly", async () => {
@@ -67,11 +67,11 @@ describe("Should Conversation Controller", () => {
     // Check if Create is called correctly
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").readConvo,
-    ).toBeCalledWith(ctx);
+    ).toHaveBeenCalledWith(ctx);
 
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").readConvo,
-    ).toBeCalledTimes(1);
+    ).toHaveBeenCalledTimes(1);
   });
 
   it("test readConvoNames works correctly", async () => {
@@ -84,11 +84,11 @@ describe("Should Conversation Controller", () => {
     // Check if Create is called correctly
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").readConvoNames,
-    ).toBeCalledWith(ctx);
+    ).toHaveBeenCalledWith(ctx);
 
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").readConvoNames,
-    ).toBeCalledTimes(1);
+    ).toHaveBeenCalledTimes(1);
   });
 
   it("test updateConvo works correctly", async () => {
@@ -101,11 +101,11 @@ describe("Should Conversation Controller", () => {
     // Check if Create is called correctly
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").updateConvo,
-    ).toBeCalledWith(ctx);
+    ).toHaveBeenCalledWith(ctx);
 
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").updateConvo,
-    ).toBeCalledTimes(1);
+    ).toHaveBeenCalledTimes(1);
   });
 
   it("test deleteConvo works correctly", async () => {
@@ -118,10 +118,10 @@ describe("Should Conversation Controller", () => {
     // Check if Create is called correctly
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").deleteConvo,
-    ).toBeCalledWith(ctx);
+    ).toHaveBeenCalledWith(ctx);
 
     expect(
       strapi.plugin("strapi-supergpt").service("convoService").deleteConvo,
-    ).toBeCalledTimes(1);
+    ).toHaveBeenCalledTimes(1);
   });
 });

@@ -32,10 +32,10 @@ describe("Should ChatGPT Controller", () => {
     await chatGPTController({ strapi }).prompt(ctx);
 
     // Check if getResponsefromChatGpt is called correctly
-    expect(strapi.plugin('strapi-supergpt').service('superGptService').getResponsefromChatGpt).toBeCalledWith(ctx);
+    expect(strapi.plugin('strapi-supergpt').service('superGptService').getResponsefromChatGpt).toHaveBeenCalledWith(ctx);
 
     // Check if the send method was called with the expected response
-    expect(strapi.plugin('strapi-supergpt').service('superGptService').getResponsefromChatGpt).toBeCalledTimes(1)
+    expect(strapi.plugin('strapi-supergpt').service('superGptService').getResponsefromChatGpt).toHaveBeenCalledTimes(1)
   });
 
   it("handle 'createImage' correctly", async () => {
@@ -48,9 +48,9 @@ describe("Should ChatGPT Controller", () => {
     await chatGPTController({ strapi }).createImage(ctx);
 
     // Check if createImage is called correctly
-    expect(strapi.plugin('strapi-supergpt').service('superGptService').getImageResponsefromChatGpt).toBeCalledWith(ctx);
+    expect(strapi.plugin('strapi-supergpt').service('superGptService').getImageResponsefromChatGpt).toHaveBeenCalledWith(ctx);
 
 
-    expect(strapi.plugin('strapi-supergpt').service('superGptService').getImageResponsefromChatGpt).toBeCalledTimes(1);
+    expect(strapi.plugin('strapi-supergpt').service('superGptService').getImageResponsefromChatGpt).toHaveBeenCalledTimes(1);
   });
 });
