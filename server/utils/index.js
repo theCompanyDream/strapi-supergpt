@@ -55,6 +55,16 @@ function condenseArray(conversation) {
   return test;
 }
 
+function splitTextIntoChunks(text, chunkSize) {
+  const chunks = [];
+  let start = 0;
+  while (start < text.length) {
+    chunks.push(text.slice(start, start + chunkSize));
+    start += chunkSize;
+  }
+  return chunks;
+};
+
 async function saveFile(url, strapi) {
   return new Promise((resolve, reject) => {
     strapi.log.info(`Saving the picture ${url}`);
@@ -110,5 +120,6 @@ module.exports = {
   conversationToArray,
   condenseArray,
   saveFile,
-  saveMp3FileFromBuffer
+  saveMp3FileFromBuffer,
+  splitTextIntoChunks
 };

@@ -105,15 +105,27 @@ module.exports = ({ strapi }) => ({
       voice,
     } = ctx.request.body;
 
-    const mp3 = await openai.audio.speech.create({
-      model: config.model,
-      voice: voice,
-      input: prompt.trim(),
-    });
+    // 4096 is the character limit allowed to be processed
+    const textChunks = utils.splitTextIntoChunks(prompt.trim(), 4096);
+    let combinedAudioBuffer = Buffer.alloc(0);
 
-    const buffer = Buffer.from(await mp3.arrayBuffer());
-    const savedFile = utils.saveMp3FileFromBuffer(buffer, strapi)
+    try {
+      for (const chunk of textChunks) {
+        const mp3 = await openai.audio.speech.create({
+          model: config.ttsModelName,
+          voice: voice,
+          input: chunk,
+        });
 
-    return { response: `<p>Sure,</p><a href="${savedFile}">Picture</a>` };
+        const buffer = Buffer.from(await mp3.arrayBuffer());
+        combinedAudioBuffer = Buffer.concat([combinedAudioBuffer, buffer]);
+      }
+
+      const savedFile = await utils.saveMp3FileFromBuffer(combinedAudioBuffer, strapi);
+      return { response: `<p>Sure,</p><a href="${savedFile}">Download Audio</a>`, file: savedFile };
+    } catch (error) {
+      console.error('Error generating audio:', error);
+      ctx.throw(500, 'Internal Server Error');
+    }
   }
 });
