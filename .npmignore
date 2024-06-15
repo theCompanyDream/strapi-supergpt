@@ -29,3 +29,4 @@ yarn-error.log
 *.log
 *.swp
 jsconfig.json
+Contributing.md
