@@ -30,6 +30,8 @@
 	"settingsPage.notifications.success": "ChatGPT 구성 성공적으로 저장됨",
 	"settingsPage.notifications.api-key-required": "API 키를 입력하십시오",
 	"settingsPage.notifications.saving-error": "chatGPT 구성 저장 중 오류 발생",
+	"customFields.super-audio.field.label": "오디오를 생성할 필드를 선택하십시오",
+  	"customFields.super-audio.voice.label": "오디오를 생성할 음성을 선택하십시오",
 	"customFields.super-single-select.label": "슈퍼 단일 선택",
 	"customFields.super-single-select.description": "chatgpt로 구동되는 단일 선택 필드",
 	"customFields.super-multi-select.label": "슈퍼 다중 선택",

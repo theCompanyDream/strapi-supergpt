@@ -30,6 +30,8 @@
 	"settingsPage.notifications.success": "تم حفظ إعدادات ChatGPT بنجاح",
 	"settingsPage.notifications.api-key-required": "الرجاء إدخال مفتاح API",
 	"settingsPage.notifications.saving-error": "حدث خطأ أثناء حفظ إعدادات chatGPT",
+	"customFields.super-audio.field.label": "اختر حقلًا لتوليد الصوت",
+  	"customFields.super-audio.voice.label": "اختر صوتًا لتوليد الصوت",
 	"customFields.super-single-select.label": "اختيار فردي فائق",
 	"customFields.super-single-select.description": "حقل اختيار فردي مدعوم بواسطة chatgpt",
 	"customFields.super-multi-select.label": "اختيار متعدد فائق",

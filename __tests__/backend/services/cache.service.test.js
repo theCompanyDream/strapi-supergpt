@@ -53,11 +53,15 @@ describe("Should Caching Service", () => {
 			}
 		};
 
-		const config = await cacheService({ strapi }).updateConfig(ctx);
+		await cacheService({ strapi }).updateConfig(ctx);
 
 		// Check for any error logs if the implementation logs them
 		expect(strapi.log.error).toHaveBeenCalledTimes(0);
-		expect(strapi.store.get).to
+		expect(strapi.store().set).toHaveBeenCalledTimes(1);
+
+		const newconfig = await cacheService({strapi}).getConfig(ctx)
+		expect(strapi.log.error).toHaveBeenCalledTimes(0);
+		expect(strapi.store().get).toHaveBeenCalledTimes(1);
 	});
 
 })

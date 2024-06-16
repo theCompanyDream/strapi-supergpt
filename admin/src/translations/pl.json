@@ -30,6 +30,8 @@
 	"settingsPage.notifications.success": "Pomyślnie zapisano konfiguracje ChatGPT",
 	"settingsPage.notifications.api-key-required": "Proszę wprowadzić klucz API",
 	"settingsPage.notifications.saving-error": "Błąd podczas zapisywania konfiguracji chatGPT",
+	"customFields.super-audio.field.label": "Wybierz pole, aby wygenerować dźwięk",
+  	"customFields.super-audio.voice.label": "Wybierz głos, aby wygenerować dźwięk",
 	"customFields.super-single-select.label": "Super Pojedynczy Wybór",
 	"customFields.super-single-select.description": "Pole pojedynczego wyboru zasilane przez chatgpt",
 	"customFields.super-multi-select.label": "Super Wielokrotny Wybór",
