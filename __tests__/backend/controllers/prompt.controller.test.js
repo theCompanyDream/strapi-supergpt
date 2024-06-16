@@ -12,6 +12,7 @@ describe("Should ChatGPT Controller", () => {
           getResponsefromChatGpt: jest.fn().mockResolvedValue("ChatGPT response"),
           // If more service methods are used, mock them similarly
           getImageResponsefromChatGpt: jest.fn().mockResolvedValue(""),
+          getAudioFromText: jest.fn().mockResolvedValue(""),
         }),
       })
     }
@@ -53,4 +54,19 @@ describe("Should ChatGPT Controller", () => {
 
     expect(strapi.plugin('strapi-supergpt').service('superGptService').getImageResponsefromChatGpt).toHaveBeenCalledTimes(1);
   });
+
+  it("handle 'createAudio' correctly ", async () => {
+    const ctx = {
+      send: jest.fn(), // Mocking the send function
+    };
+
+    // Calling the actual controller method
+    await chatGPTController({ strapi }).createAudio(ctx);
+
+    // Check if createImage is called correctly
+    expect(strapi.plugin('strapi-supergpt').service('superGptService').getAudioFromText).toHaveBeenCalledWith(ctx);
+
+
+    expect(strapi.plugin('strapi-supergpt').service('superGptService').getAudioFromText).toHaveBeenCalledTimes(1);
+  })
 });
