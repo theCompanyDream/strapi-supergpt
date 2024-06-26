@@ -22,7 +22,7 @@ module.exports = ({ strapi }) => ({
       const body = ctx.request.body;
       const data = {
         apiKey: body.apiKey,
-        modelName: body.modelName || "gpt-3.5-turbo",
+        modelName: body.modelName || "gpt-4o",
         aiImageModelName: body.aiImageModelName || "dall-e-3",
         temperature: body.temperature || 0.0,
         maxTokens: body.maxTokens || 2048,
@@ -31,6 +31,7 @@ module.exports = ({ strapi }) => ({
         presencePenalty: body.presencePenalty || 0.0,
         stop: body.stop || "",
         convoCount: body.Count || "",
+        ttsModelName: body.ttsModelName || ""
       };
       const pluginStore = strapi.store({
         environment: strapi.config.environment,

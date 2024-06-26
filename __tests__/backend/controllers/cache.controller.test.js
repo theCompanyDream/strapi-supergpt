@@ -34,11 +34,11 @@ describe("Should Caching Controller", () => {
     // Check if getResponsefromChatGpt is called correctly
     expect(
       strapi.plugin("strapi-supergpt").service("cacheController").updateConfig,
-    ).toBeCalledWith(ctx);
+    ).toHaveBeenCalledWith(ctx);
 
     expect(
       strapi.plugin("strapi-supergpt").service("cacheController").updateConfig,
-    ).toBeCalledTimes(1);
+    ).toHaveBeenCalledTimes(1);
 
     // Check if the send method was called with the expected response
     expect(ctx.send).toHaveBeenCalledWith("This didn't work");
@@ -56,10 +56,10 @@ describe("Should Caching Controller", () => {
     // Check if getConfig is called correctly
     expect(
       strapi.plugin("strapi-supergpt").service("cacheController").getConfig,
-    ).toBeCalledWith(ctx);
+    ).toHaveBeenCalledWith(ctx);
 
     expect(
       strapi.plugin("strapi-supergpt").service("cacheController").getConfig,
-    ).toBeCalledTimes(1);
+    ).toHaveBeenCalledTimes(1);
   });
 });

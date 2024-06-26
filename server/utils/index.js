@@ -1,6 +1,7 @@
 "use strict";
 const https = require("https");
 const fs = require("fs");
+const path = require("path")
 const crypto = require("crypto");
 const mime = require("mime-types"); //used to detect file's mime type
 
@@ -54,6 +55,16 @@ function condenseArray(conversation) {
   return test;
 }
 
+function splitTextIntoChunks(text, chunkSize) {
+  const chunks = [];
+  let start = 0;
+  while (start < text.length) {
+    chunks.push(text.slice(start, start + chunkSize));
+    start += chunkSize;
+  }
+  return chunks;
+};
+
 async function saveFile(url, strapi) {
   return new Promise((resolve, reject) => {
     strapi.log.info(`Saving the picture ${url}`);
@@ -97,8 +108,18 @@ async function saveFile(url, strapi) {
   });
 }
 
+async function saveMp3FileFromBuffer(buffer, strapi) {
+  const rootDir = process.cwd();
+  const fileName = crypto.randomUUID();
+  const speechFile = path.resolve(`${rootDir}/public/uploads/${fileName}.mp3`);
+
+  return fs.promises.writeFile(speechFile, buffer)
+}
+
 module.exports = {
   conversationToArray,
   condenseArray,
   saveFile,
+  saveMp3FileFromBuffer,
+  splitTextIntoChunks
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import { useIntl } from "react-intl";
 import {
   ModalLayout,
   ModalBody,
@@ -12,6 +13,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { darcula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const Integration = ({ isOpen, onClose }) => {
+  const { formatMessage } = useIntl();
   return (
     <>
       {isOpen && (
@@ -23,21 +25,20 @@ const Integration = ({ isOpen, onClose }) => {
               as="h2"
               id="title-api-integration"
             >
-              API Integration
+              {formatMessage({id: "strapi-supergpt.homePage.API_Integration.button"})}
             </Typography>
           </ModalHeader>
           <ModalBody>
             {/* Add code block */}
             <Typography variant="omega">
-              1. Goto Settings -&gt; Users & Permissions plugin -&gt; Roles and
-              enable   strapi-supergpt endpoint for a role.
+              {formatMessage({id: "strapi-supergpt.integration.instructions"})}
             </Typography>
 
             <Box paddingTop={6} paddingBottom={6}>
               <Divider />
             </Box>
 
-            <Typography variant="omega">Sample request</Typography>
+            <Typography variant="omega">{formatMessage({id: "strapi-supergpt.integration.sampleRequest"})}</Typography>
             <br />
             <SyntaxHighlighter
               language="bash"
@@ -57,7 +58,7 @@ const Integration = ({ isOpen, onClose }) => {
               <Divider />
             </Box>
             <Typography variant="omega">
-              Sample request with additional OpenAi params
+              {formatMessage({id: "strapi-supergpt.integration.openAiParams"})}
             </Typography>
             <br />
             <SyntaxHighlighter

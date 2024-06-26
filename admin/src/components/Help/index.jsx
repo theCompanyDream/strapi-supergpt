@@ -1,13 +1,14 @@
 import React from "react";
+import { useIntl } from "react-intl";
 import {
   ModalLayout,
   ModalBody,
   ModalHeader,
   Typography,
-  Box,
 } from "@strapi/design-system";
 
 const Help = ({ isOpen, onClose }) => {
+  const { formatMessage } = useIntl();
   return (
     <>
       {isOpen && (
@@ -24,32 +25,20 @@ const Help = ({ isOpen, onClose }) => {
           </ModalHeader>
           <ModalBody>
             <Typography variant="omega">
-              You may use prompts such as the followings to get meaningful
-              response from chatGPT:
+              {formatMessage({id: "strapi-supergpt.helpModal.promptUse"})}
             </Typography>
             <br />
             <br />
-            <Typography variant="omega">
-              <ol>
-                <li>
-                  1. Create a quiz with 5 multiple choice questions that assess
-                  students' understanding of [concept being taught]
-                </li>
-                <li>2. Find the bug with this code: [post code below]</li>
-                <li>3. What exactly does this regex do? rege(x(es)?|xps?)</li>
-                <li>4. Describe [topic of your choice] in detail</li>
-                <li>
-                  5. Please provide a definition for the medical term
-                  'tachycardia'
-                </li>
-              </ol>
-            </Typography>
+            <Typography
+              variant="omega"
+              dangerouslySetInnerHTML={{ __html: formatMessage({id: "strapi-supergpt.helpModal.promptList"})}}
+            />
             <br />
             <Typography variant="omega">
               <a href="https://prompts.chat" target="_blank">
-                Click here
+                {formatMessage({id: "strapi-supergpt.helpModal.clickHere"})}
               </a>{" "}
-              for more ChatGPT prompts.
+              {formatMessage({id: "strapi-supergpt.helpModal.morePrompts"})}
             </Typography>
           </ModalBody>
         </ModalLayout>

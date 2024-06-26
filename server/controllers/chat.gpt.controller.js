@@ -15,4 +15,11 @@ module.exports = ({ strapi }) => ({
       .getImageResponsefromChatGpt(ctx);
     ctx.send(config);
   },
+  async createAudio(ctx) {
+    const config = await strapi
+      .plugin("strapi-supergpt")
+      .service("superGptService")
+      .getAudioFromText(ctx);
+    ctx.send(config);
+  },
 });
