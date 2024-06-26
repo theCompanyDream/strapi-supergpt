@@ -127,5 +127,15 @@ module.exports = ({ strapi }) => ({
       console.error('Error generating audio:', error);
       ctx.throw(500, 'Internal Server Error');
     }
+  },
+  async saveFiles(ctx) {
+    const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
+    const openai = new OpenAI({
+      apiKey: config.apiKey,
+    });
+    openai.beta.assistants.
+    openai.files.create({
+
+    })
   }
 });
