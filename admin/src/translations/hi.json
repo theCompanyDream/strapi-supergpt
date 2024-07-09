@@ -29,6 +29,7 @@
 	"settingsPage.placeholder.tts-model": "एक पाठ से वाक मॉडल चुनें",
 	"settingsPage.notifications.success": "ChatGPT कॉन्फ़िगरेशन सफलतापूर्वक सहेजे गए",
 	"settingsPage.notifications.api-key-required": "कृपया API कुंजी दर्ज करें",
+	"settingsPage.notifications.fetch-error": "चैटजीपीटी कॉन्फ़िगरेशन प्राप्त करते समय त्रुटि",
 	"settingsPage.notifications.saving-error": "chatGPT कॉन्फ़िगरेशन सहेजते समय त्रुटि",
 	"customFields.super-audio.field.label": "ऑडियो उत्पन्न करने के लिए एक फ़ील्ड चुनें",
     "customFields.super-audio.voice.label": "ऑडियो उत्पन्न करने के लिए एक आवाज़ चुनें",

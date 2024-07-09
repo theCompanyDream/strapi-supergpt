@@ -29,6 +29,7 @@
 	"settingsPage.placeholder.tts-model": "Wybierz model tekst-na-mowę",
 	"settingsPage.notifications.success": "Pomyślnie zapisano konfiguracje ChatGPT",
 	"settingsPage.notifications.api-key-required": "Proszę wprowadzić klucz API",
+	"settingsPage.notifications.fetch-error": "Błąd podczas pobierania konfiguracji chatGPT",
 	"settingsPage.notifications.saving-error": "Błąd podczas zapisywania konfiguracji chatGPT",
 	"customFields.super-audio.field.label": "Wybierz pole, aby wygenerować dźwięk",
   	"customFields.super-audio.voice.label": "Wybierz głos, aby wygenerować dźwięk",

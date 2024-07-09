@@ -29,6 +29,7 @@
 	"settingsPage.placeholder.tts-model": "Selecione um modelo de texto para fala",
 	"settingsPage.notifications.success": "Configurações do ChatGPT salvas com sucesso",
 	"settingsPage.notifications.api-key-required": "Por favor, insira a chave API",
+	"settingsPage.notifications.fetch-error": "Erro ao buscar as configurações do chatGPT",
 	"settingsPage.notifications.saving-error": "Erro ao salvar as configurações do chatGPT",
 	"customFields.super-audio.field.label": "Selecione um campo para gerar áudio",
   	"customFields.super-audio.voice.label": "Selecione uma voz para gerar áudio",

@@ -29,6 +29,7 @@
 	"settingsPage.placeholder.tts-model": "选择一个文本转语音模型",
 	"settingsPage.notifications.success": "ChatGPT 配置保存成功",
 	"settingsPage.notifications.api-key-required": "请输入 API 密钥",
+	"settingsPage.notifications.fetch-error": "获取chatGPT配置时出错",
 	"settingsPage.notifications.saving-error": "保存 chatGPT 配置时出错",
 	"customFields.super-audio.field.label": "选择一个字段生成音频",
   	"customFields.super-audio.voice.label": "选择一个声音生成音频",

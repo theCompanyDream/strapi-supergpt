@@ -29,6 +29,7 @@
 	"settingsPage.placeholder.tts-model": "テキスト音声モデルを選択",
 	"settingsPage.notifications.success": "ChatGPT 構成が正常に保存されました",
 	"settingsPage.notifications.api-key-required": "API キーを入力してください",
+	"settingsPage.notifications.fetch-error": "chatGPTの設定を取得中にエラーが発生しました",
 	"settingsPage.notifications.saving-error": "chatGPT 構成の保存中にエラーが発生しました",
 	"customFields.super-audio.field.label": "オーディオを生成するフィールドを選択",
   	"customFields.super-audio.voice.label": "オーディオを生成する音声を選択",

@@ -29,6 +29,7 @@
 	"settingsPage.placeholder.tts-model": "Select a text-to-speech model",
 	"settingsPage.notifications.success": "ChatGPT configurations saved successfully",
 	"settingsPage.notifications.api-key-required": "Please enter the API key",
+	"settingsPage.notifications.fetch-error": "Error while fetching the chatGPT configurations",
 	"settingsPage.notifications.saving-error": "Error while saving the chatGPT configurations",
 	"customFields.super-audio.field.label": "Select a Field to generate audio",
 	"customFields.super-audio.voice.label": "Select a voice to generate audio",
