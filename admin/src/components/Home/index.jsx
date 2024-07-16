@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useIntl } from "react-intl";
 import { Helmet } from "react-helmet";
-
-import GitHubButton from 'react-github-btn'
+import GitHubButton from 'react-github-btn';
 import axios from "axios";
 import { auth } from "@strapi/helper-plugin";
 import {
@@ -40,16 +39,16 @@ import Integration from "../Integration";
 const Home = () => {
   const { formatMessage } = useIntl();
   const imageFormats = [
-    formatMessage({id: "strapi-supergpt.homePage.imageFormat"}),
+    formatMessage({ id: "strapi-supergpt.homePage.imageFormat" }),
     "1024x1024",
     "1024x1792",
     "1792x1024",
-  ]
+  ];
   const [prompt, setPrompt] = useState("");
-  const [highlightedId, setHighlighted] = useState(0)
+  const [highlightedId, setHighlighted] = useState(0);
   const [convos, setConvos] = useState([]);
   const [error, setError] = useState("");
-  const [format, setFormat] = useState(imageFormats[0])
+  const [format, setFormat] = useState(imageFormats[0]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -64,68 +63,78 @@ const Home = () => {
     },
   });
 
-
-  const setSelectedResponse = (e) => {
-    if (e >= convos.length) {
-      setError("This Tab is unselectable")
-      return
-    }
-    const selectedConvo = convos[e]
-    if (selectedConvo.content.length === 0) {
-      instance.get(`/strapi-supergpt/convo/${selectedConvo.id}`)
-      .then(content => {
-        const newConvos = [...convos]
-        newConvos[selectedConvo] = content.data
-        setConvos(newConvos)
-      })
-    }
-    setHighlighted(selectedConvo.id)
-  }
-
   const handlePromptChange = (e) => {
     setError("");
     setPrompt(e.target.value);
   };
 
   const handleImageSizeChange = (e) => {
-    setFormat(e)
-  }
+    setFormat(e);
+  };
 
-  const handleCreateTab = async (e) => {
-    await instance.post(`/strapi-supergpt/convo`, {
-      name: `New Convo ${convos.length + 1}`
-    })
-    .then(convo => setConvos([...convos, convo.data]))
-    setHighlighted(convos.length-1)
-  }
+  const setSelectedResponse = (index) => {
+    if (index >= convos.length) {
+      setError(formatMessage({id: "strapi-supergpt.homePage.error.unselectableTab"}));
+      return;
+    }
+    const selectedConvo = convos[index];
+    if (!selectedConvo.content.length) {
+      instance.get(`/strapi-supergpt/convo/${selectedConvo.id}`)
+        .then(content => {
+          const updatedConvos = [...convos];
+          updatedConvos[index] = { ...selectedConvo, content: content.data };
+          setConvos(updatedConvos);
+        });
+    }
+    setHighlighted(index);
+  };
+
+  const handleCreateTab = async () => {
+    const defaultConvoName = formatMessage({id: "strapi-supergpt.homePage.convo.new.name"})
+    const { data: newConvo } = await instance.post(`/strapi-supergpt/convo`, {
+      name: `${defaultConvoName} ${convos.length + 1}`
+    });
+    setConvos(prevConvos => [...prevConvos, newConvo]);
+    setHighlighted(newConvo.id);
+  };
 
   const handleSaveTab = async (e) => {
+    const id = convos[highlightedId]
     await instance.put(`/strapi-supergpt/convo`, {
-      name: e,
+      name: id,
       content: convos[highlightedId],
     })
-    .then(convo => setConvos([...convos, convo.data]))
-  }
+    .then(convo => setConvos([...convos, convo.data]));
+  };
 
-  const handleDeleteTab = async (e) => {
+  const handleDeleteTab = async (id) => {
     if (convos.length > 1) {
-      await instance.delete(`/strapi-supergpt/convo/${highlightedId}`).then( convo => {
-        const filteredlist = convos.filter(convo => convo.id !== highlightedId)
-        setConvos(filteredlist)
-      })
+      await instance.delete(`/strapi-supergpt/convo/${id}`);
+      setConvos(prevConvos => {
+        const updatedConvos = prevConvos.filter(convo => convo.id !== id);
+        const newHighlightedId = updatedConvos.length > 0 ? updatedConvos[0].id : null;
+        setHighlighted(newHighlightedId);
+        return updatedConvos;
+      });
     } else {
-      instance.put(`/strapi-supergpt/convo/${highlightedId}`, {
-        name: "Default Convo",
-        content: []
-      }).then( convo => setConvos([convo]))
+      await instance.put(`/strapi-supergpt/convo/${id}`, {
+        name: formatMessage({ id: "strapi-supergpt.homePage.convo.default.name" }),
+        content: [],
+      });
+      setConvos([{
+        id,
+        name: formatMessage({ id: "strapi-supergpt.homePage.convo.default.name" }),
+        content: [],
+      }]);
+      setHighlighted(id);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     if (!prompt) {
-      setError("Prompt is required");
+      setError(formatMessage({id: "strapi-supergpt.homePage.error.promptRequired"}));
       return;
     }
 
@@ -133,7 +142,7 @@ const Home = () => {
 
     if (e.target.name === "picture") {
       if (format === imageFormats[0]) {
-        setError("Image size is required")
+        setError(formatMessage({id: "strapi-supergpt.homePage.error.imageSizeRequired"}));
         return;
       }
       setLoading(true);
@@ -144,10 +153,11 @@ const Home = () => {
       response = data;
     } else {
       setLoading(true);
+      const format = formatMessage({ id: "strapi-supergpt.homePage.prompt.format"})
       const { data } = await instance.post("/strapi-supergpt/prompt", {
-        prompt: `${prompt}\nCan format your response in html? Please encase the human responses in <p></p>`,
+        prompt: `${prompt} ${format}?`,
       });
-      response = data
+      response = data;
     }
 
     if (response.error || !response.response) {
@@ -156,7 +166,7 @@ const Home = () => {
       return;
     }
 
-    let highlightedConvo = convos[highlightedId]
+    let highlightedConvo = convos[highlightedId];
 
     highlightedConvo.content = [
       ...highlightedConvo.content,
@@ -168,36 +178,35 @@ const Home = () => {
         name: "chatgpt",
         message: response.response,
       }
-    ]
+    ];
 
-    instance.put(`/strapi-supergpt/convo/${highlightedConvo.id}`, {
+    await instance.put(`/strapi-supergpt/convo/${highlightedConvo.id}`, {
       name: highlightedConvo.name,
       content: highlightedConvo.content
-    })
+    });
 
     setLoading(false);
     setPrompt("");
   };
 
   useEffect(() => {
-    if(convos.length === 0) {
+    if (convos.length === 0) {
       instance.get('/strapi-supergpt/convos')
-          .then(conversations => {
-            if (conversations.data.length > 0) {
-              setConvos(conversations.data)
-            } else {
-              return handleCreateTab(null)
-            }
-          })
+        .then(conversations => {
+          if (conversations.data.length > 0) {
+            setConvos(conversations.data)
+          } else {
+            handleCreateTab();
+          }
+        });
     }
-  }, [convos, setConvos]);
+  }, [setConvos]);
 
   useEffect(() => {
-      // Scrolling logic that depends on messagesEndRef
-      if (!messagesEndRef.current) return;
+    if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  }, []); // This could potentially be adjusted based on when you need to scroll
-
+    }
+  }, []);
 
   return (
     <Layout>
@@ -205,24 +214,24 @@ const Home = () => {
       <Main aria-busy={false}>
         <HeaderLayout
           title={
-          <Box display="flex" alignItems="center">
-            <Typography variant="alpha" as="h1">
-              SuperGPT
-            </Typography>
-            <Box marginLeft={2}>
-              <GitHubButton
-                href="https://github.com/theCompanyDream/strapi-supergpt"
-                data-color-scheme="no-preference: light; light: light; dark: dark;"
-                data-icon="octicon-star"
-                data-size="small"
-                data-show-count="true"
-                aria-label="Star theCompanyDream/strapi-supergpt on GitHub"
-              >
-                Star
-              </GitHubButton>
+            <Box display="flex" alignItems="center">
+              <Typography variant="alpha" as="h1">
+                SuperGPT
+              </Typography>
+              <Box marginLeft={2}>
+                <GitHubButton
+                  href="https://github.com/theCompanyDream/strapi-supergpt"
+                  data-color-scheme="no-preference: light; light: light; dark: dark;"
+                  data-icon="octicon-star"
+                  data-size="small"
+                  data-show-count="true"
+                  aria-label="Star theCompanyDream/strapi-supergpt on GitHub"
+                >
+                  Star
+                </GitHubButton>
+              </Box>
             </Box>
-          </Box>
-        }
+          }
           subtitle={formatMessage({
             id: "strapi-supergpt.homePage.header",
           })}
@@ -237,7 +246,7 @@ const Home = () => {
                 </SingleSelectOption>
               ))}
             </SingleSelect>
-            }
+          }
           endActions={
             <Stack horizontal gap={2}>
               <Button
@@ -245,14 +254,14 @@ const Home = () => {
                 startIcon={<Cog />}
                 onClick={() => setIsApiIntegrationModalVisible(true)}
               >
-                {formatMessage({id: "strapi-supergpt.homePage.API_Integration.button"})}
+                {formatMessage({ id: "strapi-supergpt.homePage.API_Integration.button" })}
               </Button>
               <Button
                 variant="secondary"
                 startIcon={<Command />}
                 onClick={() => setIsModalVisible(true)}
               >
-                {formatMessage({id: "strapi-supergpt.homePage.help.button"})}
+                {formatMessage({ id: "strapi-supergpt.homePage.help.button" })}
               </Button>
             </Stack>
           }
@@ -266,48 +275,46 @@ const Home = () => {
                   key={convo.id}
                   value={convo.id}
                   onRename={handleSaveTab}
-                  onDelete={handleDeleteTab}
-                  >
+                  onDelete={() => handleDeleteTab(convo.id)}
+                >
                   {convo.name}
                 </CustomTab>
               ))}
               <Tab onClick={handleCreateTab}><PlusCircle /></Tab>
             </Tabs>
             <TabPanels>
-              {convos.length > 0 && convos.map(
-                convo => <TabPanel>
-                <Card style={{ position: "relative" }}>
-                  <CardBody
-                    style={{
-                      height: "64vh",
-                      overflowY: "scroll",
-                    }}
-                  >
-                <CardContent>
-                  <LoadingOverlay isLoading={loading} />
-                   <section>
-                    <div
+              {convos.length > 0 && convos.map((convo) => (
+                <TabPanel key={convo.id}>
+                  <Card style={{ position: "relative" }}>
+                    <CardBody
                       style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        height: "100%",
-                        overflow: "auto",
-                        justifyContent: "flex-end",
+                        height: "64vh",
+                        overflowY: "scroll",
                       }}
                     >
-                      {convo.content.map((response, index) => (
-                        <Response key={index + "123"}>
-                          {response}
-                        </Response>
-                      ))}
-                      <div ref={messagesEndRef} />
-                    </div>
-                  </section>
-                </CardContent>
-              </CardBody>
-              </Card>
-            </TabPanel>
-              )}
+                      <CardContent>
+                        <LoadingOverlay isLoading={loading} />
+                        <section
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            height: "100%",
+                            overflow: "auto",
+                            justifyContent: "flex-end",
+                          }}
+                        >
+                          {convo.content.map((response, index) => (
+                            <Response key={`${index}`}>
+                              {response}
+                            </Response>
+                          ))}
+                          <div ref={messagesEndRef} />
+                        </section>
+                      </CardContent>
+                    </CardBody>
+                  </Card>
+                </TabPanel>
+              ))}
             </TabPanels>
           </TabGroup>
           <Box>
@@ -338,7 +345,7 @@ const Home = () => {
                     loading={loading}
                     onClick={handleSubmit}
                   >
-                    {formatMessage({id: "strapi-supergpt.homePage.prompt.button"})}
+                    {formatMessage({ id: "strapi-supergpt.homePage.prompt.button" })}
                   </Button>
                   <Button
                     size="L"
@@ -347,7 +354,7 @@ const Home = () => {
                     onClick={handleSubmit}
                     startIcon={<Picture />}
                   >
-                    {formatMessage({id: "strapi-supergpt.homePage.image.button"})}
+                    {formatMessage({ id: "strapi-supergpt.homePage.image.button" })}
                   </Button>
                 </GridItem>
               </Grid>

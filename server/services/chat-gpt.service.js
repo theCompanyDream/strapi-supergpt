@@ -81,7 +81,7 @@ module.exports = ({ strapi }) => ({
 
       const savedFile = await utils.saveFile(data.data[0].url, strapi);
 
-      return { response: `<p>Sure,</p><a href="${savedFile}">Picture</a><a href="${data.data[0].url}">Original Location</a>` };
+      return { response: `<a href="${savedFile}">${savedFile}</a><a href="${data.data[0].url}">Original Location</a>` };
     } catch (error) {
       if (error.response) {
         strapi.log.error(error.response.data.error.message);
