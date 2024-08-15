@@ -63,10 +63,6 @@ export default {
 
     // Register custom fields with translations
     const customFields = [
-      { name: 'super-single-select', type: 'string', component: import('./components/SuperFields/SuperSingleSelect.jsx') },
-      { name: 'super-multi-select', type: 'string', component: import('./components/SuperFields/SuperMultiSelect.jsx') },
-      { name: 'super-textarea', type: 'text', component: import('./components/SuperFields/SuperTextArea.jsx') },
-      { name: 'super-image', type: 'string', component: import('./components/SuperFields/SuperImage.jsx') },
       { name: 'super-audio', type: 'string', component: import('./components/SuperFields/SuperAudio.jsx') },
     ];
 
