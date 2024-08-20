@@ -9,7 +9,7 @@
 	"homePage.prompt.placeholder": "अपना संकेत यहां दर्ज करें",
 	"homePage.prompt.button": "पाठ",
 	"homePage.image.button": "छवि",
-	"homePage.prompt.format": "क्या आप अपनी पूरी प्रतिक्रिया को आंशिक HTML में फ़ॉर्मेट कर सकते हैं? कृपया <code>, <p>, <h1>, <ul>, <li> आदि जैसी सामग्री टैग का उपयोग करें, लेकिन <html>, या <head> टैग को छोड़ दें। किसी भी <code> ब्लॉक के लिए, कृपया भाषा को एक class विशेषता के रूप में उपयोग करें, जैसे <code class='language-xxx'>.",
+	"homePage.prompt.format": "क्या आप अपने पूरे उत्तर को Markdown में स्वरूपित कर सकते हैं?",
 	"homePage.convo.default.name": "डिफ़ॉल्ट बातचीत",
 	"homePage.convo.new.name": "नई बातचीत",
 	"homePage.error.promptRequired": "प्रॉम्प्ट आवश्यक है",

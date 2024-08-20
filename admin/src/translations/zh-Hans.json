@@ -9,7 +9,7 @@
 	"homePage.prompt.placeholder": "在此输入您的提示",
 	"homePage.prompt.button": "文本",
 	"homePage.image.button": "图片",
-	"homePage.prompt.format": "您能否将整个回答格式化为部分HTML？ 请使用<code>、<p>、<h1>、<ul>、<li>等内容标签，但排除<html>或<head>标签。 对于任何<code>块，请使用语言作为类属性，例如<code class='language-xxx'>.",
+	"homePage.prompt.format": "您能将整个回复格式化为Markdown吗？",
 	"homePage.convo.default.name": "默认会话",
 	"homePage.convo.new.name": "新会话",
 	"homePage.error.promptRequired": "需要提示",

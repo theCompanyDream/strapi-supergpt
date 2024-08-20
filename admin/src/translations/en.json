@@ -9,7 +9,7 @@
 	"homePage.prompt.placeholder": "Enter your prompt here",
 	"homePage.prompt.button": "Text",
 	"homePage.image.button": "Image",
-	"homePage.prompt.format": "Can you format your entire response in partial HTML? Please use content tags such as <code>, <p>, <h1>, <ul>, <li>, etc., but exclude <html>, or <head> tags. For any <code> blocks, please use the language as a class attribute, like <code class='language-xxx'>.",
+	"homePage.prompt.format": "Can you format your entire response all markdown",
 	"homePage.convo.default.name": "Default Convo",
 	"homePage.convo.new.name": "New Convo",
 	"homePage.error.promptRequired": "Prompt is required",

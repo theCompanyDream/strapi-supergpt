@@ -1,13 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Box, Divider, Typography, Button } from '@strapi/design-system';
-import DOMPurify from 'dompurify';
 import styled from 'styled-components';
+import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const ChatContainer = styled(Box)`
-  padding: 2.5rem;
+  padding: 0;
   margin: 0;
   background-color: ${({ theme }) => theme.colors.neutral0};
   color: ${({ theme }) => theme.colors.neutral800};
@@ -52,30 +51,17 @@ const CodeBlock = ({ language, value }) => {
 };
 
 const Response = ({ children }) => {
-  const cleanHtml = DOMPurify.sanitize(children.message);
-
-  const htmlContent = cleanHtml.replace(
-    /<code class="language-([a-z]+)">([\s\S]*?)<\/code>/g,
-    (match, language, code) => {
-      return `<div class="code-block" data-language="${language}">${code}</div>`;
-    }
-  );
-
-  const renderHtmlContent = () => {
-    const div = document.createElement('div');
-    div.innerHTML = htmlContent;
-
-    const codeBlocks = div.querySelectorAll('.code-block');
-    codeBlocks.forEach((block) => {
-      const language = block.getAttribute('data-language');
-      const code = block.innerHTML;
-
-      const container = document.createElement('div');
-      block.replaceWith(container);
-      ReactDOM.render(<CodeBlock language={language} value={code} />, container);
-    });
-
-    return <span dangerouslySetInnerHTML={{ __html: div.innerHTML }} />;
+  const components = {
+    code({ node, inline, className, children, ...props }) {
+      const match = /language-(\w+)/.exec(className || '');
+      return !inline && match ? (
+        <CodeBlock language={match[1]} value={String(children).replace(/\n$/, '')} />
+      ) : (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      );
+    },
   };
 
   const messageClass = children.name === 'chatgpt' ? 'chatgpt-message' : 'user-message';
@@ -83,7 +69,8 @@ const Response = ({ children }) => {
   return (
     <ChatContainer>
       <Typography variant="omega" as="p" className={messageClass}>
-        {children.name}: <span dangerouslySetInnerHTML={{ __html:renderHtmlContent}} />
+        {children.name}:
+        <ReactMarkdown components={components}>{children.message}</ReactMarkdown>
       </Typography>
       {children.name === 'chatgpt' && (
         <Box paddingTop={2} paddingBottom={4}>

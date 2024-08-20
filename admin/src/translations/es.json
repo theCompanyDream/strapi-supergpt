@@ -9,7 +9,7 @@
 	"homePage.prompt.placeholder": "Introduce tu solicitud aquí",
 	"homePage.prompt.button": "Texto",
 	"homePage.image.button": "Imagen",
-	"homePage.prompt.format": "¿Puedes formatear toda tu respuesta en HTML parcial? Utiliza etiquetas de contenido como <code>, <p>, <h1>, <ul>, <li>, etc., pero excluye las etiquetas <html> o <head>. Para cualquier bloque <code>, utiliza el idioma como un atributo de clase, como <code class='language-xxx'>.",
+	"homePage.prompt.format": "¿Puedes formatear toda tu respuesta en Markdown?",
 	"homePage.convo.default.name": "Convo predeterminada",
 	"homePage.convo.new.name": "Nueva Convo",
 	"homePage.error.promptRequired": "Se requiere prompt",

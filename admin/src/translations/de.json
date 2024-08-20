@@ -9,7 +9,7 @@
 	"homePage.prompt.placeholder": "Geben Sie hier Ihre Aufforderung ein",
 	"homePage.prompt.button": "Text",
 	"homePage.image.button": "Bild",
-	"homePage.prompt.format": "Können Sie Ihre gesamte Antwort in teilweisem HTML formatieren? Bitte verwenden Sie Inhalts-Tags wie <code>, <p>, <h1>, <ul>, <li> usw., aber schließen Sie <html> oder <head> Tags aus. Für alle <code> Blöcke verwenden Sie bitte die Sprache als class-Attribut, wie <code class='language-xxx'>.",
+	"homePage.prompt.format": "Können Sie Ihre gesamte Antwort in Markdown formatieren?",
 	"homePage.convo.default.name": "Standardgespräch",
 	"homePage.convo.new.name": "Neues Gespräch",
 	"homePage.error.promptRequired": "Eingabeaufforderung ist erforderlich",

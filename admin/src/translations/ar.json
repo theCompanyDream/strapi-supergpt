@@ -9,7 +9,7 @@
 	"homePage.prompt.placeholder": "أدخل المطالبة هنا",
 	"homePage.prompt.button": "نص",
 	"homePage.image.button": "صورة",
-	"homePage.prompt.format": "هل يمكنك تنسيق إجابتك بالكامل بـ HTML جزئي؟ يرجى استخدام علامات المحتوى مثل <code>، <p>، <h1>، <ul>، <li>، إلخ، ولكن استبعد <html>، أو <head> العلامات. بالنسبة لأي كتل <code>، يرجى استخدام اللغة كخاصية class، مثل <code class='language-xxx'>.",
+    "homePage.prompt.format": "هل يمكنك تنسيق استجابتك بالكامل في Markdown"
 	"homePage.convo.default.name": "المحادثة الافتراضية",
 	"homePage.convo.new.name": "محادثة جديدة",
 	"homePage.error.promptRequired": "المطالبة مطلوبة",

@@ -9,7 +9,7 @@
 	"homePage.prompt.placeholder": "Wpisz tutaj swoje zapytanie",
 	"homePage.prompt.button": "Tekst",
 	"homePage.image.button": "Obraz",
-	"homePage.prompt.format": "Czy możesz sformatować całą swoją odpowiedź w częściowym HTML? Proszę użyć tagów treści takich jak <code>, <p>, <h1>, <ul>, <li> itp., ale wykluczyć tagi <html> lub <head>. Dla bloków <code> proszę użyć języka jako atrybutu klasy, jak <code class='language-xxx'>.",
+	"homePage.prompt.format": "Czy możesz sformatować całą swoją odpowiedź w Markdown?",
 	"homePage.convo.default.name": "Domyślna rozmowa",
 	"homePage.convo.new.name": "Nowa rozmowa",
 	"homePage.error.promptRequired": "Wymagany prompt",

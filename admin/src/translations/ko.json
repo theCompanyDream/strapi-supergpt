@@ -9,7 +9,7 @@
 	"homePage.prompt.placeholder": "여기에 프롬프트 입력",
 	"homePage.prompt.button": "텍스트",
 	"homePage.image.button": "이미지",
-	"homePage.prompt.format": "전체 응답을 부분 HTML로 포맷할 수 있나요? <code>, <p>, <h1>, <ul>, <li> 등과 같은 콘텐츠 태그를 사용하지만 <html> 또는 <head> 태그는 제외하세요. <code> 블록의 경우 언어를 클래스 속성으로 사용하세요, 예: <code class='language-xxx'>.",
+	"homePage.prompt.format": "전체 응답을 Markdown으로 포맷할 수 있습니까?",
 	"homePage.convo.default.name": "기본 대화",
 	"homePage.convo.new.name": "새로운 대화",
 	"homePage.error.promptRequired": "프롬프트가 필요합니다",
