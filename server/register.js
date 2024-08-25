@@ -6,6 +6,6 @@ module.exports = ({ strapi }) => {
   strapi.customFields.register({
     name: 'super-audio',
     plugin: 'strapi-supergpt',
-    type: 'string',
+    type: 'json',
   });
 };

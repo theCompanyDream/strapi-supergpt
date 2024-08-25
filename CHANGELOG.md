@@ -7,3 +7,5 @@
 - improved chatgpt window especially getting code from it
 - added gpt-4o-mini
 - added new field called Super Audio
+- updated styling for tabs
+- added github star

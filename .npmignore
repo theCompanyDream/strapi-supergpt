@@ -22,7 +22,6 @@ logs
 Dockerfile
 jest.setup.js
 docs
-
 # Miscellaneous
 npm-debug.log
 yarn-error.log

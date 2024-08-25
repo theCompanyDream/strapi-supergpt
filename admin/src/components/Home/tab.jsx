@@ -49,7 +49,6 @@ const CustomTab = ({ children, onRename, onSave, onDelete, ...props }) => {
         <Box alignItems="left">
           <SimpleMenu label={<More />} onClick={handleClick} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
             <MenuItem onClick={handleRename}>Rename</MenuItem>
-            <MenuItem onClick={handleSave}>Save</MenuItem>
             <MenuItem onClick={handleDelete}>Delete</MenuItem>
           </SimpleMenu>
         </Box>

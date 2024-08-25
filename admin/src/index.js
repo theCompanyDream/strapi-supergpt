@@ -63,7 +63,7 @@ export default {
 
     // Register custom fields with translations
     const customFields = [
-      { name: 'super-audio', type: 'string', component: import('./components/SuperFields/SuperAudio.jsx') },
+      { name: 'super-audio', type: 'json', component: import('./components/SuperFields/SuperAudio.jsx') },
     ];
 
     customFields.forEach(field => {

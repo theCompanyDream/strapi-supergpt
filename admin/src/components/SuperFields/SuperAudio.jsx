@@ -27,7 +27,6 @@ export default function SuperAudio({
   const [selectedField, setSelectedField] = useState('');
   const [voice, setVoice] = useState(voices[0])
   const [err, setErr] = useState('');
-  const [prompt, setPrompt] = useState('');
 
   const generateAudio = async (event) => {
     event.preventDefault(); // Prevent the default form submission
@@ -53,9 +52,12 @@ export default function SuperAudio({
       }
 
       const result = await response.json();
-      const parsedResult = result.choices[0].text.replace(/(?:\r\n|\r|\n)/g, '');
 
-      onChange({ target: { name, value: parsedResult, type: attribute.type } });
+      // Assuming the response contains the generated audio data you want to save
+      const audioData = result.audioData; // or wherever the audio data is returned in the response
+
+      // Update the field value
+      onChange({ target: { name, value: audioData, type: attribute.type } });
     } catch (err) {
       setErr(err.message);
     }
@@ -99,7 +101,7 @@ export default function SuperAudio({
         </Typography>
       )}
       <Box paddingTop={4}>
-        <Box display="flex" justifyContent="space-between" paddingTop={4}>
+        <Box display="flex" justifyContent="space-between" paddingTop={4} spacing={1} gap={2} >
           <Button onClick={(e) => generateAudio(e)}>Generate</Button>
           <Button onClick={(e) => clearGeneratedText(e)}>Clear</Button>
         </Box>
