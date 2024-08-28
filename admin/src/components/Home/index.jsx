@@ -285,31 +285,22 @@ const Home = () => {
             <TabPanels>
               {convos.length > 0 && convos.map((convo) => (
                 <TabPanel key={convo.id}>
-                  <Card style={{ position: "relative" }}>
+                  <Card>
                     <CardBody
                       style={{
                         height: "64vh",
                         overflowY: "scroll",
+                        width: "100%"
                       }}
                     >
                       <CardContent>
                         <LoadingOverlay isLoading={loading} />
-                        <section
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            height: "100%",
-                            overflow: "auto",
-                            justifyContent: "flex-end",
-                          }}
-                        >
                           {convo.content.map((response, index) => (
                             <Response key={`${index}`}>
                               {response}
                             </Response>
                           ))}
                           <div ref={messagesEndRef} />
-                        </section>
                       </CardContent>
                     </CardBody>
                   </Card>
