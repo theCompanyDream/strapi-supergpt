@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "ES6",
+    "checkJs": true,
+    "allowJs": true
+  },
+  "typeAcquisition": {
+    "include": [
+        "jest"
+    ]
+  }
+}

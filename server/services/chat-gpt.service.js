@@ -3,7 +3,6 @@ const { OpenAI } = require("openai");
 const utils = require("../utils");
 
 module.exports = ({ strapi }) => ({
-
   async getResponsefromChatGpt(ctx) {
     const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
     const openai = new OpenAI({
@@ -55,7 +54,6 @@ module.exports = ({ strapi }) => ({
       };
     }
   },
-
   async getImageResponsefromChatGpt(ctx) {
     const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
 
@@ -83,7 +81,7 @@ module.exports = ({ strapi }) => ({
 
       const savedFile = await utils.saveFile(data.data[0].url, strapi);
 
-      return { response: `<p>Sure,</p><a href="${savedFile}">Picture</a><a href="${data.data[0].url}">Original Location</a>` };
+      return { response: `<a href="${savedFile}">${savedFile}</a><a href="${data.data[0].url}">Original Location</a>` };
     } catch (error) {
       if (error.response) {
         strapi.log.error(error.response.data.error.message);
@@ -96,4 +94,48 @@ module.exports = ({ strapi }) => ({
       };
     }
   },
+  async getAudioFromText(ctx) {
+    const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
+    const openai = new OpenAI({
+      apiKey: config.apiKey,
+    });
+    const {
+      prompt,
+      title,
+      voice,
+    } = ctx.request.body;
+
+    // 4096 is the character limit allowed to be processed
+    const textChunks = utils.splitTextIntoChunks(prompt.trim(), 4096);
+    let combinedAudioBuffer = Buffer.alloc(0);
+
+    try {
+      for (const chunk of textChunks) {
+        const mp3 = await openai.audio.speech.create({
+          model: config.ttsModelName,
+          voice: voice,
+          input: chunk,
+        });
+
+        const buffer = Buffer.from(await mp3.arrayBuffer());
+        combinedAudioBuffer = Buffer.concat([combinedAudioBuffer, buffer]);
+      }
+
+      const savedFile = await utils.saveMp3FileFromBuffer(combinedAudioBuffer, strapi);
+      return { response: `<p>Sure,</p><a href="${savedFile}">Download Audio</a>`, file: savedFile };
+    } catch (error) {
+      console.error('Error generating audio:', error);
+      ctx.throw(500, 'Internal Server Error');
+    }
+  },
+  async saveFiles(ctx) {
+    const config = await strapi.plugin("strapi-supergpt").service("cacheService").getConfig()
+    const openai = new OpenAI({
+      apiKey: config.apiKey,
+    });
+    openai.beta.assistants.
+    openai.files.create({
+
+    })
+  }
 });

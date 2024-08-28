@@ -18,5 +18,13 @@ module.exports = {
         policies: [],
       },
     },
+    // {
+    //   method: "POST",
+    //   path: "/generateAudio",
+    //   handler: "chatGptController.createAudio",
+    //   config: {
+    //     policies: [],
+    //   },
+    // },
   ],
 };

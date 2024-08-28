@@ -1,32 +1,54 @@
-name: Publish Package to npmjs
+name: Publish Package and Create Release
+
 on:
+  workflow_run:
+    workflows: ["Tests"]
+    types:
+      - completed
   push:
     branches:
       - main
-    tags:
-      - "v*"
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Setup .npmrc file to publish to npm
+
+      # Setup Node.js and npm
       - uses: actions/setup-node@v3
         with:
           node-version: "20.12.x"
           registry-url: "https://registry.npmjs.org"
-          # Defaults to the user or organization that owns the workflow file
-          scope: "@octocat"
+
+      # Install dependencies
       - run: yarn
-      # - name: Run lint
-      #   run: yarn lint
-      - name: Run Test
-        run: yarn test
-      - run: yarn publish
+
+      # Publish the package to npm
+      - name: Publish Package
+        run: yarn publish --non-interactive --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      # - name: Publish to GitHub Packages
-      #   run: yarn publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     NPM_CONFIG_REGISTRY: "https://npm.pkg.github.com"
+
+      # Create and push a tag based on the version in package.json
+      - name: Create and Push Tag
+        id: tag_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          git tag "v$VERSION"
+          git push origin "v$VERSION"
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+
+      # Create GitHub Release
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+        with:
+          tag_name: "v${{ steps.tag_version.outputs.VERSION }}"
+          release_name: "Release v${{ steps.tag_version.outputs.VERSION }}"
+          body: "Release of version v${{ steps.tag_version.outputs.VERSION }}."
+          draft: false
+          prerelease: false

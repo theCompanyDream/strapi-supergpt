@@ -1,19 +1,22 @@
 "use strict";
 const https = require("https");
 const fs = require("fs");
+const path = require("path")
 const crypto = require("crypto");
 const mime = require("mime-types"); //used to detect file's mime type
 
 function conversationToArray(conversation) {
-  if (conversation === "" ){
-    return []
+  if (conversation === "") {
+    return [];
   }
   const lines = conversation.split("\n");
   let dialogues = [];
   let currentSpeaker = null;
   let currentText = [];
+  let originalText = "";
 
   lines.forEach((line) => {
+    originalText += line + "\n";
     // Check if the line starts with 'user:' or 'chatgpt:'
     const match = line.match(/(you|chatgpt):\s*(.*)$/i);
     if (match) {
@@ -22,16 +25,16 @@ function conversationToArray(conversation) {
       if (currentSpeaker) {
         dialogues.push({
           name: currentSpeaker,
-          message: currentText.join(" ").trim(),
+          message: currentText.join("\n"), // Preserve new lines
         });
         currentText = [];
       }
       currentSpeaker = match[1].toLowerCase();
-      currentText.push(match[2].trim());
+      currentText.push(match[2]);
     } else {
       // If the same speaker continues or line does not start with a known speaker,
       // append the line to the current text.
-      currentText.push(line.trim());
+      currentText.push(line);
     }
   });
 
@@ -39,7 +42,7 @@ function conversationToArray(conversation) {
   if (currentSpeaker && currentText.length) {
     dialogues.push({
       name: currentSpeaker,
-      message: currentText.join(" ").trim(),
+      message: currentText.join("\n"), // Preserve new lines
     });
   }
 
@@ -47,12 +50,22 @@ function conversationToArray(conversation) {
 }
 
 function condenseArray(conversation) {
-  let test = "";
+  let result = "";
   for (const { name, message } of conversation) {
-    test += `${name}: ${message}\n`;
+    result += `${name}: ${message}\n`;
   }
-  return test;
+  return result;
 }
+
+function splitTextIntoChunks(text, chunkSize) {
+  const chunks = [];
+  let start = 0;
+  while (start < text.length) {
+    chunks.push(text.slice(start, start + chunkSize));
+    start += chunkSize;
+  }
+  return chunks;
+};
 
 async function saveFile(url, strapi) {
   return new Promise((resolve, reject) => {
@@ -97,8 +110,18 @@ async function saveFile(url, strapi) {
   });
 }
 
+async function saveMp3FileFromBuffer(buffer, strapi) {
+  const rootDir = process.cwd();
+  const fileName = crypto.randomUUID();
+  const speechFile = path.resolve(`${rootDir}/public/uploads/${fileName}.mp3`);
+
+  return fs.promises.writeFile(speechFile, buffer)
+}
+
 module.exports = {
   conversationToArray,
   condenseArray,
   saveFile,
+  saveMp3FileFromBuffer,
+  splitTextIntoChunks
 };

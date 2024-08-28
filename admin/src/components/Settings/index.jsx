@@ -1,303 +1,146 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useIntl } from "react-intl";
-import { Helmet } from "react-helmet";
-import axios from "axios";
-import { auth, useNotification } from "@strapi/helper-plugin";
-import {
-  Layout,
-  Button,
-  HeaderLayout,
-  ContentLayout,
-  Grid,
-  GridItem,
-  Box,
-  TextInput,
-  Main,
-  SingleSelect,
-  Typography,
-  SingleSelectOption,
-  Link,
-} from "@strapi/design-system";
-
-import { Check } from "@strapi/icons";
-
-const AiModels = [
-  {
-    value: "gpt-4o",
-    label: "Our most advanced, multimodal flagship model that’s cheaper and faster than GPT-4 Turbo. Currently points to gpt-4o-2024-05-13."
-  },
-  {
-    value: "gpt-4-turbo",
-    label: "The latest GPT-4 Turbo model with vision capabilities. Vision requests can now use JSON mode and function calling."
-  },
-  {
-    value: "gpt-4",
-    label: "A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code"
-  },
-  {
-    value: "gpt-3.5-turbo",
-    label: "A set of models that improve on GPT-3.5 and can understand as well as generate natural language or code"
-  },
-];
-
-const ImageAiModels = [
-  {
-    value: "dall-e-3",
-    label: "The latest DALL·E model released in Nov 2023."
-  },
-  {
-    value: "dall-e-2",
-    label: "The latest DALL·E model released in Nov 2023."
-  }
-]
+import React, { useState, useEffect } from 'react';
+import { useIntl } from 'react-intl';
+import { HeaderLayout, Button, TextInput, Box, Grid, GridItem, SingleSelect, SingleSelectOption } from '@strapi/design-system';
+import { Check } from '@strapi/icons';
+import axios from 'axios';
+import { auth, useNotification } from '@strapi/helper-plugin';
 
 const Settings = () => {
   const { formatMessage } = useIntl();
   const toggleNotification = useNotification();
   const [loading, setLoading] = useState(false);
-  const apiKeyRef = useRef("");
-  const modelNameRef = useRef("gpt-4");
-  const imageModelNameRef = useRef("dalle-3")
-  const maxTokensRef = useRef(2048);
-
-  const instance = axios.create({
-    baseURL: process.env.STRAPI_ADMIN_BACKEND_URL,
-    headers: {
-      Authorization: `Bearer ${auth.get("jwtToken")}`,
-      "Content-Type": "application/json",
-    },
-  });
-
   const [chatGPTConfig, setChatGPTConfig] = useState({
-    apiKey: "",
-    modelName: "gpt-3.5-turbo",
+    apiKey: '',
+    modelName: 'gpt-4o',
     maxTokens: 2048,
-    aiImageModelName: "dalle-3"
+    aiImageModelName: 'dall-e-3',
+    ttsModelName: 'tts-1-hd',
   });
-
-  const setData = (data) => {
-    setChatGPTConfig(data);
-    // update the refs
-    apiKeyRef.current = data.apiKey;
-    modelNameRef.current = data.modelName;
-    maxTokensRef.current = data.maxTokens;
-    imageModelNameRef.current = data.aiImageModelName;
-  };
-
-  const handleChatGPTConfigChange = (key) => (e) => {
-    // update the refs
-    if (key === "modelName" || key === "aiImageModelName") {
-      setChatGPTConfig({
-        ...chatGPTConfig,
-        [key]: e,
-      });
-    } else {
-      setChatGPTConfig({
-        ...chatGPTConfig,
-        [key]: e.target.value,
-      });
-    }
-
-    switch (key) {
-      case "apiKey":
-        apiKeyRef.current = e.target.value;
-        break;
-      case "modelName":
-        modelNameRef.current = e;
-        break;
-      case "maxTokens":
-        maxTokensRef.current = e.target.value;
-        break;
-      case 'aiImageModelName':
-        imageModelNameRef.current = e;
-        break;
-      default:
-        break;
-    }
-  };
 
   useEffect(() => {
-    setLoading(true);
     const fetchChatGPTConfig = async () => {
+      setLoading(true);
       try {
-        const { data } = await instance.get("/strapi-supergpt/cache");
-        setData(data);
-      } catch (error) {
-        console.log(error);
-        toggleNotification({
-          type: "warning",
-          message: {
-            id: "chatgpt-config-fetch-error",
-            defaultMessage: "Error while fetching the chatGPT configurations",
+        const { data } = await axios.get('/strapi-supergpt/cache', {
+          headers: {
+            Authorization: `Bearer ${auth.get('jwtToken')}`,
           },
         });
+        setChatGPTConfig(data);
+      } catch (error) {
+        toggleNotification({
+          type: 'warning',
+          message: formatMessage({ id: 'strapi-supergpt.settingsPage.notifications.fetch-error' }),
+        });
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchChatGPTConfig();
-    setLoading(false);
-  }, []);
+  }, [formatMessage, toggleNotification]);
 
   const handleSave = async () => {
-    const config = {
-      apiKey: apiKeyRef.current,
-      modelName: modelNameRef.current,
-      maxTokens: maxTokensRef.current,
-    };
-
-    // check if the api key  entered
-    if (!config.apiKey) {
+    if (!chatGPTConfig.apiKey) {
       toggleNotification({
-        type: "warning",
-        message: {
-          id: "chatgpt-config-api-key-required",
-          defaultMessage: "Please enter the api key",
-        },
+        type: 'warning',
+        message: formatMessage({ id: 'strapi-supergpt.settingsPage.notifications.api-key-required' }),
       });
       return;
     }
-    setLoading(true);
 
+    setLoading(true);
     try {
-      const { data } = await instance.post("/strapi-supergpt/cache/update", {
-        ...chatGPTConfig,
-      });
-      if (data && data.value) {
-        setData(JSON.parse(data.value));
-      }
-      setLoading(false);
-      toggleNotification({
-        type: "success",
-        message: {
-          id: "chatgpt-config-save-success",
-          defaultMessage: "ChatGPT configurations saved successfully",
+      await axios.post('/strapi-supergpt/cache/update', chatGPTConfig, {
+        headers: {
+          Authorization: `Bearer ${auth.get('jwtToken')}`,
         },
+      });
+      toggleNotification({
+        type: 'success',
+        message: formatMessage({ id: 'strapi-supergpt.settingsPage.notifications.success' }),
       });
     } catch (error) {
-      setLoading(false);
-      console.log(error);
       toggleNotification({
-        type: "warning",
-        message: {
-          id: "chatgpt-config-save-error",
-          defaultMessage: "Error while saving the chatGPT configurations",
-        },
+        type: 'warning',
+        message: formatMessage({ id: 'strapi-supergpt.settingsPage.notifications.saving-error' }),
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <Layout>
-      <Helmet title={"SuperGPT Configuration"} />
-      <Main aria-busy={false}>
-        <HeaderLayout
-          title={"SuperGPT Configurations"}
-          subtitle={formatMessage({
-            id: "chatgpt-config-headder",
-            defaultMessage:
-              "Configure the api key, model name and other parameters",
-          })}
-          primaryAction={
-            <Button
-              startIcon={<Check />}
-              onClick={handleSave}
-              loading={loading}
-            >
-              Save
-            </Button>
-          }
-        />
-
-        <ContentLayout>
-          <Box
-            shadow="tableShadow"
-            background="neutral0"
-            paddingTop={6}
-            paddingLeft={7}
-            paddingRight={7}
-            paddingBottom={6}
-            hasRadius
+    <Box padding={4}>
+      <HeaderLayout
+        title={formatMessage({ id: 'strapi-supergpt.settingsPage.title' })}
+        subtitle={formatMessage({ id: 'strapi-supergpt.settingsPage.description' })}
+        primaryAction={
+          <Button startIcon={<Check />} onClick={handleSave} loading={loading}>
+            {formatMessage({ id: 'strapi-supergpt.settingsPage.saveButton' })}
+          </Button>
+        }
+      />
+      <Grid gap={4}>
+        <GridItem col={12}>
+          <TextInput
+            type="text"
+            label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.api-key' })}
+            name="apiKey"
+            value={chatGPTConfig.apiKey}
+            onChange={(e) => setChatGPTConfig({ ...chatGPTConfig, apiKey: e.target.value })}
+          />
+        </GridItem>
+        <GridItem col={6}>
+          <TextInput
+            type="number"
+            label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.max-tokens' })}
+            name="maxTokens"
+            value={chatGPTConfig.maxTokens}
+            onChange={(e) => setChatGPTConfig({ ...chatGPTConfig, maxTokens: parseInt(e.target.value, 10) })}
+          />
+        </GridItem>
+        <GridItem col={6}>
+          <SingleSelect
+            label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.text-model' })}
+            placeholder={formatMessage({ id: 'strapi-supergpt.settingsPage.placeholder.text-model' })}
+            value={chatGPTConfig.modelName}
+            onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, modelName: value })}
           >
-            <Grid gap={6}>
-              <GridItem col={12}>
-                <TextInput
-                  type="text"
-                  id="apiKey"
-                  name="apiKey"
-                  placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                  label="API Key"
-                  refs={apiKeyRef}
-                  value={chatGPTConfig.apiKey}
-                  onChange={handleChatGPTConfigChange("apiKey")}
-                />
-              </GridItem>
-
-              <GridItem col={6}>
-                <TextInput
-                  type="text"
-                  id="maxTokens"
-                  name="maxTokens"
-                  label="Max Tokens"
-                  placeholder="2048"
-                  refs={maxTokensRef}
-                  value={chatGPTConfig.maxTokens}
-                  onChange={handleChatGPTConfigChange("maxTokens")}
-                />
-              </GridItem>
-              <GridItem col={6}>
-                <SingleSelect
-                  name="modelName"
-                  id="modelName"
-                  label="Model Name"
-                  placeholder="Select a model"
-                  refs={modelNameRef}
-                  value={chatGPTConfig.modelName}
-                  onChange={handleChatGPTConfigChange("modelName")}
-                >
-                  {AiModels.map((model) => (
-                    <SingleSelectOption key={model.value} value={model.value}>
-                      {model.value} - {model.label}
-                    </SingleSelectOption>
-                  ))}
-                </SingleSelect>
-              </GridItem>
-              <GridItem col={6}>
-                  <SingleSelect
-                    name="aiImageModelName"
-                    id="aiImageModelName"
-                    label="Image Model Name"
-                    placeholder="Select an image model"
-                    refs={imageModelNameRef}
-                    value={chatGPTConfig.aiImageModelName}
-                    onChange={handleChatGPTConfigChange("aiImageModelName")}
-                  >
-                    {ImageAiModels.map((model) => (
-                      <SingleSelectOption key={model.value} value={model.value}>
-                        {model.value} - {model.label}
-                      </SingleSelectOption>
-                    ))}
-                  </SingleSelect>
-              </GridItem>
-            </Grid>
-            <Box paddingTop={3}>
-              <Typography>
-                You can set additional parameters{" ("}
-                <span>
-                  <Link
-                    href="https://platform.openai.com/docs/api-reference/completions"
-                    target="_blank"
-                  >
-                    ChatGPT doc
-                  </Link>
-                </span>
-                {") "}
-                with the API Integration, available from Plugin &gt; ChatGPT
-                menu.
-              </Typography>
-            </Box>
-          </Box>
-        </ContentLayout>
-      </Main>
-    </Layout>
+            {/* Replace with your actual options */}
+            <SingleSelectOption value="gpt-4o-mini">GPT-4o-mini</SingleSelectOption>
+            <SingleSelectOption value="gpt-4o">GPT-4o</SingleSelectOption>
+            <SingleSelectOption value="gpt-4-turbo">GPT-4 Turbo</SingleSelectOption>
+            <SingleSelectOption value="gpt-4">GPT-4</SingleSelectOption>
+            <SingleSelectOption value="gpt-3.5-turbo">GPT-3.5 Turbo</SingleSelectOption>
+          </SingleSelect>
+        </GridItem>
+        <GridItem col={6}>
+          <SingleSelect
+            label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.image-model' })}
+            placeholder={formatMessage({ id: 'strapi-supergpt.settingsPage.placeholder.image-model' })}
+            value={chatGPTConfig.aiImageModelName}
+            onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, aiImageModelName: value })}
+          >
+            {/* Replace with your actual options */}
+            <SingleSelectOption value="dall-e-3">DALL-E 3</SingleSelectOption>
+            <SingleSelectOption value="dall-e-2">DALL-E 2</SingleSelectOption>
+          </SingleSelect>
+        </GridItem>
+        <GridItem col={6}>
+          <SingleSelect
+            label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.tts-model' })}
+            placeholder={formatMessage({ id: 'strapi-supergpt.settingsPage.placeholder.tts-model' })}
+            value={chatGPTConfig.ttsModelName}
+            onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, ttsModelName: value })}
+          >
+            {/* Replace with your actual options */}
+            <SingleSelectOption value="tts-1">TTS-1</SingleSelectOption>
+            <SingleSelectOption value="tts-1-hd">TTS-1 HD</SingleSelectOption>
+          </SingleSelect>
+        </GridItem>
+      </Grid>
+    </Box>
   );
 };
 

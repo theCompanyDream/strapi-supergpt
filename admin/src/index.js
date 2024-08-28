@@ -12,7 +12,7 @@ export default {
       to: `/plugins/${pluginId}`,
       icon: PluginIcon,
       intlLabel: {
-        id: `${pluginId}.plugin.name`,
+        id: `strapi-supergpt.name`,
         defaultMessage: pluginPkg.strapi.displayName,
       },
       Component: async () => {
@@ -23,31 +23,25 @@ export default {
 
         return component;
       },
-      permissions: [
-        // Uncomment to set the permissions of the plugin here
-        // {
-        //   action: '', // the action name should be plugin::plugin-name.actionType
-        //   subject: null,
-        // },
-      ],
+      permissions: [],
     });
+
     app.createSettingSection(
       {
         id: pluginId,
         intlLabel: {
-          id: `${pluginId}.plugin.name`,
+          id: `${pluginId}.name`,
           defaultMessage: `${pluginPkg.strapi.displayName} ${pluginPkg.strapi.kind}`,
         },
       },
       [
         {
           intlLabel: {
-            id: `${pluginId}.plugin.name`,
+            id: `${pluginId}.configuration`,
             defaultMessage: "Configuration",
           },
-          id: "strapi-supergpt",
+          id: "strapi-supergpt.name",
           to: `/settings/${pluginId}`,
-          // permissions: pluginPermissions.settingsRoles,
           Component: async () => {
             const component = await import(
               /* webpackChunkName: "stripe-page" */
@@ -59,16 +53,43 @@ export default {
         },
       ],
     );
+
     app.registerPlugin({
       id: pluginId,
       initializer: Initializer,
       isReady: false,
       name,
     });
+
+    // Register custom fields with translations
+    // const customFields = [
+    //   { name: 'super-audio', type: 'json', component: import('./components/SuperFields/SuperAudio.jsx') },
+    // ];
+
+    // customFields.forEach(field => {
+    //   app.customFields.register({
+    //     name: field.name,
+    //     pluginId: pluginId,
+    //     type: field.type,
+    //     intlLabel: {
+    //       id: `${pluginId}.customFields.${field.name}.label`,
+    //       defaultMessage: field.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
+    //     },
+    //     intlDescription: {
+    //       id: `${pluginId}.customFields.${field.name}.description`,
+    //       defaultMessage: `A ${field.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} field powered by chatgpt`,
+    //     },
+    //     icon: PluginIcon,
+    //     components: {
+    //       Input: async () => await field.component,
+    //     },
+    //   });
+    // });
+
   },
 
-  // eslint-disable-next-line no-unused-vars
   bootstrap(app) {},
+
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
       locales.map((locale) => {

@@ -8,7 +8,7 @@ import {
 } from '@strapi/design-system';
 import { More } from '@strapi/icons';
 
-const CustomTab = ({ children, onRename, onDelete, ...props }) => {
+const CustomTab = ({ children, onRename, onSave, onDelete, ...props }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState(children);
 
@@ -29,6 +29,13 @@ const CustomTab = ({ children, onRename, onDelete, ...props }) => {
     handleClose();
   };
 
+  const handleSave = () => {
+    if (window.confirm('Are you sure you want to save this conversation?')) {
+      onSave();
+    }
+    handleClose();
+  };
+
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this tab?')) {
       onDelete();
@@ -39,13 +46,13 @@ const CustomTab = ({ children, onRename, onDelete, ...props }) => {
   return (
     <Tab {...props}>
       <Box display="flex" justifyContent="space-between" width="100%">
-        <Typography variant="omega">{name}</Typography>
-        <Box alignItems="right">
+        <Box alignItems="left">
           <SimpleMenu label={<More />} onClick={handleClick} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
             <MenuItem onClick={handleRename}>Rename</MenuItem>
             <MenuItem onClick={handleDelete}>Delete</MenuItem>
           </SimpleMenu>
         </Box>
+        <Typography variant="omega">{name}</Typography>
       </Box>
     </Tab>
   );

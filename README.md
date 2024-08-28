@@ -30,7 +30,8 @@ Thats it! You can now use ChatGPT in your Strapi application.
 1. **Easy to use**: The plugin is easy to use and can be set up within 10 minutes.
 1. **Customizable**: You can customize the model's parameters to suit your needs.
 1. **Generate Pictures** Can generate pictures based on the prompt given.
-1. **Use GPT-4-Turbo** you can ulitize GPT-4-Turbo which is only avaible from Api.
+1. **Use GPT-4o** you can ulitize GPT-4-Turbo and can use older models like GPT-3.5 Turbo.
+1. **Auto Generate Content** you can generate content based on prompts from other content
 
 ## 🖐 Requirements
 
@@ -101,19 +102,27 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 - On the configiration page, Enter All the fields.
 - Click on Save to save the configuration.
 
-## RoadMap
-
-- Custom [Field](https://docs.strapi.io/dev-docs/custom-fields#:~:text=☑%EF%B8%8F%20Prerequisites-,Registering%20a%20custom%20field%20through%20a%20plugin%20requires%20creating%20and,method%20on%20the%20StrapiApp%20instance.) that generates content.
-- Click ChatGPT plugin in plugin section of the sidebar.
-- Click on Integration to get sample code integration code.
-- Save chat's that it has with client
-- Add voice to models
-
 ## 📖 Testing the plugin
 
 - Click ChatGPT plugin in plugin section of the sidebar.
 - Click on Integration to get sample code integration code.
 - Copy the code and paste it in your terminal.
+
+## 🌐 Supported Languages
+
+- Arabic (العربية)
+- German (Deutsch)
+- Spanish (Español)
+- French (Français)
+- Hindi (हिन्दी)
+- Italian (Italiano)
+- Japanese (日本語)
+- Korean (한국어)
+- Polish (Polski)
+- Portuguese (Português)
+- Simplified Chinese (简体中文)
+
+Please note that the translations may vary and are provided by contributors. If you notice any inaccuracies or have suggestions for improvement, feel free to contribute!
 
 ## 📝 License
 
