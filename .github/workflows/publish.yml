@@ -46,8 +46,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         with:
-          tag_name: "v${{ steps.tag_version.outputs.VERSION }}"
-          release_name: "Release v${{ steps.tag_version.outputs.VERSION }}"
-          body: "Release of version v${{ steps.tag_version.outputs.VERSION }}."
+          tag_name: "v${{ git describe --tags }}"
+          release_name: "Release v${{ git describe --tags }}"
+          body: "Release of version v${{ git describe --tags }}."
           draft: false
           prerelease: false
