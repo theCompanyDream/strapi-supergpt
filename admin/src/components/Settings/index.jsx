@@ -108,6 +108,7 @@ const Settings = () => {
             onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, modelName: value })}
           >
             {/* Replace with your actual options */}
+            <SingleSelectOption value="o1-mini">GPT-4o-mini</SingleSelectOption>
             <SingleSelectOption value="gpt-4o-mini">GPT-4o-mini</SingleSelectOption>
             <SingleSelectOption value="gpt-4o">GPT-4o</SingleSelectOption>
             <SingleSelectOption value="gpt-4-turbo">GPT-4 Turbo</SingleSelectOption>

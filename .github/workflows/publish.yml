@@ -34,9 +34,8 @@ jobs:
       - name: Create and Push Tag
         id: tag_version
         run: |
-          VERSION=$(node -p "require('./package.json').version")
-          git tag "v$VERSION"
-          git push origin "v$VERSION"
+          git tag "v$(node -p "require('./package.json').version")"
+          git push origin "v$(node -p "require('./package.json').version")"
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
 

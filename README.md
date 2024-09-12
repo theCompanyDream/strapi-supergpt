@@ -30,8 +30,7 @@ Thats it! You can now use ChatGPT in your Strapi application.
 1. **Easy to use**: The plugin is easy to use and can be set up within 10 minutes.
 1. **Customizable**: You can customize the model's parameters to suit your needs.
 1. **Generate Pictures** Can generate pictures based on the prompt given.
-1. **Use GPT-4o** you can ulitize GPT-4-Turbo and can use older models like GPT-3.5 Turbo.
-1. **Auto Generate Content** you can generate content based on prompts from other content
+1. **Use o1-mini** you can ulitize o1-mini and can use older models like GPT-4o Turbo.
 
 ## 🖐 Requirements
 

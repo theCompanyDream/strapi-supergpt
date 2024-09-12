@@ -1,6 +1,10 @@
 # Change Log
 
-## 1.1.3
+## 1.2.1
+
+- updated frontend to use o1-mini
+
+## 1.2.0
 
 - fixed bug with tabs
 - added translations for arabic, spanish, french, italian, japanese, korean, etc.
