@@ -32,97 +32,21 @@ const Mini = () => {
   const [prompt, setPrompt] = useState(undefined);
   const [completion, setCompletion] = useState(undefined);
   const [finishReason, setFinishReason] = useState(null);
-
-  const [model, setModel] = useState();
-  const [temperature, setTemperature] = useState();
-  const [maxTokens, setMaxTokens] = useState();
-
-  const [saveModelText, setSaveModelText] = useState(
-    formatMessage({
-      id: 'Modal.save-model.button.text.default',
-      defaultMessage: 'Save model settings',
-    })
-  );
-  const [downloadedModelsText, setDownloadedModelsText] = useState(
-    formatMessage({
-      id: 'Modal.tabs.settings.download.button.text.default',
-      defaultMessage: 'Download models',
-    })
-  );
   const [generateCompletionText, setGenerateCompletionText] = useState(
     formatMessage({
       id: 'Modal.tabs.prompt.generate.button.text.default',
       defaultMessage: 'Generate',
     })
   );
+
+  const [model, setModel] = useState();
+  const [temperature, setTemperature] = useState();
+  const [maxTokens, setMaxTokens] = useState();
+
   const [defaultSettings, setDefaultSettings] = useState(null);
 
-  useEffect(() => {
-    const fetchDefaultSettings = async () => {
-      const tmpSettings = await settingsAPI.get();
-      setDefaultSettings(tmpSettings);
-
-      setModel(tmpSettings?.model);
-      setTemperature(tmpSettings?.temperature);
-      setMaxTokens(tmpSettings?.maxTokens);
-    };
-    fetchDefaultSettings();
-  }, []);
-
-  const handleSaveDefaultSettings = () => {
-    settingsAPI
-      .set({ model, temperature, maxTokens, models: defaultSettings.models })
-      .then(async () => {
-        setSaveModelText(
-          formatMessage({
-            id: 'Modal.save-model.button.text.after',
-            defaultMessage: 'Saved!',
-          })
-        );
-        await delay(2000);
-        setSaveModelText(
-          formatMessage({
-            id: 'Modal.save-model.button.text.default',
-            defaultMessage: 'Save model settings',
-          })
-        );
-      });
-  };
-
-  const handleDownloadOpenAIModels = () => {
-    setDownloadedModelsText(
-      formatMessage({
-        id: 'Modal.tabs.settings.download.button.text.pending',
-        defaultMessage: 'Downloading...',
-      })
-    );
-    modelsAPI.get().then((data) => {
-      setDefaultSettings({ ...defaultSettings, models: data });
-      settingsAPI.set({ ...defaultSettings, models: data }).then(async () => {
-        setDownloadedModelsText(
-          formatMessage({
-            id: 'Modal.tabs.settings.download.button.text.default',
-            defaultMessage: 'Download models',
-          })
-        );
-      });
-    });
-  };
-
   const handlePromptSubmit = () => {
-    if (model && prompt && temperature && maxTokens) {
-      const messages = [{ role: 'user', content: prompt }];
-      setGenerateCompletionText('Generating completion...');
-      completionAPI
-        .create({ model, messages, temperature, maxTokens })
-        .then((data) => {
-          setCompletion(data?.choices[0]?.text.trim());
-          setFinishReason(data?.choices[0]?.finish_reason);
-        })
-        .finally(() => {
-          setGenerateCompletionText('Generate');
-        });
-    }
+
   };
 
   const handleCopyToClipboard = () => {
@@ -145,7 +69,7 @@ const Mini = () => {
     >
       <Box>
         <Typography variant="sigma" textColor="neutral600" id="seo">
-			SuperGPT
+			    SuperGPT
         </Typography>
         <Box paddingTop={2} paddingBottom={6}>
           <Divider />
@@ -191,12 +115,6 @@ const Mini = () => {
                         {formatMessage({
                           id: 'Modal.tabs.prompt',
                           defaultMessage: 'Prompt',
-                        })}
-                      </Tab>
-                      <Tab>
-                        {formatMessage({
-                          id: 'Modal.tabs.settings',
-                          defaultMessage: 'Settings',
                         })}
                       </Tab>
                     </Tabs>
@@ -257,106 +175,6 @@ const Mini = () => {
                           </Textarea>
                         </Box>
                       </TabPanel>
-                      <TabPanel>
-                        <Box
-                          color="neutral800"
-                          paddingTop={8}
-                          paddingLeft={4}
-                          background="neutral0"
-                        >
-                          <Grid
-                            gap={{
-                              desktop: 5,
-                              tablet: 2,
-                              mobile: 1,
-                            }}
-                          >
-                            <GridItem col={6} s={12}>
-                              <Box>
-                                <Select
-                                  id="select1"
-                                  label="Models"
-                                  hint="https://beta.openai.com/docs/models/overview"
-                                  value={model}
-                                  onChange={setModel}
-                                  selectButtonTitle="Carret Down Button"
-                                >
-                                  {defaultSettings &&
-                                    defaultSettings?.models?.map((model) => (
-                                      <Option value={model}>{model}</Option>
-                                    ))}
-                                </Select>
-                              </Box>
-                            </GridItem>
-                            <GridItem col={4} s={12}>
-                              <Box paddingTop={5}>
-                                <Button
-                                  variant="primary"
-                                  size="S"
-                                  startIcon={<Download />}
-                                  onClick={() => handleDownloadOpenAIModels()}
-                                >
-                                  {downloadedModelsText}
-                                </Button>
-                              </Box>
-                            </GridItem>
-                          </Grid>
-                        </Box>
-                        <Box
-                          color="neutral800"
-                          paddingTop={4}
-                          paddingLeft={4}
-                          paddingBottom={8}
-                          background="neutral0"
-                        >
-                          <Grid
-                            gap={{
-                              desktop: 5,
-                              tablet: 2,
-                              mobile: 1,
-                            }}
-                          >
-                            <GridItem padding={1} col={6} s={12}>
-                              <Box color="neutral800">
-                                <NumberInput
-                                  label="Temperature"
-                                  name="content"
-                                  hint={formatMessage({
-                                    id: 'Modal.tabs.settings.temperature.hint.text',
-                                    defaultMessage:
-                                      'Between 0 and 1 (default). Higher values means the model will take more risks. Try 0,9 for more creative applications, and 0 for ones with a well-defined answer.',
-                                  })}
-                                  onValueChange={(value) =>
-                                    setTemperature(
-                                      value >= 0 && value <= 1 ? value : 1
-                                    )
-                                  }
-                                  value={temperature}
-                                />
-                              </Box>
-                            </GridItem>
-                            <GridItem padding={1} col={6} s={12}>
-                              <Box color="neutral800">
-                                <NumberInput
-                                  label="Max tokens"
-                                  name="content"
-                                  hint={formatMessage({
-                                    id: 'Modal.tabs.settings.maxTokens.hint.text',
-                                    defaultMessage:
-                                      "The token count of your prompt plus max_tokens cannot exceed the model's context length. Most models have a context length of 2048 tokens (except for the newest models, which support 4096).",
-                                  })}
-                                  onValueChange={(value) =>
-                                    setMaxTokens(
-                                      value > 0 && value <= 4096 ? value : 16
-                                    )
-                                  }
-                                  value={maxTokens}
-                                />
-                              </Box>
-                            </GridItem>
-                          </Grid>
-                        </Box>
-                      </TabPanel>
                     </TabPanels>
                   </TabGroup>
                 </Box>
@@ -375,7 +193,7 @@ const Mini = () => {
                 }
                 endActions={
                   <>
-                    {JSON.stringify({
+                    {/* {JSON.stringify({
                       model: defaultSettings.model,
                       temperature: defaultSettings.temperature,
                       maxTokens: defaultSettings.maxTokens,
@@ -388,9 +206,7 @@ const Mini = () => {
                       >
                         {saveModelText}
                       </Button>
-                    )}
-
-                    {completion && (
+                    )} */}
                       <Button
                         startIcon={<Trash />}
                         variant="secondary"
@@ -398,13 +214,10 @@ const Mini = () => {
                       >
                         {formatMessage({
                           id: 'Modal.clear.button.text',
-                          defaultMessage: 'Clear completion',
+                          defaultMessage: 'Clear Completion',
                         })}
                       </Button>
-                    )}
-
-                    {completion && (
-                      <Button
+                       <Button
                         startIcon={<Duplicate />}
                         onClick={() => handleCopyToClipboard()}
                       >
@@ -413,7 +226,6 @@ const Mini = () => {
                           defaultMessage: 'Copy to clipboard',
                         })}
                       </Button>
-                    )}
                   </>
                 }
               />
