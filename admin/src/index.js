@@ -3,7 +3,7 @@ import pluginPkg from "../../package.json";
 import pluginId from "./pluginId";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
-import Mini from "./components/mini"
+import TabbedGPT from "./components/TabbedGPT"
 
 const name = pluginPkg.strapi.name;
 
@@ -28,7 +28,7 @@ export default {
     });
     app.injectContentManagerComponent('editView', 'right-links', {
       name: '${pluginId}.plugin.name',
-      Component: Mini,
+      Component: TabbedGPT,
     });
     app.createSettingSection(
       {
