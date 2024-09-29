@@ -12,7 +12,7 @@ const Settings = () => {
   const [chatGPTConfig, setChatGPTConfig] = useState({
     apiKey: '',
     modelName: 'gpt-4o',
-    maxTokens: 2048,
+    maxTokens: 300,
     aiImageModelName: 'dall-e-3',
     ttsModelName: 'tts-1-hd',
   });
