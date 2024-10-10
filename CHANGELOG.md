@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.2.2
+## 1.2.3
 
 - add o1 preview model
 
