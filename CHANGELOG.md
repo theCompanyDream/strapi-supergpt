@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.2.2
+
+- add o1 preview model
+
 ## 1.2.1
 
 - updated frontend to use o1-mini
