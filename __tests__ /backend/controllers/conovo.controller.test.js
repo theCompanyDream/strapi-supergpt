@@ -1,4 +1,4 @@
-const convoController = require("../../../server/controllers/convo.controller");
+const convoController = require("../../../server/src/controllers/convo.controller");
 
 describe("Should Conversation Controller", () => {
   let strapi;

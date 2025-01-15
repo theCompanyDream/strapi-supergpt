@@ -1,6 +1,6 @@
-const convoService = require("../../../server/services/convo.service")
+const chatGPTService = require("../../../server/src/services/chat-gpt.service")
 
-describe("should Convo Service", () => {
+describe("Should chatGPT service", () => {
 	let strapi
 	beforeEach(async function () {
 	  strapi = {

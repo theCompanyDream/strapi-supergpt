@@ -3,7 +3,7 @@ import { useIntl } from "react-intl";
 import { Helmet } from "react-helmet";
 import GitHubButton from 'react-github-btn';
 import axios from "axios";
-import { auth } from "@strapi/helper-plugin";
+import { useAuth} from '@strapi/strapi/admin';
 import {
   Button,
   TextInput,
@@ -37,6 +37,10 @@ import LoadingOverlay from "../Loading";
 import Integration from "../Integration";
 
 const Home = () => {
+    const auth = useAuth(
+      'Home',
+      (state) => state.refetchPermission
+    );
   const { formatMessage } = useIntl();
   const imageFormats = [
     formatMessage({ id: "strapi-supergpt.homePage.imageFormat" }),
@@ -58,7 +62,7 @@ const Home = () => {
   const instance = axios.create({
     baseURL: process.env.STRAPI_ADMIN_BACKEND_URL,
     headers: {
-      Authorization: `Bearer ${auth.get("jwtToken")}`,
+      Authorization: `Bearer ${localStorage.get("jwtToken")}`,
       "Content-Type": "application/json",
     },
   });

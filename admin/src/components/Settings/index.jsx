@@ -3,9 +3,13 @@ import { useIntl } from 'react-intl';
 import { HeaderLayout, Button, TextInput, Box, Grid, GridItem, SingleSelect, SingleSelectOption } from '@strapi/design-system';
 import { Check } from '@strapi/icons';
 import axios from 'axios';
-import { auth, useNotification } from '@strapi/helper-plugin';
+import { useNotification, useAuth} from '@strapi/strapi/admin';
 
 const Settings = () => {
+  const auth = useAuth(
+    'Settings',
+    (state) => state.refetchPermission
+  );
   const { formatMessage } = useIntl();
   const toggleNotification = useNotification();
   const [loading, setLoading] = useState(false);
@@ -23,7 +27,7 @@ const Settings = () => {
       try {
         const { data } = await axios.get('/strapi-supergpt/cache', {
           headers: {
-            Authorization: `Bearer ${auth.get('jwtToken')}`,
+            Authorization: `Bearer ${localStorage.get("jwtToken")}`,
           },
         });
         setChatGPTConfig(data);
@@ -53,7 +57,7 @@ const Settings = () => {
     try {
       await axios.post('/strapi-supergpt/cache/update', chatGPTConfig, {
         headers: {
-          Authorization: `Bearer ${auth.get('jwtToken')}`,
+          Authorization: `Bearer ${localStorage.get("jwtToken")}`,
         },
       });
       toggleNotification({
