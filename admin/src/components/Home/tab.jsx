@@ -4,7 +4,7 @@ import {
   Typography,
   SimpleMenu,
   MenuItem,
-  Tab
+  Tabs
 } from '@strapi/design-system';
 import { More } from '@strapi/icons';
 
@@ -44,7 +44,7 @@ const CustomTab = ({ children, onRename, onSave, onDelete, ...props }) => {
   };
 
   return (
-    <Tab {...props}>
+    <Tabs.Trigger {...props}>
       <Box display="flex" justifyContent="space-between" width="100%">
         <Box alignItems="left">
           <SimpleMenu label={<More />} onClick={handleClick} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
@@ -54,7 +54,7 @@ const CustomTab = ({ children, onRename, onSave, onDelete, ...props }) => {
         </Box>
         <Typography variant="omega">{name}</Typography>
       </Box>
-    </Tab>
+    </Tabs.Trigger>
   );
 };
 

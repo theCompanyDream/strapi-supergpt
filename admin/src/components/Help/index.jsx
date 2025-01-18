@@ -1,9 +1,7 @@
 import React from "react";
 import { useIntl } from "react-intl";
 import {
-  ModalLayout,
-  ModalBody,
-  ModalHeader,
+  Modal,
   Typography,
 } from "@strapi/design-system";
 
@@ -12,8 +10,9 @@ const Help = ({ isOpen, onClose }) => {
   return (
     <>
       {isOpen && (
-        <ModalLayout onClose={() => onClose(!isOpen)} labelledBy="title">
-          <ModalHeader>
+        <Modal.Root onClose={() => onClose(!isOpen)} labelledBy="title">
+          <Modal.Content>
+          <Modal.Header>
             <Typography
               fontWeight="bold"
               textColor="neutral800"
@@ -22,8 +21,7 @@ const Help = ({ isOpen, onClose }) => {
             >
               Help
             </Typography>
-          </ModalHeader>
-          <ModalBody>
+          </Modal.Header>
             <Typography variant="omega">
               {formatMessage({id: "strapi-supergpt.helpModal.promptUse"})}
             </Typography>
@@ -40,8 +38,8 @@ const Help = ({ isOpen, onClose }) => {
               </a>{" "}
               {formatMessage({id: "strapi-supergpt.helpModal.morePrompts"})}
             </Typography>
-          </ModalBody>
-        </ModalLayout>
+          </Modal.Content>
+        </Modal.Root>
       )}
     </>
   );

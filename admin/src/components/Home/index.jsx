@@ -9,27 +9,20 @@ import {
   TextInput,
   SingleSelect,
   SingleSelectOption,
-  Layout,
-  HeaderLayout,
-  ContentLayout,
   Main,
+  // HeaderLayout,
+  // ContentLayout,
   Box,
   Card,
   CardBody,
   CardContent,
   Grid,
-  GridItem,
-  ActionLayout,
-  Tab,
-  Stack,
+  // ActionLayout,
+  // Stack,
   Tabs,
-  TabGroup,
-  TabPanels,
-  TabPanel,
   Typography
 } from "@strapi/design-system";
-import { PaperPlane, Command, Cog, Picture, PlusCircle } from "@strapi/icons";
-
+import { PaperPlane, Command, Cog, Palette, PlusCircle } from "@strapi/icons";
 import CustomTab from "./tab";
 import Response from "./response";
 import Help from "../Help";
@@ -214,9 +207,8 @@ const Home = () => {
   }, []);
 
   return (
-    <Layout>
-      <Helmet title={"strapi-supergpt"} />
       <Main aria-busy={false}>
+      <Helmet title={"strapi-supergpt"} />
         <HeaderLayout
           title={
             <Box display="flex" alignItems="center">
@@ -273,8 +265,8 @@ const Home = () => {
         />
 
         <ContentLayout>
-          <TabGroup onTabChange={setSelectedResponse}>
-            <Tabs>
+          <Tabs.Root onTabChange={setSelectedResponse}>
+            <Tabs.List>
               {convos.length > 0 && convos.map(convo => (
                 <CustomTab
                   key={convo.id}
@@ -285,38 +277,36 @@ const Home = () => {
                   {convo.name}
                 </CustomTab>
               ))}
-              <Tab onClick={handleCreateTab}><PlusCircle /></Tab>
-            </Tabs>
-            <TabPanels>
-              {convos.length > 0 && convos.map((convo) => (
-                <TabPanel key={convo.id}>
-                  <Card>
-                    <CardBody
-                      style={{
-                        height: "64vh",
-                        overflowY: "scroll",
-                        width: "100%"
-                      }}
-                    >
-                      <CardContent>
-                        <LoadingOverlay isLoading={loading} />
-                          {convo.content.map((response, index) => (
-                            <Response key={`${index}`}>
-                              {response}
-                            </Response>
-                          ))}
-                          <div ref={messagesEndRef} />
-                      </CardContent>
-                    </CardBody>
-                  </Card>
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </TabGroup>
+              <Tabs.Trigger onClick={handleCreateTab}><PlusCircle /></Tabs.Trigger>
+            </Tabs.List>
+            {convos.length > 0 && convos.map((convo) => (
+              <Tabs.Content key={convo.id} value={convo.id}>
+                <Card>
+                  <CardBody
+                    style={{
+                      height: "64vh",
+                      overflowY: "scroll",
+                      width: "100%"
+                    }}
+                  >
+                    <CardContent>
+                      <LoadingOverlay isLoading={loading} />
+                        {convo.content.map((response, index) => (
+                          <Response key={`${index}`}>
+                            {response}
+                          </Response>
+                        ))}
+                        <div ref={messagesEndRef} />
+                    </CardContent>
+                  </CardBody>
+                </Card>
+              </Tabs.Content>
+            ))}
+          </Tabs.Root>
           <Box>
             <form>
               <Grid spacing={1} gap={2} paddingTop={4}>
-                <GridItem col={11}>
+                <Grid.Item col={11}>
                   <TextInput
                     id="chatInput"
                     placeholder={formatMessage({ id: "strapi-supergpt.homePage.prompt.placeholder" })}
@@ -328,8 +318,8 @@ const Home = () => {
                     disabled={loading}
                     onPaste={handlePromptChange}
                   />
-                </GridItem>
-                <GridItem style={{ display: 'flex', justifyContent: 'space-between', gap: '0.5rem' }}>
+                </Grid.Item>
+                <Grid.Item style={{ display: 'flex', justifyContent: 'space-between', gap: '0.5rem' }}>
                   <Button
                     size="L"
                     name="prompt"
@@ -345,11 +335,11 @@ const Home = () => {
                     name="picture"
                     value="picture"
                     onClick={handleSubmit}
-                    startIcon={<Picture />}
+                    startIcon={<Palette />}
                   >
                     {formatMessage({ id: "strapi-supergpt.homePage.image.button" })}
                   </Button>
-                </GridItem>
+                </Grid.Item>
               </Grid>
             </form>
           </Box>
@@ -363,7 +353,6 @@ const Home = () => {
           onClose={() => setIsApiIntegrationModalVisible(false)}
         />
       </Main>
-    </Layout>
   );
 };
 

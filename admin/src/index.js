@@ -8,14 +8,14 @@ const name = pluginPkg.strapi.name;
 export default {
   register(app) {
     app.addMenuLink({
-      to: `plugins/${PluginIcon}`,
+      to: `/plugins/${PLUGIN_ID}`,
       icon: PluginIcon,
       intlLabel: {
         id: `${PLUGIN_ID}.plugin.name`,
         defaultMessage: PLUGIN_ID,
       },
       Component: async () => {
-        const { App } = await import('./pages/App');
+        const App = await import('./pages/App');
 
         return App;
       },
@@ -38,11 +38,10 @@ export default {
           id: "strapi-supergpt.name",
           to: `/settings/${PLUGIN_ID}`,
           Component: async () => {
-            const component = await import(
+            const SettingsPage = await import(
               "./pages/Settings"
             );
-
-            return component;
+            return SettingsPage;
           },
         },
       ],
@@ -51,7 +50,7 @@ export default {
     app.registerPlugin({
       id: PLUGIN_ID,
       initializer: Initializer,
-      isReady: false,
+      isReady: true,
       name,
     });
 

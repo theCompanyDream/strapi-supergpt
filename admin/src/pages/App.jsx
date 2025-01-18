@@ -6,17 +6,15 @@
  */
 
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import {PLUGIN_ID} from "../pluginId";
-import HomePage from "./HomePage";
+import Home from "../components/Home/index";
 
 const App = () => {
   return (
-    <main>
-      <Switch>
-        <Route path={`/plugins/${PLUGIN_ID}`} component={HomePage} exact />
-      </Switch>
-    </main>
+    <Routes>
+      <Route index path={`/plugins/${PLUGIN_ID}`} element={Home} />
+    </Routes>
   );
 };
 

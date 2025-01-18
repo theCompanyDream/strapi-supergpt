@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { HeaderLayout, Button, TextInput, Box, Grid, GridItem, SingleSelect, SingleSelectOption } from '@strapi/design-system';
+import { TextInput, Box, Grid, SingleSelect, SingleSelectOption, Typography, Button } from '@strapi/design-system';
 import { Check } from '@strapi/icons';
 import axios from 'axios';
 import { useNotification, useAuth} from '@strapi/strapi/admin';
@@ -76,17 +76,13 @@ const Settings = () => {
 
   return (
     <Box padding={4}>
-      <HeaderLayout
-        title={formatMessage({ id: 'strapi-supergpt.settingsPage.title' })}
-        subtitle={formatMessage({ id: 'strapi-supergpt.settingsPage.description' })}
-        primaryAction={
-          <Button startIcon={<Check />} onClick={handleSave} loading={loading}>
+      <Typography variant="h1">{formatMessage({ id: 'strapi-supergpt.settingsPage.title' })}</Typography>
+      <Typography variant="h1">{formatMessage({ id: 'strapi-supergpt.settingsPage.description' })}</Typography>
+      <Button startIcon={<Check />} onClick={handleSave} loading={loading}>
             {formatMessage({ id: 'strapi-supergpt.settingsPage.saveButton' })}
-          </Button>
-        }
-      />
+      </Button>
       <Grid gap={4}>
-        <GridItem col={12}>
+        <Grid.Item col={12}>
           <TextInput
             type="text"
             label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.api-key' })}
@@ -94,8 +90,8 @@ const Settings = () => {
             value={chatGPTConfig.apiKey}
             onChange={(e) => setChatGPTConfig({ ...chatGPTConfig, apiKey: e.target.value })}
           />
-        </GridItem>
-        <GridItem col={6}>
+        </Grid.Item>
+        <Grid.Item col={6}>
           <TextInput
             type="number"
             label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.max-tokens' })}
@@ -103,8 +99,8 @@ const Settings = () => {
             value={chatGPTConfig.maxTokens}
             onChange={(e) => setChatGPTConfig({ ...chatGPTConfig, maxTokens: parseInt(e.target.value, 10) })}
           />
-        </GridItem>
-        <GridItem col={6}>
+        </Grid.Item>
+        <Grid.Item col={6}>
           <SingleSelect
             label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.text-model' })}
             placeholder={formatMessage({ id: 'strapi-supergpt.settingsPage.placeholder.text-model' })}
@@ -120,8 +116,8 @@ const Settings = () => {
             <SingleSelectOption value="chatgpt-4o-latest">GPT 4 Latest</SingleSelectOption>
             <SingleSelectOption value="gpt-4">GPT 4</SingleSelectOption>
           </SingleSelect>
-        </GridItem>
-        <GridItem col={6}>
+        </Grid.Item>
+        <Grid.Item col={6}>
           <SingleSelect
             label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.image-model' })}
             placeholder={formatMessage({ id: 'strapi-supergpt.settingsPage.placeholder.image-model' })}
@@ -132,8 +128,8 @@ const Settings = () => {
             <SingleSelectOption value="dall-e-3">DALL-E 3</SingleSelectOption>
             <SingleSelectOption value="dall-e-2">DALL-E 2</SingleSelectOption>
           </SingleSelect>
-        </GridItem>
-        <GridItem col={6}>
+        </Grid.Item>
+        <Grid.Item col={6}>
           <SingleSelect
             label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.tts-model' })}
             placeholder={formatMessage({ id: 'strapi-supergpt.settingsPage.placeholder.tts-model' })}
@@ -144,7 +140,7 @@ const Settings = () => {
             <SingleSelectOption value="tts-1">TTS-1</SingleSelectOption>
             <SingleSelectOption value="tts-1-hd">TTS-1 HD</SingleSelectOption>
           </SingleSelect>
-        </GridItem>
+        </Grid.Item>
       </Grid>
     </Box>
   );
