@@ -14,6 +14,7 @@ const App = () => {
   return (
     <Routes>
       <Route index path={`/plugins/${PLUGIN_ID}`} element={Home} />
+      <Route path="*" element={<Page.Error />} />
     </Routes>
   );
 };

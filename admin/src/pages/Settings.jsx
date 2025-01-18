@@ -14,6 +14,7 @@ const SettingsPage = () => {
   return (
     <Routes>
       <Route index path={`/settings/${PLUGIN_ID}`} element={Settings} />
+      <Route path="*" element={<Page.Error />} />
     </Routes>
   );
 };
