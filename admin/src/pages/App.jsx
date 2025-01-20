@@ -7,13 +7,13 @@
 
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-// import Home from "../components/Home";
+import Home from "../components/Home";
 import { HomePage } from "./Test";
 
 const App = () => {
   return (
     <Routes>
-      <Route index element={<HomePage />} />
+      <Route index element={<Home />} />
       <Route path="*" element={<Page.Error />} />
     </Routes>
   );
