@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { TextInput, Box, Grid, SingleSelect, SingleSelectOption, Typography, Button } from '@strapi/design-system';
+import { HeaderLayout } from '@strapi/strapi'
+import { TextInput, Box, Grid, SingleSelect, SingleSelectOption, Button } from '@strapi/design-system';
 import { Check } from '@strapi/icons';
 import axios from 'axios';
 import { useNotification, useAuth} from '@strapi/strapi/admin';
@@ -27,7 +28,7 @@ const Settings = () => {
       try {
         const { data } = await axios.get('/strapi-supergpt/cache', {
           headers: {
-            Authorization: `Bearer ${localStorage.get("jwtToken")}`,
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
           },
         });
         setChatGPTConfig(data);
@@ -57,7 +58,7 @@ const Settings = () => {
     try {
       await axios.post('/strapi-supergpt/cache/update', chatGPTConfig, {
         headers: {
-          Authorization: `Bearer ${localStorage.get("jwtToken")}`,
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
       });
       toggleNotification({
@@ -76,11 +77,15 @@ const Settings = () => {
 
   return (
     <Box padding={4}>
-      <Typography variant="h1">{formatMessage({ id: 'strapi-supergpt.settingsPage.title' })}</Typography>
-      <Typography variant="h1">{formatMessage({ id: 'strapi-supergpt.settingsPage.description' })}</Typography>
-      <Button startIcon={<Check />} onClick={handleSave} loading={loading}>
+      <HeaderLayout
+        title={formatMessage({ id: 'strapi-supergpt.settingsPage.title' })}
+        subtitle={formatMessage({ id: 'strapi-supergpt.settingsPage.description' })}
+        primaryAction={
+          <Button startIcon={<Check />} onClick={handleSave} loading={loading}>
             {formatMessage({ id: 'strapi-supergpt.settingsPage.saveButton' })}
-      </Button>
+          </Button>
+        }
+      />
       <Grid gap={4}>
         <Grid.Item col={12}>
           <TextInput

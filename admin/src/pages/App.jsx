@@ -7,13 +7,13 @@
 
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import {PLUGIN_ID} from "../pluginId";
-import Home from "../components/Home/index";
+// import Home from "../components/Home";
+import { HomePage } from "./Test";
 
 const App = () => {
   return (
     <Routes>
-      <Route index path={`/plugins/${PLUGIN_ID}`} element={Home} />
+      <Route index element={<HomePage />} />
       <Route path="*" element={<Page.Error />} />
     </Routes>
   );

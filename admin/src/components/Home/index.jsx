@@ -10,18 +10,15 @@ import {
   SingleSelect,
   SingleSelectOption,
   Main,
-  // HeaderLayout,
-  // ContentLayout,
   Box,
   Card,
   CardBody,
   CardContent,
   Grid,
-  // ActionLayout,
-  // Stack,
   Tabs,
   Typography
 } from "@strapi/design-system";
+import { HeaderLayout, ContentLayout, Stack } from '@strapi/strapi'
 import { PaperPlane, Command, Cog, Palette, PlusCircle } from "@strapi/icons";
 import CustomTab from "./tab";
 import Response from "./response";
@@ -55,7 +52,7 @@ const Home = () => {
   const instance = axios.create({
     baseURL: process.env.STRAPI_ADMIN_BACKEND_URL,
     headers: {
-      Authorization: `Bearer ${localStorage.get("jwtToken")}`,
+      Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
       "Content-Type": "application/json",
     },
   });
@@ -263,7 +260,6 @@ const Home = () => {
             </Stack>
           }
         />
-
         <ContentLayout>
           <Tabs.Root onTabChange={setSelectedResponse}>
             <Tabs.List>

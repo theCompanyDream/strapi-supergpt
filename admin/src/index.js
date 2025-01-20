@@ -1,14 +1,14 @@
 import pluginPkg from "../../package.json";
 import {PLUGIN_ID} from "./pluginId";
 import PluginIcon from "./components/PluginIcon";
-import Initializer from "./components/Initializer/index";
+import Initializer from "./components/Initializer";
 
 const name = pluginPkg.strapi.name;
 
 export default {
   register(app) {
     app.addMenuLink({
-      to: `/plugins/${PLUGIN_ID}`,
+      to: `plugins/${PLUGIN_ID}`,
       icon: PluginIcon,
       intlLabel: {
         id: `${PLUGIN_ID}.plugin.name`,
@@ -16,7 +16,6 @@ export default {
       },
       Component: async () => {
         const App = await import('./pages/App');
-
         return App;
       },
     });
@@ -39,7 +38,7 @@ export default {
           to: `/settings/${PLUGIN_ID}`,
           Component: async () => {
             const SettingsPage = await import(
-              "./pages/Settings"
+              "./components/Settings"
             );
             return SettingsPage;
           },
@@ -50,8 +49,8 @@ export default {
     app.registerPlugin({
       id: PLUGIN_ID,
       initializer: Initializer,
-      isReady: true,
-      name,
+      isReady: false,
+      name: PLUGIN_ID,
     });
 
     // Register custom fields with translations
