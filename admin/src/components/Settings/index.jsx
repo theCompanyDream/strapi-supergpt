@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { HeaderLayout } from '@strapi/strapi'
-import { TextInput, Box, Grid, SingleSelect, SingleSelectOption, Button } from '@strapi/design-system';
+import { TextInput, Grid, SingleSelect, SingleSelectOption, Button, Main } from '@strapi/design-system';
 import { Check } from '@strapi/icons';
 import axios from 'axios';
-import { useNotification, useAuth} from '@strapi/strapi/admin';
+import { useNotification, Layouts } from '@strapi/strapi/admin';
 
 const Settings = () => {
-  const auth = useAuth(
-    'Settings',
-    (state) => state.refetchPermission
-  );
   const { formatMessage } = useIntl();
   const toggleNotification = useNotification();
   const [loading, setLoading] = useState(false);
@@ -76,8 +71,8 @@ const Settings = () => {
   };
 
   return (
-    <Box padding={4}>
-      <HeaderLayout
+    <Main padding={4}>
+      <Layouts.Header
         title={formatMessage({ id: 'strapi-supergpt.settingsPage.title' })}
         subtitle={formatMessage({ id: 'strapi-supergpt.settingsPage.description' })}
         primaryAction={
@@ -86,7 +81,7 @@ const Settings = () => {
           </Button>
         }
       />
-      <Grid gap={4}>
+      <Grid.Root gap={4}>
         <Grid.Item col={12}>
           <TextInput
             type="text"
@@ -129,7 +124,6 @@ const Settings = () => {
             value={chatGPTConfig.aiImageModelName}
             onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, aiImageModelName: value })}
           >
-            {/* Replace with your actual options */}
             <SingleSelectOption value="dall-e-3">DALL-E 3</SingleSelectOption>
             <SingleSelectOption value="dall-e-2">DALL-E 2</SingleSelectOption>
           </SingleSelect>
@@ -141,13 +135,13 @@ const Settings = () => {
             value={chatGPTConfig.ttsModelName}
             onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, ttsModelName: value })}
           >
-            {/* Replace with your actual options */}
+
             <SingleSelectOption value="tts-1">TTS-1</SingleSelectOption>
             <SingleSelectOption value="tts-1-hd">TTS-1 HD</SingleSelectOption>
           </SingleSelect>
         </Grid.Item>
-      </Grid>
-    </Box>
+      </Grid.Root>
+    </Main>
   );
 };
 

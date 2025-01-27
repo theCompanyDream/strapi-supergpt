@@ -1,18 +1,18 @@
 "use strict";
 
-module.exports = ({ strapi }) => ({
+const cacheController = ({ strapi }) => ({
   async updateConfig(ctx) {
-    const data = await strapi
+    ctx.body = await strapi
       .plugin("strapi-supergpt")
       .service("cacheService")
       .updateConfig(ctx);
-    ctx.send(data);
   },
   async getConfig(ctx) {
-    const data = await strapi
+    ctx.body = await strapi
       .plugin("strapi-supergpt")
       .service("cacheService")
       .getConfig(ctx);
-    ctx.send(data);
   },
 });
+
+export default cacheController;
