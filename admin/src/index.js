@@ -15,7 +15,7 @@ export default {
         defaultMessage: PLUGIN_ID,
       },
       Component: async () => {
-        const App = await import('./pages/App');
+        const App = await import('./components/Home');
         return App;
       },
     });

@@ -59,6 +59,7 @@
     "dompurify": "^3.1.0",
     "mime-types": "^2.1.35",
     "openai": "^4.46.1",
+    "prettier": "^3.4.2",
     "react-github-btn": "^1.4.0",
     "react-intl": "^7.1.0",
     "react-markdown": "^9.0.1",

@@ -3,7 +3,9 @@ import { useIntl } from "react-intl";
 import { Helmet } from "react-helmet";
 import GitHubButton from 'react-github-btn';
 import axios from "axios";
-import { useAuth} from '@strapi/strapi/admin';
+import {
+  Layouts
+} from '@strapi/strapi/admin';
 import {
   Button,
   TextInput,
@@ -18,7 +20,6 @@ import {
   Tabs,
   Typography
 } from "@strapi/design-system";
-import { HeaderLayout, ContentLayout, Stack } from '@strapi/strapi'
 import { PaperPlane, Command, Cog, Palette, PlusCircle } from "@strapi/icons";
 import CustomTab from "./tab";
 import Response from "./response";
@@ -27,10 +28,6 @@ import LoadingOverlay from "../Loading";
 import Integration from "../Integration";
 
 const Home = () => {
-    const auth = useAuth(
-      'Home',
-      (state) => state.refetchPermission
-    );
   const { formatMessage } = useIntl();
   const imageFormats = [
     formatMessage({ id: "strapi-supergpt.homePage.imageFormat" }),
@@ -206,7 +203,7 @@ const Home = () => {
   return (
       <Main aria-busy={false}>
       <Helmet title={"strapi-supergpt"} />
-        <HeaderLayout
+        <Layouts.Header
           title={
             <Box display="flex" alignItems="center">
               <Typography variant="alpha" as="h1">
@@ -231,7 +228,7 @@ const Home = () => {
           })}
         />
 
-        <ActionLayout
+        <Layouts.Action
           startActions={
             <SingleSelect onChange={handleImageSizeChange} value={format}>
               {imageFormats.map((format, idx) => (
@@ -241,26 +238,26 @@ const Home = () => {
               ))}
             </SingleSelect>
           }
-          endActions={
-            <Stack horizontal gap={2}>
-              <Button
-                variant="secondary"
-                startIcon={<Cog />}
-                onClick={() => setIsApiIntegrationModalVisible(true)}
-              >
-                {formatMessage({ id: "strapi-supergpt.homePage.API_Integration.button" })}
-              </Button>
-              <Button
-                variant="secondary"
-                startIcon={<Command />}
-                onClick={() => setIsModalVisible(true)}
-              >
-                {formatMessage({ id: "strapi-supergpt.homePage.help.button" })}
-              </Button>
-            </Stack>
-          }
+          // endActions={
+          //   <Stack horizontal gap={2}>
+          //     <Button
+          //       variant="secondary"
+          //       startIcon={<Cog />}
+          //       onClick={() => setIsApiIntegrationModalVisible(true)}
+          //     >
+          //       {formatMessage({ id: "strapi-supergpt.homePage.API_Integration.button" })}
+          //     </Button>
+          //     <Button
+          //       variant="secondary"
+          //       startIcon={<Command />}
+          //       onClick={() => setIsModalVisible(true)}
+          //     >
+          //       {formatMessage({ id: "strapi-supergpt.homePage.help.button" })}
+          //     </Button>
+          //   </Stack>
+          // }
         />
-        <ContentLayout>
+        <Layouts.Content>
           <Tabs.Root onTabChange={setSelectedResponse}>
             <Tabs.List>
               {convos.length > 0 && convos.map(convo => (
@@ -301,7 +298,7 @@ const Home = () => {
           </Tabs.Root>
           <Box>
             <form>
-              <Grid spacing={1} gap={2} paddingTop={4}>
+              <Grid.Root spacing={1} gap={2} paddingTop={4}>
                 <Grid.Item col={11}>
                   <TextInput
                     id="chatInput"
@@ -336,10 +333,10 @@ const Home = () => {
                     {formatMessage({ id: "strapi-supergpt.homePage.image.button" })}
                   </Button>
                 </Grid.Item>
-              </Grid>
+              </Grid.Root>
             </form>
           </Box>
-        </ContentLayout>
+        </Layouts.Content>
         <Help
           isOpen={isModalVisible}
           onClose={() => setIsModalVisible(false)}
