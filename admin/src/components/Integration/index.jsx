@@ -24,18 +24,18 @@ const Integration = ({ isOpen, onClose }) => {
                 as="h2"
                 id="title-api-integration"
               >
-                {formatMessage({id: "strapi-supergpt.homePage.API_Integration.button"})}
+                {formatMessage({id: "homePage.API_Integration.button"})}
               </Typography>
             </Modal.Header>
             <Typography variant="omega">
-              {formatMessage({id: "strapi-supergpt.integration.instructions"})}
+              {formatMessage({id: "integration.instructions"})}
             </Typography>
 
             <Box paddingTop={6} paddingBottom={6}>
               <Divider />
             </Box>
 
-            <Typography variant="omega">{formatMessage({id: "strapi-supergpt.integration.sampleRequest"})}</Typography>
+            <Typography variant="omega">{formatMessage({id: "integration.sampleRequest"})}</Typography>
             <br />
             <SyntaxHighlighter
               language="bash"
@@ -55,7 +55,7 @@ const Integration = ({ isOpen, onClose }) => {
               <Divider />
             </Box>
             <Typography variant="omega">
-              {formatMessage({id: "strapi-supergpt.integration.openAiParams"})}
+              {formatMessage({id: "integration.openAiParams"})}
             </Typography>
             <br />
             <SyntaxHighlighter

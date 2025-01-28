@@ -23,20 +23,20 @@ const Help = ({ isOpen, onClose }) => {
             </Typography>
           </Modal.Header>
             <Typography variant="omega">
-              {formatMessage({id: "strapi-supergpt.helpModal.promptUse"})}
+              {formatMessage({id: "helpModal.promptUse"})}
             </Typography>
             <br />
             <br />
             <Typography
               variant="omega"
-              dangerouslySetInnerHTML={{ __html: formatMessage({id: "strapi-supergpt.helpModal.promptList"})}}
+              dangerouslySetInnerHTML={{ __html: formatMessage({id: "helpModal.promptList"})}}
             />
             <br />
             <Typography variant="omega">
               <a href="https://prompts.chat" target="_blank">
-                {formatMessage({id: "strapi-supergpt.helpModal.clickHere"})}
+                {formatMessage({id: "helpModal.clickHere"})}
               </a>{" "}
-              {formatMessage({id: "strapi-supergpt.helpModal.morePrompts"})}
+              {formatMessage({id: "helpModal.morePrompts"})}
             </Typography>
           </Modal.Content>
         </Modal.Root>

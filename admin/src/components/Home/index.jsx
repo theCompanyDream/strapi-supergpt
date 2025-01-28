@@ -30,7 +30,7 @@ import Integration from "../Integration";
 const Home = () => {
   const { formatMessage } = useIntl();
   const imageFormats = [
-    formatMessage({ id: "strapi-supergpt.homePage.imageFormat" }),
+    formatMessage({ id: "homePage.imageFormat" }),
     "1024x1024",
     "1024x1792",
     "1792x1024",
@@ -65,7 +65,7 @@ const Home = () => {
 
   const setSelectedResponse = (index) => {
     if (index >= convos.length) {
-      setError(formatMessage({id: "strapi-supergpt.homePage.error.unselectableTab"}));
+      setError(formatMessage({id: "homePage.error.unselectableTab"}));
       return;
     }
     const selectedConvo = convos[index];
@@ -81,7 +81,7 @@ const Home = () => {
   };
 
   const handleCreateTab = async () => {
-    const defaultConvoName = formatMessage({id: "strapi-supergpt.homePage.convo.new.name"})
+    const defaultConvoName = formatMessage({id: "homePage.convo.new.name"})
     const { data: newConvo } = await instance.post(`/strapi-supergpt/convo`, {
       name: `${defaultConvoName} ${convos.length + 1}`
     });
@@ -109,12 +109,12 @@ const Home = () => {
       });
     } else {
       await instance.put(`/strapi-supergpt/convo/${id}`, {
-        name: formatMessage({ id: "strapi-supergpt.homePage.convo.default.name" }),
+        name: formatMessage({ id: "homePage.convo.default.name" }),
         content: [],
       });
       setConvos([{
         id,
-        name: formatMessage({ id: "strapi-supergpt.homePage.convo.default.name" }),
+        name: formatMessage({ id: "homePage.convo.default.name" }),
         content: [],
       }]);
       setHighlighted(id);
@@ -125,7 +125,7 @@ const Home = () => {
     e.preventDefault();
     setError("");
     if (!prompt) {
-      setError(formatMessage({id: "strapi-supergpt.homePage.error.promptRequired"}));
+      setError(formatMessage({id: "homePage.error.promptRequired"}));
       return;
     }
 
@@ -224,7 +224,7 @@ const Home = () => {
             </Box>
           }
           subtitle={formatMessage({
-            id: "strapi-supergpt.homePage.header",
+            id: "homePage.header",
           })}
         />
 
@@ -245,14 +245,14 @@ const Home = () => {
           //       startIcon={<Cog />}
           //       onClick={() => setIsApiIntegrationModalVisible(true)}
           //     >
-          //       {formatMessage({ id: "strapi-supergpt.homePage.API_Integration.button" })}
+          //       {formatMessage({ id: "homePage.API_Integration.button" })}
           //     </Button>
           //     <Button
           //       variant="secondary"
           //       startIcon={<Command />}
           //       onClick={() => setIsModalVisible(true)}
           //     >
-          //       {formatMessage({ id: "strapi-supergpt.homePage.help.button" })}
+          //       {formatMessage({ id: "homePage.help.button" })}
           //     </Button>
           //   </Stack>
           // }
@@ -302,7 +302,7 @@ const Home = () => {
                 <Grid.Item col={11}>
                   <TextInput
                     id="chatInput"
-                    placeholder={formatMessage({ id: "strapi-supergpt.homePage.prompt.placeholder" })}
+                    placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
                     aria-label="Content"
                     name="prompt"
                     error={error}
@@ -321,7 +321,7 @@ const Home = () => {
                     loading={loading}
                     onClick={handleSubmit}
                   >
-                    {formatMessage({ id: "strapi-supergpt.homePage.prompt.button" })}
+                    {formatMessage({ id: "homePage.prompt.button" })}
                   </Button>
                   <Button
                     size="L"
@@ -330,7 +330,7 @@ const Home = () => {
                     onClick={handleSubmit}
                     startIcon={<Palette />}
                   >
-                    {formatMessage({ id: "strapi-supergpt.homePage.image.button" })}
+                    {formatMessage({ id: "homePage.image.button" })}
                   </Button>
                 </Grid.Item>
               </Grid.Root>
