@@ -1,10 +1,6 @@
 name: Publish Package and Create Release
 
 on:
-  workflow_run:
-    workflows: ["Tests"]
-    types:
-      - completed
   push:
     branches:
       - main
