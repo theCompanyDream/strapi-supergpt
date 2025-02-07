@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.30
+
+- updated ai models
+
 ## 1.2.3
 
 - add o1 preview model
