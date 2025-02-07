@@ -1,6 +1,10 @@
 # Change Log
 
-## 1.30
+## 1.3.1
+
+- corrected a mistake with ai models
+
+## 1.3.0
 
 - updated ai models
 
