@@ -93,6 +93,13 @@ The ChatGPT plugin should appear in the Plugins section of the Strapi sidebar af
 
 Now you are ready to integrate ChatGPT on your Strapi website.
 
+## Plugin Compatibility Matrix
+
+| Plugin Version | Supported Strapi Version |
+|----------------|--------------------------|
+| 1.x.x          | Strapi 4.x               |
+| 2.x.x          | Strapi 5.x               |
+
 ## 🔧 Configuration
 
 You can easily configure the ChatGPT plugin in the Strapi admin panel.
