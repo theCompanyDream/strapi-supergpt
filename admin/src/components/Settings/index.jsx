@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 import { TextInput, Grid, SingleSelect, SingleSelectOption, Button, Main } from '@strapi/design-system';
 import { Check } from '@strapi/icons';
@@ -83,62 +84,85 @@ const Settings = () => {
       />
       <Grid.Root gap={4}>
         <Grid.Item col={12}>
-          <TextInput
-            type="text"
-            label={formatMessage({ id: 'settingsPage.labels.api-key' })}
-            name="apiKey"
-            value={chatGPTConfig.apiKey}
-            onChange={(e) => setChatGPTConfig({ ...chatGPTConfig, apiKey: e.target.value })}
-          />
+          <FieldWrapper>
+            <FieldLabel>{formatMessage({ id: 'settingsPage.labels.api-key' })}</FieldLabel>
+            <StyledTextInput
+              type="text"
+              label={formatMessage({ id: 'settingsPage.labels.api-key' })}
+              name="apiKey"
+              value={chatGPTConfig.apiKey}
+              onChange={(e) => setChatGPTConfig({ ...chatGPTConfig, apiKey: e.target.value })}
+            />
+          </FieldWrapper>
         </Grid.Item>
         <Grid.Item col={6}>
-          <TextInput
-            type="number"
-            label={formatMessage({ id: 'settingsPage.labels.max-tokens' })}
-            name="maxTokens"
-            value={chatGPTConfig.maxTokens}
-            onChange={(e) => setChatGPTConfig({ ...chatGPTConfig, maxTokens: parseInt(e.target.value, 10) })}
-          />
+          <FieldWrapper>
+            <FieldLabel>{formatMessage({ id: 'settingsPage.labels.max-tokens' })}</FieldLabel>
+            <StyledTextInput
+              type="number"
+              name="maxTokens"
+              value={chatGPTConfig.maxTokens}
+              onChange={(e) =>
+                setChatGPTConfig({ ...chatGPTConfig, maxTokens: parseInt(e.target.value, 10) })
+              }
+            />
+          </FieldWrapper>
         </Grid.Item>
-        <Grid.Item col={6}>
-          <SingleSelect
-            label={formatMessage({ id: 'settingsPage.labels.text-model' })}
-            placeholder={formatMessage({ id: 'settingsPage.placeholder.text-model' })}
-            value={chatGPTConfig.modelName}
-            onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, modelName: value })}
-          >
-            {/* Replace with your actual options */}
-            <SingleSelectOption value="o3-mini">o3 mini</SingleSelectOption>
-            <SingleSelectOption value="o1-mini">o1 mini</SingleSelectOption>
-            <SingleSelectOption value="o1-preview">o1 preview</SingleSelectOption>
-            <SingleSelectOption value="gpt-4o-mini">GPT 4o Mini</SingleSelectOption>
-            <SingleSelectOption value="gpt-4o">GPT 4o</SingleSelectOption>
-            <SingleSelectOption value="chatgpt-4o-latest">GPT 4 Latest</SingleSelectOption>
-            <SingleSelectOption value="gpt-4">GPT 4</SingleSelectOption>
-          </SingleSelect>
-        </Grid.Item>
-        <Grid.Item col={6}>
-          <SingleSelect
-            label={formatMessage({ id: 'settingsPage.labels.image-model' })}
-            placeholder={formatMessage({ id: 'settingsPage.placeholder.image-model' })}
-            value={chatGPTConfig.aiImageModelName}
-            onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, aiImageModelName: value })}
-          >
-            <SingleSelectOption value="dall-e-3">DALL-E 3</SingleSelectOption>
-            <SingleSelectOption value="dall-e-2">DALL-E 2</SingleSelectOption>
-          </SingleSelect>
-        </Grid.Item>
-        <Grid.Item col={6}>
-          <SingleSelect
-            label={formatMessage({ id: 'settingsPage.labels.tts-model' })}
-            placeholder={formatMessage({ id: 'settingsPage.placeholder.tts-model' })}
-            value={chatGPTConfig.ttsModelName}
-            onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, ttsModelName: value })}
-          >
 
-            <SingleSelectOption value="tts-1">TTS-1</SingleSelectOption>
-            <SingleSelectOption value="tts-1-hd">TTS-1 HD</SingleSelectOption>
-          </SingleSelect>
+        {/* Text Model select with separate label */}
+        <Grid.Item col={6}>
+          <FieldWrapper>
+            <FieldLabel>{formatMessage({ id: 'settingsPage.labels.text-model' })}</FieldLabel>
+            <StyledSelect
+              placeholder={formatMessage({ id: 'settingsPage.placeholder.text-model' })}
+              value={chatGPTConfig.modelName}
+              onChange={(value) =>
+                setChatGPTConfig({ ...chatGPTConfig, modelName: value })
+              }
+            >
+              <SingleSelectOption value="o3-mini">o3 mini</SingleSelectOption>
+              <SingleSelectOption value="o1-mini">o1 mini</SingleSelectOption>
+              <SingleSelectOption value="o1-preview">o1 preview</SingleSelectOption>
+              <SingleSelectOption value="gpt-4o-mini">GPT 4o Mini</SingleSelectOption>
+              <SingleSelectOption value="gpt-4o">GPT 4o</SingleSelectOption>
+              <SingleSelectOption value="chatgpt-4o-latest">GPT 4 Latest</SingleSelectOption>
+              <SingleSelectOption value="gpt-4">GPT 4</SingleSelectOption>
+            </StyledSelect>
+          </FieldWrapper>
+        </Grid.Item>
+
+        {/* Image Model select with separate label */}
+        <Grid.Item col={6}>
+          <FieldWrapper>
+            <FieldLabel>{formatMessage({ id: 'settingsPage.labels.image-model' })}</FieldLabel>
+            <StyledSelect
+              placeholder={formatMessage({ id: 'settingsPage.placeholder.image-model' })}
+              value={chatGPTConfig.aiImageModelName}
+              onChange={(value) =>
+                setChatGPTConfig({ ...chatGPTConfig, aiImageModelName: value })
+              }
+            >
+              <SingleSelectOption value="dall-e-3">DALL-E 3</SingleSelectOption>
+              <SingleSelectOption value="dall-e-2">DALL-E 2</SingleSelectOption>
+            </StyledSelect>
+          </FieldWrapper>
+        </Grid.Item>
+
+        {/* TTS Model select with separate label */}
+        <Grid.Item col={6}>
+          <FieldWrapper>
+            <FieldLabel>{formatMessage({ id: 'settingsPage.labels.tts-model' })}</FieldLabel>
+            <StyledSelect
+              placeholder={formatMessage({ id: 'settingsPage.placeholder.tts-model' })}
+              value={chatGPTConfig.ttsModelName}
+              onChange={(value) =>
+                setChatGPTConfig({ ...chatGPTConfig, ttsModelName: value })
+              }
+            >
+              <SingleSelectOption value="tts-1">TTS-1</SingleSelectOption>
+              <SingleSelectOption value="tts-1-hd">TTS-1 HD</SingleSelectOption>
+            </StyledSelect>
+          </FieldWrapper>
         </Grid.Item>
       </Grid.Root>
     </Main>
@@ -146,3 +170,24 @@ const Settings = () => {
 };
 
 export default Settings;
+
+// Styled components
+const StyledTextInput = styled(TextInput)`
+  width: 100%;
+`;
+
+const StyledSelect = styled(SingleSelect)`
+  width: 100%;
+`;
+
+const FieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const FieldLabel = styled.label`
+  font-size: 14px;
+  margin-bottom: 4px;
+  font-weight: 500;
+`;
