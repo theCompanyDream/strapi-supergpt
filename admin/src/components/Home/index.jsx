@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import styled from 'styled-components';
 import { useIntl } from "react-intl";
 import { Helmet } from "react-helmet";
 import GitHubButton from 'react-github-btn';
@@ -238,24 +239,24 @@ const Home = () => {
               ))}
             </SingleSelect>
           }
-          // endActions={
-          //   <Stack horizontal gap={2}>
-          //     <Button
-          //       variant="secondary"
-          //       startIcon={<Cog />}
-          //       onClick={() => setIsApiIntegrationModalVisible(true)}
-          //     >
-          //       {formatMessage({ id: "homePage.API_Integration.button" })}
-          //     </Button>
-          //     <Button
-          //       variant="secondary"
-          //       startIcon={<Command />}
-          //       onClick={() => setIsModalVisible(true)}
-          //     >
-          //       {formatMessage({ id: "homePage.help.button" })}
-          //     </Button>
-          //   </Stack>
-          // }
+           endActions={
+             <Box horizontal gap={2}>
+               <Button
+                 variant="secondary"
+                 startIcon={<Cog />}
+                 onClick={() => setIsApiIntegrationModalVisible(true)}
+               >
+                {formatMessage({ id: "homePage.API_Integration.button" })}
+               </Button>
+              <Button
+                 variant="secondary"
+                startIcon={<Command />}
+                 onClick={() => setIsModalVisible(true)}
+               >
+                 {formatMessage({ id: "homePage.help.button" })}
+               </Button>
+             </Box>
+           }
         />
         <Layouts.Content>
           <Tabs.Root onTabChange={setSelectedResponse}>
@@ -297,44 +298,40 @@ const Home = () => {
             ))}
           </Tabs.Root>
           <Box>
-            <form>
-              <Grid.Root spacing={1} gap={2} paddingTop={4}>
-                <Grid.Item col={11}>
-                  <TextInput
-                    id="chatInput"
-                    placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
-                    aria-label="Content"
-                    name="prompt"
-                    error={error}
-                    onChange={handlePromptChange}
-                    value={prompt}
-                    disabled={loading}
-                    onPaste={handlePromptChange}
-                  />
-                </Grid.Item>
-                <Grid.Item style={{ display: 'flex', justifyContent: 'space-between', gap: '0.5rem' }}>
-                  <Button
-                    size="L"
-                    name="prompt"
-                    startIcon={<PaperPlane />}
-                    value="prompt"
-                    loading={loading}
-                    onClick={handleSubmit}
-                  >
-                    {formatMessage({ id: "homePage.prompt.button" })}
-                  </Button>
-                  <Button
-                    size="L"
-                    name="picture"
-                    value="picture"
-                    onClick={handleSubmit}
-                    startIcon={<Palette />}
-                  >
-                    {formatMessage({ id: "homePage.image.button" })}
-                  </Button>
-                </Grid.Item>
-              </Grid.Root>
-            </form>
+            <Grid.Root spacing={1} gap={2} paddingTop={4}>
+              <Grid.Item col={12}>
+                <StyledTextInput
+                  id="chatInput"
+                  placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
+                  aria-label="Content"
+                  name="prompt"
+                  error={error}
+                  onChange={handlePromptChange}
+                  value={prompt}
+                  disabled={loading}
+                  onPaste={handlePromptChange}
+                />
+                <StyledButton
+                  size="L"
+                  name="prompt"
+                  startIcon={<PaperPlane />}
+                  value="prompt"
+                  loading={loading}
+                  onClick={handleSubmit}
+                >
+                  {formatMessage({ id: "homePage.prompt.button" })}
+                </StyledButton>
+                <StyledButton
+                  size="L"
+                  name="picture"
+                  value="picture"
+                  onClick={handleSubmit}
+                  startIcon={<Palette />}
+                >
+                  {formatMessage({ id: "homePage.image.button" })}
+                </StyledButton>
+              </Grid.Item>
+            </Grid.Root>
           </Box>
         </Layouts.Content>
         <Help
@@ -350,3 +347,10 @@ const Home = () => {
 };
 
 export default Home;
+
+const StyledTextInput = styled(TextInput)`
+  width: 83vw
+`
+const StyledButton = styled(Button)`
+  margin-left: 1rem;
+`
