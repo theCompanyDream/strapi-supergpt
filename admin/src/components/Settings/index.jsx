@@ -12,7 +12,7 @@ const Settings = () => {
   const [loading, setLoading] = useState(false);
   const [chatGPTConfig, setChatGPTConfig] = useState({
     apiKey: '',
-    modelName: 'gpt-4o',
+    modelName: 'o3-mini',
     maxTokens: 2048,
     aiImageModelName: 'dall-e-3',
     ttsModelName: 'tts-1-hd',
@@ -123,10 +123,7 @@ const Settings = () => {
               <SingleSelectOption value="o3-mini">o3 mini</SingleSelectOption>
               <SingleSelectOption value="o1-mini">o1 mini</SingleSelectOption>
               <SingleSelectOption value="o1-preview">o1 preview</SingleSelectOption>
-              <SingleSelectOption value="gpt-4o-mini">GPT 4o Mini</SingleSelectOption>
-              <SingleSelectOption value="gpt-4o">GPT 4o</SingleSelectOption>
               <SingleSelectOption value="chatgpt-4o-latest">GPT 4 Latest</SingleSelectOption>
-              <SingleSelectOption value="gpt-4">GPT 4</SingleSelectOption>
             </StyledSelect>
           </FieldWrapper>
         </Grid.Item>
