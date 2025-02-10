@@ -21,7 +21,7 @@ import {
   Tabs,
   Typography
 } from "@strapi/design-system";
-import { PaperPlane, Command, Cog, Palette, PlusCircle } from "@strapi/icons";
+import { PaperPlane, Palette, PlusCircle } from "@strapi/icons";
 import CustomTab from "./tab";
 import Response from "./response";
 import Help from "../Help";
@@ -43,14 +43,11 @@ const Home = () => {
   const [format, setFormat] = useState(imageFormats[0]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isApiIntegrationModalVisible, setIsApiIntegrationModalVisible] =
-    useState(false);
 
   const instance = axios.create({
     baseURL: process.env.STRAPI_ADMIN_BACKEND_URL,
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+      Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
       "Content-Type": "application/json",
     },
   });
@@ -241,20 +238,8 @@ const Home = () => {
           }
            endActions={
              <Box horizontal gap={2}>
-               <Button
-                 variant="secondary"
-                 startIcon={<Cog />}
-                 onClick={() => setIsApiIntegrationModalVisible(true)}
-               >
-                {formatMessage({ id: "homePage.API_Integration.button" })}
-               </Button>
-              <Button
-                 variant="secondary"
-                startIcon={<Command />}
-                 onClick={() => setIsModalVisible(true)}
-               >
-                 {formatMessage({ id: "homePage.help.button" })}
-               </Button>
+              <Help />
+              <Integration />
              </Box>
            }
         />
@@ -334,14 +319,6 @@ const Home = () => {
             </Grid.Root>
           </Box>
         </Layouts.Content>
-        <Help
-          isOpen={isModalVisible}
-          onClose={() => setIsModalVisible(false)}
-        />
-        <Integration
-          isOpen={isApiIntegrationModalVisible}
-          onClose={() => setIsApiIntegrationModalVisible(false)}
-        />
       </Main>
   );
 };
