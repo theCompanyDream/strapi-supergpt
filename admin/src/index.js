@@ -2,6 +2,7 @@ import pluginPkg from "../../package.json";
 import {PLUGIN_ID} from "./pluginId";
 import PluginIcon from "./components/PluginIcon";
 import Initializer from "./components/Initializer";
+import TabbedGPT from "./components/GPTModal"
 
 const name = pluginPkg.strapi.name;
 
@@ -18,6 +19,11 @@ export default {
         const App = await import('./components/Home');
         return App;
       },
+    });
+
+    app.getPlugin('content-manager').injectComponent('editView', 'right-links', {
+      name: 'GPT-Link',
+      Component: TabbedGPT,
     });
 
     app.createSettingSection(
@@ -52,31 +58,6 @@ export default {
       isReady: false,
       name: PLUGIN_ID,
     });
-
-    // Register custom fields with translations
-    // const customFields = [
-    //   { name: 'super-audio', type: 'json', component: import('./components/SuperFields/SuperAudio.jsx') },
-    // ];
-
-    // customFields.forEach(field => {
-    //   app.customFields.register({
-    //     name: field.name,
-    //     pluginId: pluginId,
-    //     type: field.type,
-    //     intlLabel: {
-    //       id: `${pluginId}.customFields.${field.name}.label`,
-    //       defaultMessage: field.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
-    //     },
-    //     intlDescription: {
-    //       id: `${pluginId}.customFields.${field.name}.description`,
-    //       defaultMessage: `A ${field.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} field powered by chatgpt`,
-    //     },
-    //     icon: PluginIcon,
-    //     components: {
-    //       Input: async () => await field.component,
-    //     },
-    //   });
-    // });
 
   },
 
