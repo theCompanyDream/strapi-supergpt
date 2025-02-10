@@ -4,7 +4,7 @@
 
 # Strapi Supergpt | ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) ![test](https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/validate.yml/badge.svg) ![GitHub package.json version](https://img.shields.io/github/package-json/v/theCompanyDream/strapi-supergpt?label=npm&logo=npm) ![Monthly download on NPM](https://img.shields.io/npm/dm/strapi-supergpt.svg)
 
-Is a fork of strapi-chaptgpt that does what that plugin does but gives you access to more models, and image generation.
+A fork of strapi-chaptgpt that embeds a llm into your strapi app, gives you access to more models, and image generation.
 
 ![chatgpt-overview](https://www.tbrantleyii.dev/strapi-supergpt/howToUse.gif)
 
@@ -30,7 +30,8 @@ Thats it! You can now use ChatGPT in your Strapi application.
 1. **Easy to use**: The plugin is easy to use and can be set up within 10 minutes.
 1. **Customizable**: You can customize the model's parameters to suit your needs.
 1. **Generate Pictures** Can generate pictures based on the prompt given.
-1. **Use o1-mini** you can ulitize o1-mini and can use older models like GPT-4o Turbo.
+1. **Use o3-mini** you can ulitize o1-mini and can use older models like GPT-4o Turbo.
+1. **Use other LLMs** utilize other llms like Mistral, Deepseek, llama, and groq.
 
 ## 🖐 Requirements
 
