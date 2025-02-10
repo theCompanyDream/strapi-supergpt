@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 import { TextInput, Grid, SingleSelect, SingleSelectOption, Button, Main } from '@strapi/design-system';
 import { Check } from '@strapi/icons';
-import axios from 'axios';
 import { useNotification, Layouts } from '@strapi/strapi/admin';
+
+import instance from '../../utils/axiosInstance';
 
 const Settings = () => {
   const { formatMessage } = useIntl();
@@ -22,7 +23,7 @@ const Settings = () => {
     const fetchChatGPTConfig = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get('/strapi-supergpt/cache', {
+        const { data } = await instance.get('/strapi-supergpt/cache', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
           },
@@ -52,7 +53,7 @@ const Settings = () => {
 
     setLoading(true);
     try {
-      await axios.post('/strapi-supergpt/cache/update', chatGPTConfig, {
+      await instance.post('/strapi-supergpt/cache/update', chatGPTConfig, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },

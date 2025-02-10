@@ -28,6 +28,8 @@ import Help from "../Help";
 import LoadingOverlay from "../Loading";
 import Integration from "../Integration";
 
+import instance from '../../utils/axiosInstance';
+
 const Home = () => {
   const { formatMessage } = useIntl();
   const imageFormats = [
@@ -43,14 +45,6 @@ const Home = () => {
   const [format, setFormat] = useState(imageFormats[0]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
-
-  const instance = axios.create({
-    baseURL: process.env.STRAPI_ADMIN_BACKEND_URL,
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      "Content-Type": "application/json",
-    },
-  });
 
   const handlePromptChange = (e) => {
     setError("");

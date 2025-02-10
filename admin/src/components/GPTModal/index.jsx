@@ -21,7 +21,6 @@ const GPTModal = () => {
   const [completionResponse, setCompletionResponse] = useState('');
   const [completionLoading, setCompletionLoading] = useState(false);
   const [completionError, setCompletionError] = useState(null);
-  const [conversation, setConservation] = useState()
 
   // State for Image Tab
   const [imagePrompt, setImagePrompt] = useState('');
@@ -107,11 +106,6 @@ const GPTModal = () => {
                 >
                   {completionLoading ? 'Generating...' : 'Generate Completion'}
                 </Button>
-                {completionResponse && (
-                  <Typography mt={2} style={{ whiteSpace: 'pre-wrap' }}>
-                    {completionResponse}
-                  </Typography>
-                )}
                 {completionError && (
                   <Typography color="danger" mt={2}>
                     {completionError}
@@ -119,7 +113,7 @@ const GPTModal = () => {
                 )}
               </Box>
               <Response>
-                {conversation}
+                {completionResponse}
               </Response>
             </Tabs.Content>
             <Tabs.Content value="image">
