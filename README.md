@@ -36,10 +36,12 @@ Thats it! You can now use ChatGPT in your Strapi application.
 ## 🖐 Requirements
 
 1. [Node.js](https://nodejs.org/en/) version 18 or higher.
-1. [Strapi](https://strapi.io/) version v5.x or higher.
+1. [Strapi](https://strapi.io/) follow the matrix to know which versions to install
 
-> The ChatGPT plugin is designed for **Strapi v5.x**.
-> I wanted to make it backwards compatable but that doesn't seem possible without me desiging two different plugins.
+| Plugin Version | Supported Strapi Version |
+|----------------|--------------------------|
+| 1.x.x          | Strapi 4.x               |
+| 2.x.x          | Strapi 5.x               |
 
 ## ⏳ Installation
 
@@ -93,13 +95,6 @@ yarn develop
 The ChatGPT plugin should appear in the Plugins section of the Strapi sidebar after you run the app again.
 
 Now you are ready to integrate ChatGPT on your Strapi website.
-
-## Plugin Compatibility Matrix
-
-| Plugin Version | Supported Strapi Version |
-|----------------|--------------------------|
-| 1.x.x          | Strapi 4.x               |
-| 2.x.x          | Strapi 5.x               |
 
 ## 🔧 Configuration
 
