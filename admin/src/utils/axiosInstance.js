@@ -4,20 +4,10 @@
 
 import axios from 'axios';
 
-let token = localStorage.getItem('jwtToken');
+let token = localStorage.getItem('jwtToken') || sessionStorage.getItem('jwtToken');
 if (token) {
   token = token.replaceAll('"', '');
 }
-
-// const cookies = document.cookie.split(';')
-// let token = ""
-// for (let cookie of cookies) {
-//   // Remove leading spaces and split into key and value
-//   const [key, value] = cookie.trim().split('=');
-//   if (key === "token") {
-//     token = value;
-//   }
-// }
 
 const instance = axios.create({
   baseURL: process.env.STRAPI_ADMIN_BACKEND_URL,
@@ -26,7 +16,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   async config => {
     config.headers = {
-      // Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };

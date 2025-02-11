@@ -23,11 +23,7 @@ const Settings = () => {
     const fetchChatGPTConfig = async () => {
       setLoading(true);
       try {
-        const { data } = await instance.get('/strapi-supergpt/cache', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-          },
-        });
+        const { data } = await instance.get('/strapi-supergpt/cache');
         setChatGPTConfig(data);
       } catch (error) {
         toggleNotification({
@@ -53,11 +49,7 @@ const Settings = () => {
 
     setLoading(true);
     try {
-      await instance.post('/strapi-supergpt/cache/update', chatGPTConfig, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-        },
-      });
+      await instance.post('/strapi-supergpt/cache/update', chatGPTConfig);
       toggleNotification({
         type: 'success',
         message: formatMessage({ id: 'settingsPage.notifications.success' }),
