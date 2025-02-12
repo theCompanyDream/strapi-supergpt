@@ -4,8 +4,6 @@ import PluginIcon from "./components/PluginIcon";
 import Initializer from "./components/Initializer";
 import TabbedGPT from "./components/GPTModal"
 
-const name = pluginPkg.strapi.name;
-
 export default {
   register(app) {
     app.addMenuLink({
