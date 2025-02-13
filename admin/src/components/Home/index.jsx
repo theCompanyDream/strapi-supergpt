@@ -140,30 +140,32 @@ const Home = () => {
 
     let response;
 
-    if (e.target.name === "picture") {
-      if (format === imageFormats[0]) {
-        setError(formatMessage({id: "strapi-supergpt.homePage.error.imageSizeRequired"}));
-        return;
+    try {
+      if (e.target.name === "picture") {
+        if (format === imageFormats[0]) {
+          setError(formatMessage({id: "strapi-supergpt.homePage.error.imageSizeRequired"}));
+          return;
+        }
+        setLoading(true);
+        const data = await instance.post("/strapi-supergpt/generateImage", {
+          prompt: prompt,
+          size: format,
+        })
+        setLoading(false);
+        response = data.data;
+      } else {
+        setLoading(true);
+        const format = formatMessage({ id: "strapi-supergpt.homePage.prompt.format"})
+        const data = await instance.post("/strapi-supergpt/prompt", {
+          prompt: `${prompt} ${format}?`,
+        })
+        setLoading(false);
+        response = data.data;
       }
-      setLoading(true);
-      const { data } = await instance.post("/strapi-supergpt/generateImage", {
-        prompt: prompt,
-        size: format,
-      });
-      response = data;
-    } else {
-      setLoading(true);
-      const format = formatMessage({ id: "strapi-supergpt.homePage.prompt.format"})
-      const { data } = await instance.post("/strapi-supergpt/prompt", {
-        prompt: `${prompt} ${format}?`,
-      });
-      response = data;
-    }
-
-    if (response.error || !response.response) {
+    } catch (e) {
+      const errorMessage =  e.message || e.response?.data?.error || "An unknown error occurred";
+      setError(errorMessage);
       setLoading(false);
-      setError(response.error);
-      return;
     }
 
     let highlightedConvo = convos[highlightedId];
@@ -185,7 +187,6 @@ const Home = () => {
       content: highlightedConvo.content
     });
 
-    setLoading(false);
     setPrompt("");
   };
 
@@ -321,10 +322,7 @@ const Home = () => {
                     onChange={handlePromptChange}
                     value={prompt}
                     disabled={loading}
-                    onPaste={(e) => {
-                      e.preventDefault();
-                      setError("");
-                    }}
+                    onPaste={handlePromptChange}
                   />
                 </GridItem>
                 <GridItem style={{ display: 'flex', justifyContent: 'space-between', gap: '0.5rem' }}>
