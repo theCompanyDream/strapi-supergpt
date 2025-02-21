@@ -1,13 +1,20 @@
 // components/TabbedGPTModal/index.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useIntl } from "react-intl";
+import { unstable_useContentManagerContext as useCMEditViewDataManager } from '@strapi/strapi/admin';
+
 import {
   Modal,
-  Tabs,
   Button,
   TextInput,
   Typography,
-  Box,
+  Flex,
+  Card,
+  Checkbox,
+  SingleSelect,
+  SingleSelectOption,
+  Box
 } from '@strapi/design-system';
 
 import PluginIcon from "../PluginIcon"
@@ -17,140 +24,165 @@ import instance from '../../utils/axiosInstance';
 
 const GPTModal = () => {
   // State for Completion Tab
-  const [prompt, setPrompt] = useState('');
-  const [completionResponse, setCompletionResponse] = useState('');
-  const [completionLoading, setCompletionLoading] = useState(false);
-  const [completionError, setCompletionError] = useState(null);
+  const { formatMessage } = useIntl();
+  const { id, form  } = useCMEditViewDataManager();
+  const { initialValues, values, onChange } = form;
+  // const { publish } = useDocumentActions()
+  const imageFormats = [
+    formatMessage({ id: "homePage.imageFormat" }),
+    "1024x1024",
+    "1024x1792",
+    "1792x1024",
+  ]
+  const [modalForm, setPrompt] = useState({prompt:"", includeData: false, imageSize: imageFormats[0]});;
+  const [conversation, setConversation] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // State for Image Tab
-  const [imagePrompt, setImagePrompt] = useState('');
-  const [imageResponse, setImageResponse] = useState('');
-  const [imageLoading, setImageLoading] = useState(false);
-  const [imageError, setImageError] = useState(null);
+  const [Error, setError] = useState(null);
 
-  // Handler for Generating Text Completion
-  const handleGenerateCompletion = async () => {
-    if (!prompt.trim()) {
-      setCompletionError('Prompt cannot be empty.');
+  useEffect(() => {
+    if (id !== undefined) {
+      instance.get(`/strapi-supergpt/convo/${id}`)
+      .then(conversations => {
+        if (conversations.length > 0) {
+          setConversation(conversations)
+        }
+      });
+    }
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!modalForm) {
+      setError(formatMessage({id: "homePage.error.promptRequired"}));
       return;
     }
-    setCompletionLoading(true);
-    setCompletionError(null);
-    try {
-      // Replace with your GPT API call for text completion
-      const res = await instance.post('/api/generate-completion', {
-        body: JSON.stringify({ prompt }),
-      });
-      const data = await res.json();
-      setCompletionResponse(data.result);
-    } catch (err) {
-      setCompletionError('Failed to generate completion. Please try again.');
-    } finally {
-      setCompletionLoading(false);
-    }
-  };
 
-  // Handler for Generating Image
-  const handleGenerateImage = async () => {
-    if (!imagePrompt.trim()) {
-      setImageError('Prompt cannot be empty.');
+    let prompt = modalForm.prompt;
+
+    if (modalForm.includeData) {
+      prompt += `\n${JSON.stringify(values)}`
+    }
+
+    prompt += `\n${formatMessage({ id: "homePage.prompt.format"})}`
+
+    let response;
+
+    if (e.target.name === "picture") {
+      if (format === imageFormats[0]) {
+        setError(formatMessage({id: "homePage.error.imageSizeRequired"}));
+        return;
+      }
+      setLoading(true);
+      const { data } = await instance.post("/strapi-supergpt/generateImage", {
+        prompt: prompt,
+        size: format,
+      });
+      response = data;
+    } else {
+      setLoading(true);
+      const { data } = await instance.post("/strapi-supergpt/prompt", {
+        prompt: prompt,
+      });
+      response = data;
+    }
+
+    if (response.error || !response.response) {
+      setLoading(false);
+      setError(response.error);
       return;
     }
-    setImageLoading(true);
-    setImageError(null);
-    try {
-      // Replace with your GPT API call for image generation
-      const res = await instance.post('/api/generate-image', {
-        body: JSON.stringify({ prompt: imagePrompt }),
-      });
-      const data = await res.json();
-      setImageResponse(data.imageUrl); // Assuming the API returns an image URL
-    } catch (err) {
-      setImageError('Failed to generate image. Please try again.');
-    } finally {
-      setImageLoading(false);
-    }
+
+    setConversation([
+      ...conversation,
+      {
+        name: "you",
+        message: form.prompt
+      },
+      {
+        name: "chatgpt",
+        message: response.response,
+      }
+    ]);
+
+    setLoading(false);
+    setPrompt("");
   };
 
   return (
     <Modal.Root>
       <Modal.Trigger>
-        <StyledButton startIcon={<PluginIcon />}>GPT</StyledButton>
+        <StyledTrigger startIcon={<PluginIcon />}>GPT</StyledTrigger>
       </Modal.Trigger>
       <Modal.Content>
         <Modal.Header>
-          <Typography variant="delta" id="gpt-tabbed-modal-title">
+          <Typography variant="delta">
             Strapi SuperGPT
           </Typography>
         </Modal.Header>
         <Modal.Body>
-          <Tabs.Root label="GPT Options">
-            <Tabs.List>
-              <Tabs.Trigger value="completion">Text Completion</Tabs.Trigger>
-              <Tabs.Trigger value="image">Image Generation</Tabs.Trigger>
-            </Tabs.List>
-            <Tabs.Content value="completion">
-              <Box padding={4}>
-                <TextInput
-                  label="Your Prompt"
-                  placeholder="Enter your prompt here..."
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  error={completionError}
-                />
-                <Button
+          <Box>
+            <Flex>
+              <StyledTextInput
+                label="Prompt"
+                placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
+                value={modalForm.prompt}
+                onChange={(e) => setPrompt({...modalForm, prompt: e.target.value})}
+                error={Error}
+              />
+              <StyledButton
                   variant="secondary"
-                  onClick={handleGenerateCompletion}
-                  disabled={completionLoading}
-                  style={{ marginTop: '16px' }}
+                  name="prompt"
+                  onClick={handleSubmit}
+                  disabled={loading}
                 >
-                  {completionLoading ? 'Generating...' : 'Generate Completion'}
-                </Button>
-                {completionError && (
-                  <Typography color="danger" mt={2}>
-                    {completionError}
-                  </Typography>
-                )}
-              </Box>
-              <Response>
-                {completionResponse}
-              </Response>
-            </Tabs.Content>
-            <Tabs.Content value="image">
-              <Box padding={4}>
-                <TextInput
-                  label="Image Prompt"
-                  placeholder="Describe the image you want..."
-                  value={imagePrompt}
-                  onChange={(e) => setImagePrompt(e.target.value)}
-                  error={imageError}
-                />
-                <Button
+                  {formatMessage({ id: "homePage.prompt.button" })}
+                </StyledButton>
+                <StyledButton
                   variant="secondary"
-                  onClick={handleGenerateImage}
-                  disabled={imageLoading}
-                  style={{ marginTop: '16px' }}
+                  name="picture"
+                  onClick={handleSubmit}
+                  disabled={loading}
                 >
-                  {imageLoading ? 'Generating...' : 'Generate Image'}
-                </Button>
-                {imageResponse && (
-                  <Box mt={2}>
-                    <img src={imageResponse} alt="Generated by GPT" style={{ maxWidth: '100%' }} />
-                  </Box>
-                )}
-                {imageError && (
-                  <Typography color="danger" mt={2}>
-                    {imageError}
-                  </Typography>
-                )}
-              </Box>
-            </Tabs.Content>
-          </Tabs.Root>
+                  {formatMessage({ id: "homePage.image.button" })}
+                </StyledButton>
+            </Flex>
+            {/* Checkbox placed just below the prompt */}
+            <Flex direction="row">
+              <SingleSelect onChange={(e) => setPrompt({...modalForm, imageSize: e})} value={modalForm.imageSize}>
+                {imageFormats.map((format, idx) => (
+                  <SingleSelectOption key={idx} value={format}>
+                    {format}
+                  </SingleSelectOption>
+                ))}
+              </SingleSelect>
+
+              <Checkbox
+                onCheckedChange={(e) => setPrompt({...modalForm , includeData: e})}
+                checked={modalForm.includeData}
+              >
+              {formatMessage({
+                id: "entity.includeStrapiData",
+                defaultMessage: "Include Collection Data"
+              })}
+            </Checkbox>
+            </Flex>
+            <StyledCard>
+              {conversation && <Response>
+                {conversation}
+              </Response>}
+            </StyledCard>
+          </Box>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="tertiary">
-            Cancel
-          </Button>
+          <Modal.Close>
+            <Button variant="tertiary">
+              Cancel
+            </Button>
+          </Modal.Close>
         </Modal.Footer>
       </Modal.Content>
     </Modal.Root>
@@ -159,6 +191,21 @@ const GPTModal = () => {
 
 export default GPTModal;
 
-const StyledButton = styled(Button)`
+const StyledTextInput = styled(TextInput)`
+  width: 80%;
+  margin-right: 1rem;
+`;
+
+const StyledTrigger = styled(Button)`
   width: 100%;
-`
+`;
+
+const StyledButton = styled(Button)`
+  margin-right: 0.5rem;
+`;
+
+const StyledCard = styled(Card)`
+  margin-top: 1rem;
+  width: 100%;
+  height: 45vh;
+`;
