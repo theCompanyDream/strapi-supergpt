@@ -15,8 +15,7 @@ const Settings = () => {
     apiKey: '',
     modelName: 'o3-mini',
     maxTokens: 2048,
-    aiImageModelName: 'dall-e-3',
-    ttsModelName: 'tts-1-hd',
+    aiImageModelName: 'dall-e-3'
   });
 
   useEffect(() => {
@@ -138,22 +137,7 @@ const Settings = () => {
           </FieldWrapper>
         </Grid.Item>
 
-        {/* TTS Model select with separate label */}
-        <Grid.Item col={6}>
-          <FieldWrapper>
-            <FieldLabel>{formatMessage({ id: 'settingsPage.labels.tts-model' })}</FieldLabel>
-            <StyledSelect
-              placeholder={formatMessage({ id: 'settingsPage.placeholder.tts-model' })}
-              value={chatGPTConfig.ttsModelName}
-              onChange={(value) =>
-                setChatGPTConfig({ ...chatGPTConfig, ttsModelName: value })
-              }
-            >
-              <SingleSelectOption value="tts-1">TTS-1</SingleSelectOption>
-              <SingleSelectOption value="tts-1-hd">TTS-1 HD</SingleSelectOption>
-            </StyledSelect>
-          </FieldWrapper>
-        </Grid.Item>
+
       </Grid.Root>
     </Main>
   );
