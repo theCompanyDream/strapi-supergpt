@@ -96,7 +96,19 @@ The ChatGPT plugin should appear in the Plugins section of the Strapi sidebar af
 
 Now you are ready to integrate ChatGPT on your Strapi website.
 
-## 🔧 Configuration
+## RoadMap
+
+- [] migrate openai -> langchain
+- [] give user the option to user other llms [groq, deepseek, mistral, llama, claude if possible]
+- [] add option to move/delete picture
+
+### Nice to haves
+
+- [] make specific endpoints serviceable from the outside.
+- [] allow users to curate their own chat bots
+- [] create audio from text
+
+## Configuration
 
 You can easily configure the ChatGPT plugin in the Strapi admin panel.
 
@@ -104,7 +116,7 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 - On the configiration page, Enter All the fields.
 - Click on Save to save the configuration.
 
-## 📖 Testing the plugin
+## Testing the plugin
 
 - Click ChatGPT plugin in plugin section of the sidebar.
 - Click on Integration to get sample code integration code.
