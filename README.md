@@ -98,15 +98,15 @@ Now you are ready to integrate ChatGPT on your Strapi website.
 
 ## RoadMap
 
-- [] migrate openai -> langchain
-- [] give user the option to user other llms [groq, deepseek, mistral, llama, claude if possible]
-- [] add option to move/delete picture
+- [ ] migrate openai -> langchain
+- [ ] give user the option to user other llms [groq, deepseek, mistral, llama, claude if possible]
+- [ ] add option to move/delete picture
 
 ### Nice to haves
 
-- [] make specific endpoints serviceable from the outside.
-- [] allow users to curate their own chat bots
-- [] create audio from text
+- [ ] make specific endpoints serviceable from the outside.
+- [ ] allow users to curate their own chat bots
+- [ ] create audio from text
 
 ## Configuration
 
