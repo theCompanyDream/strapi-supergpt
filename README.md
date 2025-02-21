@@ -99,7 +99,11 @@ Now you are ready to integrate ChatGPT on your Strapi website.
 ## RoadMap
 
 - [ ] migrate openai -> langchain
-- [ ] give user the option to user other llms [groq, deepseek, mistral, llama, claude if possible]
+- [ ] give user the option to user other llms
+- [ ] use groq
+- [ ] use mistral
+- [ ] use llama3
+- [ ] use claude
 - [ ] add option to move/delete picture
 
 ### Nice to haves
