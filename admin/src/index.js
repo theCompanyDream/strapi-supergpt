@@ -14,7 +14,7 @@ export default {
         defaultMessage: PLUGIN_ID,
       },
       Component: async () => {
-        const App = await import('./components/Home');
+        const App = await import('./pages/App');
         return App;
       },
     });
@@ -42,7 +42,7 @@ export default {
           to: `/settings/${PLUGIN_ID}`,
           Component: async () => {
             const SettingsPage = await import(
-              "./components/Settings"
+              "./pages/Settings"
             );
             return SettingsPage;
           },
