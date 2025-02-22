@@ -4,15 +4,15 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  *
  */
-
+import { Page } from '@strapi/strapi/admin';
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "../components/Home";
+import Home from "../components/Home/index";
 
 const App = () => {
   return (
     <Routes>
-      <Route index element={<Home />} />
+      <Route index path="/" element={<Home />} />
       <Route path="*" element={<Page.Error />} />
     </Routes>
   );

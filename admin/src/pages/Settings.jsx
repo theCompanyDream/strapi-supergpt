@@ -4,7 +4,7 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  *
  */
-
+import { Page } from '@strapi/strapi/admin';
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Settings from "../components/Settings";
