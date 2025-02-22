@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from 'styled-components';
 import { useIntl } from "react-intl";
 import { Helmet } from "react-helmet";
-import GitHubButton from 'react-github-btn';
-import axios from "axios";
 import {
   Layouts
 } from '@strapi/strapi/admin';
@@ -14,9 +12,6 @@ import {
   SingleSelectOption,
   Main,
   Box,
-  Card,
-  CardBody,
-  CardContent,
   Grid,
   Tabs,
   Typography
@@ -126,7 +121,7 @@ const Home = () => {
     try {
       if (e.target.name === "picture") {
         if (format === imageFormats[0]) {
-          setError(formatMessage({id: "strapi-supergpt.homePage.error.imageSizeRequired"}));
+          setError(formatMessage({id: "homePage.error.imageSizeRequired"}));
           return;
         }
         setLoading(true);
@@ -138,7 +133,7 @@ const Home = () => {
         response = data.data;
       } else {
         setLoading(true);
-        const format = formatMessage({ id: "strapi-supergpt.homePage.prompt.format"})
+        const format = formatMessage({ id: "homePage.prompt.format"})
         const data = await instance.post("/strapi-supergpt/prompt", {
           prompt: `${prompt} ${format}?`,
         })
@@ -149,6 +144,7 @@ const Home = () => {
       const errorMessage =  e.message || e.response?.data?.error || "An unknown error occurred";
       setError(errorMessage);
       setLoading(false);
+      return;
     }
 
     let highlightedConvo = convos[highlightedId];
@@ -201,18 +197,6 @@ const Home = () => {
               <Typography variant="alpha" as="h1">
                 SuperGPT
               </Typography>
-              <Box marginLeft={2}>
-                <GitHubButton
-                  href="https://github.com/theCompanyDream/strapi-supergpt"
-                  data-color-scheme="no-preference: light; light: light; dark: dark;"
-                  data-icon="octicon-star"
-                  data-size="small"
-                  data-show-count="true"
-                  aria-label="Star theCompanyDream/strapi-supergpt on GitHub"
-                >
-                  Star
-                </GitHubButton>
-              </Box>
             </Box>
           }
           subtitle={formatMessage({
@@ -238,12 +222,12 @@ const Home = () => {
            }
         />
         <Layouts.Content>
-          <Tabs.Root onTabChange={setSelectedResponse}>
+          <Tabs.Root defaultValue={0} onTabChange={setSelectedResponse}>
             <Tabs.List>
-              {convos.length > 0 && convos.map(convo => (
+              {convos.length > 0 && convos.map((convo, idx) => (
                 <CustomTab
                   key={convo.id}
-                  value={convo.id}
+                  value={idx}
                   onRename={handleSaveTab}
                   onDelete={() => handleDeleteTab(convo.id)}
                 >
@@ -252,66 +236,63 @@ const Home = () => {
               ))}
               <Tabs.Trigger onClick={handleCreateTab}><PlusCircle /></Tabs.Trigger>
             </Tabs.List>
-            {convos.length > 0 && convos.map((convo) => (
-              <Tabs.Content key={convo.id} value={convo.id}>
-                <Card>
-                  <CardBody
-                    style={{
-                      height: "64vh",
-                      overflowY: "scroll",
-                      width: "100%"
-                    }}
-                  >
-                    <CardContent>
-                      <LoadingOverlay isLoading={loading} />
-                        {convo.content.map((response, index) => (
-                          <Response key={`${index}`}>
-                            {response}
-                          </Response>
-                        ))}
-                        <div ref={messagesEndRef} />
-                    </CardContent>
-                  </CardBody>
-                </Card>
+            {convos.length > 0 && convos.map((convo, idx) => (
+              <Tabs.Content key={convo.id} value={idx}>
+                <Box
+                  style={{
+                    "margin-top": "0.5rem",
+                    height: "62vh",
+                    overflow: "scroll",
+                    width: "100%",
+                    position: "relative",
+                    padding: "3rem",
+                    zIndex: 1
+                  }}
+                >
+                  <LoadingOverlay isLoading={loading} />
+                    {convo.content.map((response, index) => (
+                      <Response key={index}>
+                        {response}
+                      </Response>
+                    ))}
+                </Box>
               </Tabs.Content>
             ))}
           </Tabs.Root>
-          <Box>
-            <Grid.Root spacing={1} gap={2} paddingTop={4}>
-              <Grid.Item col={12}>
-                <StyledTextInput
-                  id="chatInput"
-                  placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
-                  aria-label="Content"
-                  name="prompt"
-                  error={error}
-                  onChange={handlePromptChange}
-                  value={prompt}
-                  disabled={loading}
-                  onPaste={handlePromptChange}
-                />
-                <StyledButton
-                  size="L"
-                  name="prompt"
-                  startIcon={<PaperPlane />}
-                  value="prompt"
-                  loading={loading}
-                  onClick={handleSubmit}
-                >
-                  {formatMessage({ id: "homePage.prompt.button" })}
-                </StyledButton>
-                <StyledButton
-                  size="L"
-                  name="picture"
-                  value="picture"
-                  onClick={handleSubmit}
-                  startIcon={<Palette />}
-                >
-                  {formatMessage({ id: "homePage.image.button" })}
-                </StyledButton>
-              </Grid.Item>
-            </Grid.Root>
-          </Box>
+          <Grid.Root spacing={1} gap={2} paddingTop={4}>
+            <Grid.Item col={12}>
+              <StyledTextInput
+                id="chatInput"
+                placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
+                aria-label="Content"
+                name="prompt"
+                error={error}
+                onChange={handlePromptChange}
+                value={prompt}
+                disabled={loading}
+                onPaste={handlePromptChange}
+              />
+              <StyledButton
+                size="L"
+                name="prompt"
+                startIcon={<PaperPlane />}
+                value="prompt"
+                loading={loading}
+                onClick={handleSubmit}
+              >
+                {formatMessage({ id: "homePage.prompt.button" })}
+              </StyledButton>
+              <StyledButton
+                size="L"
+                name="picture"
+                value="picture"
+                onClick={handleSubmit}
+                startIcon={<Palette />}
+              >
+                {formatMessage({ id: "homePage.image.button" })}
+              </StyledButton>
+            </Grid.Item>
+          </Grid.Root>
         </Layouts.Content>
       </Main>
   );

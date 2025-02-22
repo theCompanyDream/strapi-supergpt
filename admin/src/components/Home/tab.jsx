@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import {
   Box,
   Typography,
@@ -8,7 +9,7 @@ import {
 } from '@strapi/design-system';
 import { More } from '@strapi/icons';
 
-const CustomTab = ({ children, onRename, onSave, onDelete, ...props }) => {
+const CustomTab = ({ children, onRename, onDelete, ...props }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState(children);
 
@@ -29,13 +30,6 @@ const CustomTab = ({ children, onRename, onSave, onDelete, ...props }) => {
     handleClose();
   };
 
-  const handleSave = () => {
-    if (window.confirm('Are you sure you want to save this conversation?')) {
-      onSave();
-    }
-    handleClose();
-  };
-
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this tab?')) {
       onDelete();
@@ -45,13 +39,11 @@ const CustomTab = ({ children, onRename, onSave, onDelete, ...props }) => {
 
   return (
     <Tabs.Trigger {...props}>
-      <Box display="flex" justifyContent="space-between" width="100%">
-        <Box alignItems="left">
-          <SimpleMenu label={<More />} onClick={handleClick} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-            <MenuItem onClick={handleRename}>Rename</MenuItem>
-            <MenuItem onClick={handleDelete}>Delete</MenuItem>
-          </SimpleMenu>
-        </Box>
+      <Box display="flex" width="100%">
+        <StyledMenu side="top" align="center" label={<More />} onClick={handleClick} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+          <MenuItem onClick={handleRename}>Rename</MenuItem>
+          <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        </StyledMenu>
         <Typography variant="omega">{name}</Typography>
       </Box>
     </Tabs.Trigger>
@@ -59,3 +51,8 @@ const CustomTab = ({ children, onRename, onSave, onDelete, ...props }) => {
 };
 
 export default CustomTab;
+
+const StyledMenu = styled(SimpleMenu)`
+  z-index: 5;
+  position: "relative";
+`
