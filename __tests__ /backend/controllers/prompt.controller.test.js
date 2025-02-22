@@ -1,5 +1,5 @@
 "use strict"
-const chatGPTController = require("../../../server/controllers/chat.gpt.controller");
+const chatGPTController = require("../../../server/src/controllers/chat.gpt.controller");
 
 describe("Should ChatGPT Controller", () => {
   let strapi;

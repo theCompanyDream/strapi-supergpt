@@ -1,117 +1,75 @@
-import { prefixPluginTranslations } from "@strapi/helper-plugin";
 import pluginPkg from "../../package.json";
-import pluginId from "./pluginId";
-import Initializer from "./components/Initializer";
+import {PLUGIN_ID} from "./pluginId";
 import PluginIcon from "./components/PluginIcon";
-
-const name = pluginPkg.strapi.name;
+import Initializer from "./components/Initializer";
+import TabbedGPT from "./components/GPTModal"
 
 export default {
   register(app) {
     app.addMenuLink({
-      to: `/plugins/${pluginId}`,
+      to: `plugins/${PLUGIN_ID}`,
       icon: PluginIcon,
       intlLabel: {
-        id: `strapi-supergpt.name`,
-        defaultMessage: pluginPkg.strapi.displayName,
+        id: `${PLUGIN_ID}.plugin.name`,
+        defaultMessage: PLUGIN_ID,
       },
       Component: async () => {
-        const component = await import(
-          /* webpackChunkName: "[request]" */
-          "./pages/App"
-        );
-
-        return component;
+        const App = await import('./pages/App');
+        return App;
       },
-      permissions: [],
+    });
+
+    app.getPlugin('content-manager').injectComponent('editView', 'right-links', {
+      name: 'GPT-Link',
+      Component: TabbedGPT,
     });
 
     app.createSettingSection(
       {
-        id: pluginId,
+        id: PLUGIN_ID,
         intlLabel: {
-          id: `${pluginId}.name`,
+          id: `${PLUGIN_ID}.name`,
           defaultMessage: `${pluginPkg.strapi.displayName} ${pluginPkg.strapi.kind}`,
         },
       },
       [
         {
           intlLabel: {
-            id: `${pluginId}.configuration`,
+            id: `${PLUGIN_ID}.configuration`,
             defaultMessage: "Configuration",
           },
           id: "strapi-supergpt.name",
-          to: `/settings/${pluginId}`,
+          to: `/settings/${PLUGIN_ID}`,
           Component: async () => {
-            const component = await import(
-              /* webpackChunkName: "stripe-page" */
+            const SettingsPage = await import(
               "./pages/Settings"
             );
-
-            return component;
+            return SettingsPage;
           },
         },
       ],
     );
 
     app.registerPlugin({
-      id: pluginId,
+      id: PLUGIN_ID,
       initializer: Initializer,
       isReady: false,
-      name,
+      name: PLUGIN_ID,
     });
-
-    // Register custom fields with translations
-    // const customFields = [
-    //   { name: 'super-audio', type: 'json', component: import('./components/SuperFields/SuperAudio.jsx') },
-    // ];
-
-    // customFields.forEach(field => {
-    //   app.customFields.register({
-    //     name: field.name,
-    //     pluginId: pluginId,
-    //     type: field.type,
-    //     intlLabel: {
-    //       id: `${pluginId}.customFields.${field.name}.label`,
-    //       defaultMessage: field.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
-    //     },
-    //     intlDescription: {
-    //       id: `${pluginId}.customFields.${field.name}.description`,
-    //       defaultMessage: `A ${field.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} field powered by chatgpt`,
-    //     },
-    //     icon: PluginIcon,
-    //     components: {
-    //       Input: async () => await field.component,
-    //     },
-    //   });
-    // });
 
   },
 
-  bootstrap(app) {},
-
   async registerTrads({ locales }) {
-    const importedTrads = await Promise.all(
-      locales.map((locale) => {
-        return import(
-          /* webpackChunkName: "translation-[request]" */
-          `./translations/${locale}.json`
-        )
-          .then(({ default: data }) => {
-            return {
-              data: prefixPluginTranslations(data, pluginId),
-              locale,
-            };
-          })
-          .catch(() => {
-            return {
-              data: {},
-              locale,
-            };
-          });
-      }),
-    );
+    return Promise.all(
+      locales.map(async (locale) => {
+        try {
+          const { default: data } = await import(`./translations/${locale}.json`);
 
-    return Promise.resolve(importedTrads);
+          return { data, locale };
+        } catch {
+          return { data: {}, locale };
+        }
+      })
+    );
   },
 };

@@ -1,5 +1,5 @@
 "use strict";
-const cacheController = require("../../../server/controllers/cache.controller");
+const cacheController = require("../../../server/src/controllers/cache.controller");
 
 describe("Should Caching Controller", () => {
   let strapi;

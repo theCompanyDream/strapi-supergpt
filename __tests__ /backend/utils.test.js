@@ -1,4 +1,4 @@
-const utils = require("../../server/utils");
+const utils = require("../../server/src/utils");
 
 describe("Utility Tests", () => {
   it("conversationToArray should convert to array", () => {

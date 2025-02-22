@@ -7,15 +7,21 @@ const convoObject = "plugin::strapi-supergpt.convo";
 module.exports = ({ strapi }) => ({
   config: strapi.plugin("strapi-supergpt").service("cacheService").getConfig(),
   async createConvo(ctx) {
-    const { name } = ctx.request.body;
+    const {
+      name,
+      content = "",
+      collectionTypeId = ""
+    } = ctx.request.body;
+
     let convo = await strapi.db.query(convoObject).create({
       data: {
         name: name,
-        content: "",
-        userId: ctx.state.user.id
+        content: content,
+        userId: ctx.state.user.id,
+        collectionTypeId: collectionTypeId
       },
     });
-    convo.content = []
+    convo.content = [];
     return convo;
   },
   async readConvo(ctx) {
@@ -24,6 +30,17 @@ module.exports = ({ strapi }) => ({
       select: ["content"],
       where: {
         id: id,
+        userId: ctx.state.user.id
+      },
+    });
+    return utils.conversationToArray(convo.content)
+  },
+  async readCollectionTypebyId(ctx) {
+    const { id } = ctx.params;
+    const convo = await strapi.db.query(convoObject).findOne({
+      select: ["content"],
+      where: {
+        collectionTypeId: id,
         userId: ctx.state.user.id
       },
     });

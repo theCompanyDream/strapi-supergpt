@@ -44,7 +44,7 @@ const CodeBlock = ({ language, value }) => {
         {value}
       </SyntaxHighlighter>
       <CopyButton variant="tertiary" onClick={copyToClipboard}>
-        Copy Code
+        Copy ClipBoard
       </CopyButton>
     </Box>
   );
@@ -70,7 +70,7 @@ const Response = ({ children }) => {
     <ChatContainer>
       <Typography variant="omega" as="p" className={messageClass}>
         {children.name}:
-        <ReactMarkdown components={components}>{children.message}</ReactMarkdown>
+        <ReactMarkdown style={{zIndex: 1}} components={components}>{children.message}</ReactMarkdown>
       </Typography>
       {children.name === 'chatgpt' && (
         <Box paddingTop={2} paddingBottom={4}>

@@ -1,26 +1,18 @@
+import { useEffect, useRef } from 'react';
+
+import { PLUGIN_ID } from '../../pluginId';
+
 /**
- *
- * Initializer
- *
+ * @type {import('react').FC<{ setPlugin: (id: string) => void }>}
  */
-
-import { useEffect, useRef } from "react";
-import PropTypes from "prop-types";
-import pluginId from "../../pluginId";
-
 const Initializer = ({ setPlugin }) => {
-  const ref = useRef();
-  ref.current = setPlugin;
+  const ref = useRef(setPlugin);
 
   useEffect(() => {
-    ref.current(pluginId);
+    ref.current(PLUGIN_ID);
   }, []);
 
   return null;
-};
-
-Initializer.propTypes = {
-  setPlugin: PropTypes.func.isRequired,
 };
 
 export default Initializer;

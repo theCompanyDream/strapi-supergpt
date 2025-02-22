@@ -1,4 +1,4 @@
-const cacheService = require("../../../server/services/cache.service")
+const cacheService = require("../../../server/src/services/cache.service")
 
 describe("Should Caching Service", () => {
 	let strapi
