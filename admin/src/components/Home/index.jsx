@@ -50,17 +50,19 @@ const Home = () => {
     setFormat(e);
   };
 
-  const setSelectedResponse = (index) => {
+  const setSelectedTab = (index) => {
     if (index >= convos.length) {
       setError(formatMessage({id: "homePage.error.unselectableTab"}));
       return;
     }
+    console.log(index)
     const selectedConvo = convos[index];
     if (!selectedConvo.content.length) {
       instance.get(`/strapi-supergpt/convo/${selectedConvo.id}`)
         .then(content => {
+          console.log(content)
           const updatedConvos = [...convos];
-          updatedConvos[index] = { ...selectedConvo, content: content };
+          updatedConvos[index] = { ...selectedConvo, content: content.data };
           setConvos(updatedConvos);
         });
     }
@@ -73,16 +75,15 @@ const Home = () => {
       name: `${defaultConvoName} ${convos.length + 1}`
     });
     setConvos(prevConvos => [...prevConvos, newConvo]);
-    setHighlighted(newConvo.id);
+    setHighlighted(convos.length - 1);
   };
 
-  const handleSaveTab = async (e) => {
-    const id = convos[highlightedId]
-    await instance.put(`/strapi-supergpt/convo`, {
-      name: id,
-      content: convos[highlightedId],
+  const handleRenameTab = async (name) => {
+    const convo = convos[highlightedId]
+    await instance.put(`/strapi-supergpt/convo/${convo.id}`, {
+      name: name,
+      content: convo.content,
     })
-    .then(convo => setConvos([...convos, convo.data]));
   };
 
   const handleDeleteTab = async (id) => {
@@ -110,6 +111,7 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setError("");
     if (!prompt) {
       setError(formatMessage({id: "homePage.error.promptRequired"}));
@@ -119,7 +121,7 @@ const Home = () => {
     let response;
 
     try {
-      if (e.target.name === "picture") {
+      if (e.currentTarget.name === "picture") {
         if (format === imageFormats[0]) {
           setError(formatMessage({id: "homePage.error.imageSizeRequired"}));
           return;
@@ -149,7 +151,7 @@ const Home = () => {
 
     let highlightedConvo = convos[highlightedId];
 
-    highlightedConvo.content += `\n\nYou: ${prompt}\nChatGPT: ${response.response}`;
+    highlightedConvo.content += `\n\nYou: ${prompt}\n\nChatGPT: ${response.response}`;
 
     await instance.put(`/strapi-supergpt/convo/${highlightedConvo.id}`, {
       name: highlightedConvo.name,
@@ -212,15 +214,15 @@ const Home = () => {
           }
       />
       <Layouts.Content>
-        <Tabs.Root defaultValue={highlightedId} onTabChange={setSelectedResponse}>
+        <Tabs.Root defaultValue={highlightedId}>
           <Tabs.List>
             {convos.length > 0 && convos.map((convo, idx) => (
               <CustomTab
                 key={convo.id}
                 value={idx}
-                onRename={handleSaveTab}
+                onRename={handleRenameTab}
                 onDelete={() => handleDeleteTab(convo.id)}
-                onClick={() => setSelectedResponse(idx)}
+                onClick={() => setSelectedTab(idx)}
               >
                 {convo.name}
               </CustomTab>
