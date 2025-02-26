@@ -36,15 +36,5 @@
 	"settingsPage.notifications.success": "ChatGPT कॉन्फ़िगरेशन सफलतापूर्वक सहेजे गए",
 	"settingsPage.notifications.api-key-required": "कृपया API कुंजी दर्ज करें",
 	"settingsPage.notifications.fetch-error": "चैटजीपीटी कॉन्फ़िगरेशन प्राप्त करते समय त्रुटि",
-	"settingsPage.notifications.saving-error": "chatGPT कॉन्फ़िगरेशन सहेजते समय त्रुटि",
-	"customFields.super-audio.field.label": "ऑडियो उत्पन्न करने के लिए एक फ़ील्ड चुनें",
-    "customFields.super-audio.voice.label": "ऑडियो उत्पन्न करने के लिए एक आवाज़ चुनें",
-	"customFields.super-single-select.label": "सुपर सिंगल सिलेक्ट",
-	"customFields.super-single-select.description": "chatgpt द्वारा संचालित एकल चयन क्षेत्र",
-	"customFields.super-multi-select.label": "सुपर मल्टी सिलेक्ट",
-	"customFields.super-multi-select.description": "chatgpt द्वारा संचालित बहु चयन क्षेत्र",
-	"customFields.super-textarea.label": "सुपर टेक्स्टएरिया",
-	"customFields.super-textarea.description": "सुपर टेक्स्टएरिया क्षेत्र",
-	"customFields.super-image.label": "सुपर छवि",
-	"customFields.super-image.description": "सुपर छवि क्षेत्र"
+	"settingsPage.notifications.saving-error": "chatGPT कॉन्फ़िगरेशन सहेजते समय त्रुटि"
   }

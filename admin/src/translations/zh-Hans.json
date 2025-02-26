@@ -36,15 +36,5 @@
 	"settingsPage.notifications.success": "ChatGPT 配置保存成功",
 	"settingsPage.notifications.api-key-required": "请输入 API 密钥",
 	"settingsPage.notifications.fetch-error": "获取chatGPT配置时出错",
-	"settingsPage.notifications.saving-error": "保存 chatGPT 配置时出错",
-	"customFields.super-audio.field.label": "选择一个字段生成音频",
-  	"customFields.super-audio.voice.label": "选择一个声音生成音频",
-	"customFields.super-single-select.label": "超级单选",
-	"customFields.super-single-select.description": "由 chatgpt 提供支持的单选字段",
-	"customFields.super-multi-select.label": "超级多选",
-	"customFields.super-multi-select.description": "由 chatgpt 提供支持的多选字段",
-	"customFields.super-textarea.label": "超级文本区域",
-	"customFields.super-textarea.description": "超级文本区域字段",
-	"customFields.super-image.label": "超级图像",
-	"customFields.super-image.description": "超级图像字段"
+	"settingsPage.notifications.saving-error": "保存 chatGPT 配置时出错"
   }
