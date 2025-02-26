@@ -10,6 +10,7 @@ module.exports = ({ strapi }) => ({
     const {
       name,
       content = "",
+      collectionTypeName = "",
       collectionTypeId = ""
     } = ctx.request.body;
 
@@ -18,6 +19,7 @@ module.exports = ({ strapi }) => ({
         name: name,
         content: content,
         userId: ctx.state.user.id,
+        collectionTypeName: collectionTypeName,
         collectionTypeId: collectionTypeId
       },
     });
@@ -33,18 +35,21 @@ module.exports = ({ strapi }) => ({
         userId: ctx.state.user.id
       },
     });
-    return utils.conversationToArray(convo.content)
+    return convo.content;
   },
   async readCollectionTypebyId(ctx) {
-    const { id } = ctx.params;
-    const convo = await strapi.db.query(convoObject).findOne({
-      select: ["content"],
+    const { model, collectionTypeId } = ctx.params;
+    let convo = await strapi.db.query(convoObject).findOne({
+      select: ["id", "content"],
       where: {
-        collectionTypeId: id,
+        collectionTypeName: model,
+        collectionTypeId: collectionTypeId,
         userId: ctx.state.user.id
       },
     });
-    return utils.conversationToArray(convo.content)
+
+    convo.content = utils.conversationToArray(convo.content);
+    return convo
   },
   async readConvoNames(ctx) {
     if (this.config.convoCount == 1) {
@@ -80,7 +85,7 @@ module.exports = ({ strapi }) => ({
       },
       data: {
         name,
-        content: utils.condenseArray(content),
+        content: content,
       },
     });
     return convo;

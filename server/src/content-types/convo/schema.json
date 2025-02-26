@@ -4,7 +4,7 @@
   "info": {
     "singularName": "convo",
     "pluralName": "convos",
-    "displayName": "Convo"
+    "displayName": "conversation"
   },
   "options": {
     "draftAndPublish": false,
@@ -27,6 +27,12 @@
       "type": "string"
     },
     "userId": {
+      "type": "integer"
+    },
+    "collectionTypeName": {
+      "type": "string"
+    },
+    "collectionTypeId": {
       "type": "integer"
     }
   }

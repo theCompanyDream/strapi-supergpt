@@ -12,6 +12,12 @@ const convoController = ({ strapi }) => ({
       .service("convoService")
       .readConvo(ctx);
   },
+  async readCollectionTypebyId(ctx) {
+    ctx.body = await strapi
+      .plugin("strapi-supergpt")
+      .service("convoService")
+      .readCollectionTypebyId(ctx);
+  },
   async readConvoNames(ctx) {
     ctx.body = await strapi
       .plugin("strapi-supergpt")

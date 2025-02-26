@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Divider, Typography, Button } from '@strapi/design-system';
 import styled from 'styled-components';
-import ReactMarkdown from 'react-markdown';
+import MarkDown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -64,19 +64,11 @@ const Response = ({ children }) => {
     },
   };
 
-  const messageClass = children.name === 'chatgpt' ? 'chatgpt-message' : 'user-message';
-
   return (
     <ChatContainer>
-      <Typography variant="omega" as="p" className={messageClass}>
-        {children.name}:
-        <ReactMarkdown style={{zIndex: 1}} components={components}>{children.message}</ReactMarkdown>
+      <Typography variant="omega" as="h5">
+        <MarkDown components={components}>{children}</MarkDown>
       </Typography>
-      {children.name === 'chatgpt' && (
-        <Box paddingTop={2} paddingBottom={4}>
-          <Divider />
-        </Box>
-      )}
     </ChatContainer>
   );
 };

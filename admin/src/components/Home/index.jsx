@@ -60,7 +60,7 @@ const Home = () => {
       instance.get(`/strapi-supergpt/convo/${selectedConvo.id}`)
         .then(content => {
           const updatedConvos = [...convos];
-          updatedConvos[index] = { ...selectedConvo, content: content.data };
+          updatedConvos[index] = { ...selectedConvo, content: content };
           setConvos(updatedConvos);
         });
     }
@@ -149,17 +149,7 @@ const Home = () => {
 
     let highlightedConvo = convos[highlightedId];
 
-    highlightedConvo.content = [
-      ...highlightedConvo.content,
-      {
-        name: "you",
-        message: prompt
-      },
-      {
-        name: "chatgpt",
-        message: response.response,
-      }
-    ];
+    highlightedConvo.content += `\n\nYou: ${prompt}\nChatGPT: ${response.response}`;
 
     await instance.put(`/strapi-supergpt/convo/${highlightedConvo.id}`, {
       name: highlightedConvo.name,
@@ -189,112 +179,108 @@ const Home = () => {
   }, []);
 
   return (
-      <Main aria-busy={false}>
+    <Main aria-busy={false}>
       <Helmet title={"strapi-supergpt"} />
-        <Layouts.Header
-          title={
-            <Box display="flex" alignItems="center">
-              <Typography variant="alpha" as="h1">
-                SuperGPT
-              </Typography>
-            </Box>
-          }
-          subtitle={formatMessage({
-            id: "homePage.header",
-          })}
-        />
+      <Layouts.Header
+        title={
+          <Box display="flex" alignItems="center">
+            <Typography variant="alpha" as="h1">
+              SuperGPT
+            </Typography>
+          </Box>
+        }
+        subtitle={formatMessage({
+          id: "homePage.header",
+        })}
+      />
 
-        <Layouts.Action
-          startActions={
-            <SingleSelect onChange={handleImageSizeChange} value={format}>
-              {imageFormats.map((format, idx) => (
-                <SingleSelectOption key={idx} value={format}>
-                  {format}
-                </SingleSelectOption>
-              ))}
-            </SingleSelect>
-          }
-           endActions={
-             <Box horizontal gap={2}>
+      <Layouts.Action
+        startActions={
+          <SingleSelect onChange={handleImageSizeChange} value={format}>
+            {imageFormats.map((format, idx) => (
+              <SingleSelectOption key={idx} value={format}>
+                {format}
+              </SingleSelectOption>
+            ))}
+          </SingleSelect>
+        }
+          endActions={
+            <Box horizontal gap={2}>
               <Help />
               <Integration />
-             </Box>
-           }
-        />
-        <Layouts.Content>
-          <Tabs.Root defaultValue={0} onTabChange={setSelectedResponse}>
-            <Tabs.List>
-              {convos.length > 0 && convos.map((convo, idx) => (
-                <CustomTab
-                  key={convo.id}
-                  value={idx}
-                  onRename={handleSaveTab}
-                  onDelete={() => handleDeleteTab(convo.id)}
-                >
-                  {convo.name}
-                </CustomTab>
-              ))}
-              <Tabs.Trigger onClick={handleCreateTab}><PlusCircle /></Tabs.Trigger>
-            </Tabs.List>
+            </Box>
+          }
+      />
+      <Layouts.Content>
+        <Tabs.Root defaultValue={highlightedId} onTabChange={setSelectedResponse}>
+          <Tabs.List>
             {convos.length > 0 && convos.map((convo, idx) => (
-              <Tabs.Content key={convo.id} value={idx}>
-                <Box
-                  style={{
-                    "margin-top": "0.5rem",
-                    height: "62vh",
-                    overflow: "scroll",
-                    width: "100%",
-                    position: "relative",
-                    padding: "3rem",
-                    zIndex: 1
-                  }}
-                >
-                  <LoadingOverlay isLoading={loading} />
-                    {convo.content.map((response, index) => (
-                      <Response key={index}>
-                        {response}
-                      </Response>
-                    ))}
-                </Box>
-              </Tabs.Content>
+              <CustomTab
+                key={convo.id}
+                value={idx}
+                onRename={handleSaveTab}
+                onDelete={() => handleDeleteTab(convo.id)}
+                onClick={() => setSelectedResponse(idx)}
+              >
+                {convo.name}
+              </CustomTab>
             ))}
-          </Tabs.Root>
-          <Grid.Root spacing={1} gap={2} paddingTop={4}>
-            <Grid.Item col={12}>
-              <StyledTextInput
-                id="chatInput"
-                placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
-                aria-label="Content"
-                name="prompt"
-                error={error}
-                onChange={handlePromptChange}
-                value={prompt}
-                disabled={loading}
-                onPaste={handlePromptChange}
-              />
-              <StyledButton
-                size="L"
-                name="prompt"
-                startIcon={<PaperPlane />}
-                value="prompt"
-                loading={loading}
-                onClick={handleSubmit}
-              >
-                {formatMessage({ id: "homePage.prompt.button" })}
-              </StyledButton>
-              <StyledButton
-                size="L"
-                name="picture"
-                value="picture"
-                onClick={handleSubmit}
-                startIcon={<Palette />}
-              >
-                {formatMessage({ id: "homePage.image.button" })}
-              </StyledButton>
-            </Grid.Item>
-          </Grid.Root>
-        </Layouts.Content>
-      </Main>
+            <Tabs.Trigger onClick={handleCreateTab}><PlusCircle /></Tabs.Trigger>
+          </Tabs.List>
+          {convos.length > 0 && convos.map((convo, idx) => (
+        <Tabs.Content
+          style={{
+            "margin-top": "0.5rem",
+            height: "62vh",
+            overflow: "scroll",
+            width: "100%",
+            position: "relative",
+            padding: "3rem",
+            zIndex: 1
+          }}
+          key={convo.id}
+          value={idx}>
+          <LoadingOverlay isLoading={loading} />
+          <Response>{convo.content}</Response>
+        </Tabs.Content>
+        ))}
+        </Tabs.Root>
+        <Grid.Root spacing={1} gap={2} paddingTop={4}>
+          <Grid.Item col={12}>
+            <StyledTextInput
+              id="chatInput"
+              placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
+              aria-label="Content"
+              name="prompt"
+              error={error}
+              onChange={handlePromptChange}
+              value={prompt}
+              disabled={loading}
+              onPaste={handlePromptChange}
+            />
+            <StyledButton
+              size="L"
+              name="prompt"
+              startIcon={<PaperPlane />}
+              value="prompt"
+              loading={loading}
+              onClick={handleSubmit}
+            >
+              {formatMessage({ id: "homePage.prompt.button" })}
+            </StyledButton>
+            <StyledButton
+              size="L"
+              name="picture"
+              value="picture"
+              onClick={handleSubmit}
+              startIcon={<Palette />}
+            >
+              {formatMessage({ id: "homePage.image.button" })}
+            </StyledButton>
+          </Grid.Item>
+        </Grid.Root>
+      </Layouts.Content>
+    </Main>
   );
 };
 

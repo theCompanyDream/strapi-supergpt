@@ -12,6 +12,14 @@ module.exports = {
     },
     {
       method: "GET",
+      path: "/convo/:model/:collectionTypeId",
+      handler: "convoController.readCollectionTypebyId",
+      config: {
+        policies: [],
+      },
+    },
+    {
+      method: "GET",
       path: "/convos",
       handler: "convoController.readConvoNames",
       config: {
