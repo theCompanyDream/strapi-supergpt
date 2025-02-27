@@ -47,8 +47,6 @@ module.exports = ({ strapi }) => ({
         userId: ctx.state.user.id
       },
     });
-
-    convo.content = utils.conversationToArray(convo.content);
     return convo
   },
   async readConvoNames(ctx) {

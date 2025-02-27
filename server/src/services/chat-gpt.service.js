@@ -79,9 +79,21 @@ module.exports = ({ strapi }) => ({
         size,
       });
 
-      const savedFile = await utils.saveFile(data.data[0].url, strapi);
+    // Ensure we have a valid response with at least one image URL
+    if (!data || !data.data || data.data.length === 0) {
+      return ctx.throw(500, "No image was returned from the API.");
+    }
 
-      return { response: `<a href="${savedFile}">${savedFile}</a><a href="${data.data[0].url}">Original Location</a>` };
+    // Save the image file; optionally rename if fileName is provided
+    const savedFile = await utils.saveFile(data.data[0].url, strapi);
+
+    // Create a Markdown-formatted response with two links:
+    // One for the saved file (which you can rename) and one for the original image URL.
+    return `
+        [Saved File](${savedFile}) - *Click to view your saved image.*
+        [Original Location](${data.data[0].url}) - *Original image source.*
+      `.trim();
+
     } catch (error) {
       if (error.response) {
         strapi.log.error(error.response.data.error.message);

@@ -5,58 +5,6 @@ const path = require("path")
 const crypto = require("crypto");
 const mime = require("mime-types"); //used to detect file's mime type
 
-function conversationToArray(conversation) {
-  if (conversation === "") {
-    return [];
-  }
-  const lines = conversation.split("\n");
-  let dialogues = [];
-  let currentSpeaker = null;
-  let currentText = [];
-  let originalText = "";
-
-  lines.forEach((line) => {
-    originalText += line + "\n";
-    // Check if the line starts with 'user:' or 'chatgpt:'
-    const match = line.match(/(you|chatgpt):\s*(.*)$/i);
-    if (match) {
-      // If a new speaker starts speaking, and there is already a current speaker,
-      // push the current dialogue to dialogues array
-      if (currentSpeaker) {
-        dialogues.push({
-          name: currentSpeaker,
-          message: currentText.join("\n"), // Preserve new lines
-        });
-        currentText = [];
-      }
-      currentSpeaker = match[1].toLowerCase();
-      currentText.push(match[2]);
-    } else {
-      // If the same speaker continues or line does not start with a known speaker,
-      // append the line to the current text.
-      currentText.push(line);
-    }
-  });
-
-  // Add the last spoken dialogue to the array if it exists
-  if (currentSpeaker && currentText.length) {
-    dialogues.push({
-      name: currentSpeaker,
-      message: currentText.join("\n"), // Preserve new lines
-    });
-  }
-
-  return dialogues;
-}
-
-function condenseArray(conversation) {
-  let result = "";
-  for (const { name, message } of conversation) {
-    result += `${name}: ${message}\n`;
-  }
-  return result;
-}
-
 function splitTextIntoChunks(text, chunkSize) {
   const chunks = [];
   let start = 0;
@@ -119,8 +67,6 @@ async function saveMp3FileFromBuffer(buffer, strapi) {
 }
 
 module.exports = {
-  conversationToArray,
-  condenseArray,
   saveFile,
   saveMp3FileFromBuffer,
   splitTextIntoChunks

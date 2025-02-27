@@ -25,8 +25,8 @@ import instance from '../../utils/axiosInstance';
 const GPTModal = () => {
   // State for Completion Tab
   const { formatMessage } = useIntl();
-  const { id, form  } = useCMEditViewDataManager();
-  const { initialValues, values, onChange } = form;
+  const { id, form, model  } = useCMEditViewDataManager();
+  const { values, onChange } = form;
   // const { publish } = useDocumentActions()
   const imageFormats = [
     formatMessage({ id: "homePage.imageFormat" }),
@@ -35,17 +35,18 @@ const GPTModal = () => {
     "1792x1024",
   ]
   const [modalForm, setPrompt] = useState({prompt:"", includeData: false, imageSize: imageFormats[0]});;
-  const [conversation, setConversation] = useState('');
+  const [conversation, setConversation] = useState({content:""});
   const [loading, setLoading] = useState(false);
 
   // State for Image Tab
   const [Error, setError] = useState(null);
 
   useEffect(() => {
-    if (id !== undefined) {
-      instance.get(`/strapi-supergpt/convo/${id}`)
+    console.log(model)
+    if (id !== undefined && conversation.content === "") {
+      instance.get(`/strapi-supergpt/convo/${model}/${id}`)
       .then(conversations => {
-        if (conversations.length > 0) {
+        if (conversation) {
           setConversation(conversations)
         }
       });
@@ -71,44 +72,54 @@ const GPTModal = () => {
 
     let response;
 
-    if (e.target.name === "picture") {
-      if (format === imageFormats[0]) {
-        setError(formatMessage({id: "homePage.error.imageSizeRequired"}));
-        return;
+    try {
+      if (e.target.name === "picture") {
+        if (format === imageFormats[0]) {
+          setError(formatMessage({id: "homePage.error.imageSizeRequired"}));
+          return;
+        }
+        setLoading(true);
+        const { data } = await instance.post("/strapi-supergpt/generateImage", {
+          prompt: prompt,
+          size: format,
+        });
+        response = data;
+      } else {
+        setLoading(true);
+        const { data } = await instance.post("/strapi-supergpt/prompt", {
+          prompt: prompt,
+        });
+        response = data;
       }
-      setLoading(true);
-      const { data } = await instance.post("/strapi-supergpt/generateImage", {
-        prompt: prompt,
-        size: format,
-      });
-      response = data;
-    } else {
-      setLoading(true);
-      const { data } = await instance.post("/strapi-supergpt/prompt", {
-        prompt: prompt,
-      });
-      response = data;
-    }
-
-    if (response.error || !response.response) {
+    } catch (e) {
+      const errorMessage =  e.message || e.response?.data?.error || "An unknown error occurred";
+      setError(errorMessage);
       setLoading(false);
-      setError(response.error);
       return;
     }
 
-    setConversation([
-      ...conversation,
-      {
-        name: "you",
-        message: form.prompt
-      },
-      {
-        name: "chatgpt",
-        message: response.response,
-      }
-    ]);
+    setConversation(`
+      ${conversation.content}
+    `);
 
     setLoading(false);
+
+    if (id) {
+      if (conversation.id === undefined) {
+        const { data: newConvo } = await instance.post(`/strapi-supergpt/convo`, {
+          name: `${defaultConvoName} ${convos.length + 1}`,
+          collectionTypeId: id,
+          collectionTypeName: model
+        });
+        setConversation(newConvo);
+      } else {
+        await instance.put(`/strapi-supergpt/convo/${conversation.id}`, {
+          name: conversation.name,
+          content: conversation.content
+        });
+      }
+    }
+
     setPrompt("");
   };
 
@@ -171,9 +182,11 @@ const GPTModal = () => {
             </Checkbox>
             </Flex>
             <StyledCard>
-              {conversation && <Response>
-                {conversation}
-              </Response>}
+              {conversation &&
+                <Response>
+                  {conversation.content}
+                </Response>
+              }
             </StyledCard>
           </Box>
         </Modal.Body>
@@ -208,4 +221,6 @@ const StyledCard = styled(Card)`
   margin-top: 1rem;
   width: 100%;
   height: 45vh;
+  padding: 1rem;
+  overflow: scroll;
 `;
