@@ -26,7 +26,7 @@ const GPTModal = () => {
   // State for Completion Tab
   const { formatMessage } = useIntl();
   const { id, form, model  } = useCMEditViewDataManager();
-  const { values, onChange } = form;
+  const { values } = form;
   // const { publish } = useDocumentActions()
   const imageFormats = [
     formatMessage({ id: "homePage.imageFormat" }),
@@ -103,23 +103,19 @@ const GPTModal = () => {
       content: newContent
     }));
 
-    if (id) {
-      console.log("New conversation content:", newContent);
-      // Use newContent directly in your POST/PUT requests:
-      if (!conversation.id) {  // or your logic to check if it's a new conversation
-        const { data: newConvo } = await instance.post(`/strapi-supergpt/convo`, {
-          collectionTypeId: id,
-          collectionTypeName: model,
-          content: newContent
-        });
-        setConversation(newConvo);
-      } else {
-        await instance.put(`/strapi-supergpt/convo/${conversation.id}`, {
-          collectionTypeId: id,
-          collectionTypeName: model,
-          content: newContent
-        });
-      }
+    if (id && conversation.id) {
+      await instance.put(`/strapi-supergpt/convo/${conversation.id}`, {
+        collectionTypeId: id,
+        collectionTypeName: model,
+        content: newContent
+      });
+    } else if (id) {
+      const { data: newConvo } = await instance.post(`/strapi-supergpt/convo`, {
+        collectionTypeId: id,
+        collectionTypeName: model,
+        content: newContent
+      });
+      setConversation(newConvo);
     }
 
     setPrompt("");
