@@ -107,11 +107,12 @@ const GPTModal = () => {
       console.log("New conversation content:", newContent);
       // Use newContent directly in your POST/PUT requests:
       if (!conversation.id) {  // or your logic to check if it's a new conversation
-         await instance.post(`/strapi-supergpt/convo`, {
+        const { data: newConvo } = await instance.post(`/strapi-supergpt/convo`, {
           collectionTypeId: id,
           collectionTypeName: model,
           content: newContent
         });
+        setConversation(newConvo);
       } else {
         await instance.put(`/strapi-supergpt/convo/${conversation.id}`, {
           collectionTypeId: id,
