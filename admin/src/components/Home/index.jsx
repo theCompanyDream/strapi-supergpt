@@ -255,7 +255,7 @@ const Home = () => {
                 placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
                 aria-label="Content"
                 name="prompt"
-                hasError={error}
+                hasError={error !== ""}
                 onChange={handlePromptChange}
                 value={prompt}
                 disabled={loading}
@@ -268,6 +268,7 @@ const Home = () => {
               name="prompt"
               startIcon={<PaperPlane />}
               value="prompt"
+              error={error}
               loading={loading}
               onClick={handleSubmit}
             >
@@ -277,7 +278,9 @@ const Home = () => {
               size="L"
               name="picture"
               value="picture"
+              error={error}
               onClick={handleSubmit}
+              loading={loading}
               startIcon={<Palette />}
             >
               {formatMessage({ id: "homePage.image.button" })}
@@ -296,4 +299,5 @@ const StyledTextInput = styled(TextInput)`
 `
 const StyledButton = styled(Button)`
   margin-left: 1rem;
+  margin-bottom: ${props => props.error ? "2rem" : "0"};
 `

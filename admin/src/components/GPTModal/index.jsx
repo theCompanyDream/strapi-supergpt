@@ -141,6 +141,8 @@ const GPTModal = () => {
               <StyledButton
                 variant="secondary"
                 name="prompt"
+                size="L"
+                error={Error}
                 onClick={handleSubmit}
                 disabled={loading}
               >
@@ -149,6 +151,8 @@ const GPTModal = () => {
               <StyledButton
                 variant="secondary"
                 name="picture"
+                size="L"
+                error={Error}
                 onClick={handleSubmit}
                 disabled={loading}
               >
@@ -216,6 +220,7 @@ const StyledTrigger = styled(Button)`
 
 const StyledButton = styled(Button)`
   margin-right: 0.5rem;
+  margin-bottom: ${props => props.error ? "2rem" : "0"};
 `;
 
 const StyledCard = styled(Card)`
