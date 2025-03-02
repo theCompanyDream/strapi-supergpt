@@ -42,12 +42,11 @@ const GPTModal = () => {
   const [Error, setError] = useState(null);
 
   useEffect(() => {
-    console.log(model)
-    if (id !== undefined && conversation.content === "") {
+    if (id !== undefined) {
       instance.get(`/strapi-supergpt/convo/${model}/${id}`)
       .then(conversations => {
         if (conversation) {
-          setConversation(conversations)
+          setConversation(conversations.data)
         }
       });
     }
@@ -98,24 +97,26 @@ const GPTModal = () => {
       return;
     }
 
-    setConversation(`
-      ${conversation.content}
-    `);
-
-    setLoading(false);
+    const newContent = `You: ${modalForm.prompt}\nChatGPT: ${response.response}`;
+    setConversation((prevConvo) => ({
+      ...prevConvo,
+      content: newContent
+    }));
 
     if (id) {
-      if (conversation.id === undefined) {
-        const { data: newConvo } = await instance.post(`/strapi-supergpt/convo`, {
-          name: `${defaultConvoName} ${convos.length + 1}`,
+      console.log("New conversation content:", newContent);
+      // Use newContent directly in your POST/PUT requests:
+      if (!conversation.id) {  // or your logic to check if it's a new conversation
+         await instance.post(`/strapi-supergpt/convo`, {
           collectionTypeId: id,
-          collectionTypeName: model
+          collectionTypeName: model,
+          content: newContent
         });
-        setConversation(newConvo);
       } else {
         await instance.put(`/strapi-supergpt/convo/${conversation.id}`, {
-          name: conversation.name,
-          content: conversation.content
+          collectionTypeId: id,
+          collectionTypeName: model,
+          content: newContent
         });
       }
     }

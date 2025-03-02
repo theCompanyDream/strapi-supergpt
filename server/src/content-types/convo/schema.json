@@ -33,7 +33,7 @@
       "type": "string"
     },
     "collectionTypeId": {
-      "type": "integer"
+      "type": "string"
     }
   }
 }

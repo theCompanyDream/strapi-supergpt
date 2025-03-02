@@ -76,7 +76,7 @@ module.exports = ({ strapi }) => ({
   },
   async updateConvo(ctx) {
     const { id } = ctx.params;
-    const { name, content } = ctx.request.body;
+    const { name="", content, model="", collectionTypeId="" } = ctx.request.body;
     strapi.log.info(`Updating convo with id: ${id} name: ${name} `);
     const convo = await strapi.db.query(convoObject).update({
       where: {
@@ -85,6 +85,8 @@ module.exports = ({ strapi }) => ({
       data: {
         name,
         content: content,
+        collectionTypeName: model,
+        collectionTypeId: collectionTypeId,
       },
     });
     return convo;
