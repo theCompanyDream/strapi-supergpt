@@ -1,12 +1,11 @@
-// components/TabbedGPTModal/index.js
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useIntl } from "react-intl";
 import { unstable_useContentManagerContext as useCMEditViewDataManager } from '@strapi/strapi/admin';
-
 import {
   Modal,
   Button,
+  Field,
   TextInput,
   Typography,
   Flex,
@@ -16,39 +15,33 @@ import {
   SingleSelectOption,
   Box
 } from '@strapi/design-system';
-
-import PluginIcon from "../PluginIcon"
-import Response from "../Home/response"
-
+import PluginIcon from "../PluginIcon";
+import Response from "../Home/response";
 import instance from '../../utils/axiosInstance';
 
 const GPTModal = () => {
-  // State for Completion Tab
   const { formatMessage } = useIntl();
-  const { id, form, model  } = useCMEditViewDataManager();
+  const { id, form, model } = useCMEditViewDataManager();
   const { values } = form;
-  // const { publish } = useDocumentActions()
   const imageFormats = [
     formatMessage({ id: "homePage.imageFormat" }),
     "1024x1024",
     "1024x1792",
     "1792x1024",
-  ]
-  const [modalForm, setPrompt] = useState({prompt:"", includeData: false, imageSize: imageFormats[0]});;
-  const [conversation, setConversation] = useState({content:""});
+  ];
+  const [modalForm, setPrompt] = useState({ prompt: "", includeData: false, imageSize: imageFormats[0] });
+  const [conversation, setConversation] = useState({ content: "" });
   const [loading, setLoading] = useState(false);
-
-  // State for Image Tab
   const [Error, setError] = useState(null);
 
   useEffect(() => {
     if (id !== undefined) {
       instance.get(`/strapi-supergpt/convo/${model}/${id}`)
-      .then(conversations => {
-        if (conversation) {
-          setConversation(conversations.data)
-        }
-      });
+        .then(conversations => {
+          if (conversations.data) {
+            setConversation(conversations.data);
+          }
+        });
     }
   }, []);
 
@@ -56,42 +49,39 @@ const GPTModal = () => {
     e.preventDefault();
     setError("");
 
-    if (!modalForm) {
-      setError(formatMessage({id: "homePage.error.promptRequired"}));
+    if (!modalForm.prompt.trim()) {
+      setError(formatMessage({ id: "homePage.error.promptRequired" }));
       return;
     }
 
-    let prompt = modalForm.prompt;
-
+    let promptText = modalForm.prompt;
     if (modalForm.includeData) {
-      prompt += `\n${JSON.stringify(values)}`
+      promptText += `\n${JSON.stringify(values)}`;
     }
-
-    prompt += `\n${formatMessage({ id: "homePage.prompt.format"})}`
+    promptText += `\n${formatMessage({ id: "homePage.prompt.format" })}`;
 
     let response;
-
     try {
-      if (e.target.name === "picture") {
-        if (format === imageFormats[0]) {
-          setError(formatMessage({id: "homePage.error.imageSizeRequired"}));
+      if (e.currentTarget.name === "picture") {
+        if (modalForm.imageSize === imageFormats[0]) {
+          setError(formatMessage({ id: "homePage.error.imageSizeRequired" }));
           return;
         }
         setLoading(true);
         const { data } = await instance.post("/strapi-supergpt/generateImage", {
-          prompt: prompt,
-          size: format,
+          prompt: promptText,
+          size: modalForm.imageSize,
         });
         response = data;
       } else {
         setLoading(true);
         const { data } = await instance.post("/strapi-supergpt/prompt", {
-          prompt: prompt,
+          prompt: promptText,
         });
         response = data;
       }
     } catch (e) {
-      const errorMessage =  e.message || e.response?.data?.error || "An unknown error occurred";
+      const errorMessage = e.message || e.response?.data?.error || "An unknown error occurred";
       setError(errorMessage);
       setLoading(false);
       return;
@@ -103,22 +93,24 @@ const GPTModal = () => {
       content: newContent
     }));
 
-    if (id && conversation.id) {
-      await instance.put(`/strapi-supergpt/convo/${conversation.id}`, {
-        collectionTypeId: id,
-        collectionTypeName: model,
-        content: newContent
-      });
-    } else if (id) {
-      const { data: newConvo } = await instance.post(`/strapi-supergpt/convo`, {
-        collectionTypeId: id,
-        collectionTypeName: model,
-        content: newContent
-      });
-      setConversation(newConvo);
+    if (id) {
+      if (conversation.id) {
+        await instance.put(`/strapi-supergpt/convo/${conversation.id}`, {
+          collectionTypeId: id,
+          collectionTypeName: model,
+          content: newContent
+        });
+      } else {
+        const { data: newConvo } = await instance.post(`/strapi-supergpt/convo`, {
+          collectionTypeId: id,
+          collectionTypeName: model,
+          content: newContent
+        });
+        setConversation(newConvo);
+      }
     }
-
-    setPrompt("");
+    setPrompt({ ...modalForm, prompt: "" });
+    setLoading(false);
   };
 
   return (
@@ -134,57 +126,63 @@ const GPTModal = () => {
         </Modal.Header>
         <Modal.Body>
           <Box>
-            <Flex>
-              <StyledTextInput
-                label="Prompt"
-                placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
-                value={modalForm.prompt}
-                onChange={(e) => setPrompt({...modalForm, prompt: e.target.value})}
-                error={Error}
-              />
+            {/* Row for TextInput and Buttons */}
+            <Flex alignItems="center">
+              <StyledField error={Error}>
+                <StyledTextInput
+                  label="Prompt"
+                  placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
+                  value={modalForm.prompt}
+                  onChange={(e) => setPrompt({ ...modalForm, prompt: e.target.value })}
+                  hasError={Error !== ""}
+                />
+                <Field.Error />
+              </StyledField>
               <StyledButton
-                  variant="secondary"
-                  name="prompt"
-                  onClick={handleSubmit}
-                  disabled={loading}
-                >
-                  {formatMessage({ id: "homePage.prompt.button" })}
-                </StyledButton>
-                <StyledButton
-                  variant="secondary"
-                  name="picture"
-                  onClick={handleSubmit}
-                  disabled={loading}
-                >
-                  {formatMessage({ id: "homePage.image.button" })}
-                </StyledButton>
+                variant="secondary"
+                name="prompt"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {formatMessage({ id: "homePage.prompt.button" })}
+              </StyledButton>
+              <StyledButton
+                variant="secondary"
+                name="picture"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {formatMessage({ id: "homePage.image.button" })}
+              </StyledButton>
             </Flex>
-            {/* Checkbox placed just below the prompt */}
-            <Flex direction="row">
-              <SingleSelect onChange={(e) => setPrompt({...modalForm, imageSize: e})} value={modalForm.imageSize}>
+            {/* Centered row for SingleSelect and Checkbox */}
+            <Flex justifyContent="center" alignItems="center" gap={4} marginTop={4}>
+              <SingleSelect
+                onChange={(e) => setPrompt({ ...modalForm, imageSize: e })}
+                value={modalForm.imageSize}
+              >
                 {imageFormats.map((format, idx) => (
                   <SingleSelectOption key={idx} value={format}>
                     {format}
                   </SingleSelectOption>
                 ))}
               </SingleSelect>
-
               <Checkbox
-                onCheckedChange={(e) => setPrompt({...modalForm , includeData: e})}
+                onCheckedChange={(e) => setPrompt({ ...modalForm, includeData: e })}
                 checked={modalForm.includeData}
               >
-              {formatMessage({
-                id: "entity.includeStrapiData",
-                defaultMessage: "Include Collection Data"
-              })}
-            </Checkbox>
+                {formatMessage({
+                  id: "entity.includeStrapiData",
+                  defaultMessage: "Include Collection Data"
+                })}
+              </Checkbox>
             </Flex>
             <StyledCard>
-              {conversation &&
+              {conversation && (
                 <Response>
                   {conversation.content}
                 </Response>
-              }
+              )}
             </StyledCard>
           </Box>
         </Modal.Body>
@@ -202,8 +200,13 @@ const GPTModal = () => {
 
 export default GPTModal;
 
+// Styled components
+const StyledField = styled(Field.Root)`
+  width: 100%;
+`;
+
 const StyledTextInput = styled(TextInput)`
-  width: 80%;
+  width: 97%;
   margin-right: 1rem;
 `;
 

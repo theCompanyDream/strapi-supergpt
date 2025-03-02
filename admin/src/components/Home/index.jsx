@@ -8,6 +8,7 @@ import {
 import {
   Button,
   TextInput,
+  Field,
   SingleSelect,
   SingleSelectOption,
   Main,
@@ -55,7 +56,6 @@ const Home = () => {
       setError(formatMessage({id: "homePage.error.unselectableTab"}));
       return;
     }
-    console.log(index)
     const selectedConvo = convos[index];
     if (!selectedConvo.content.length) {
       instance.get(`/strapi-supergpt/convo/${selectedConvo.id}`)
@@ -249,17 +249,20 @@ const Home = () => {
         </Tabs.Root>
         <Grid.Root spacing={1} gap={2} paddingTop={4}>
           <Grid.Item col={12}>
-            <StyledTextInput
-              id="chatInput"
-              placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
-              aria-label="Content"
-              name="prompt"
-              error={error}
-              onChange={handlePromptChange}
-              value={prompt}
-              disabled={loading}
-              onPaste={handlePromptChange}
-            />
+            <Field.Root error={error}>
+              <StyledTextInput
+                id="chatInput"
+                placeholder={formatMessage({ id: "homePage.prompt.placeholder" })}
+                aria-label="Content"
+                name="prompt"
+                hasError={error}
+                onChange={handlePromptChange}
+                value={prompt}
+                disabled={loading}
+                onPaste={handlePromptChange}
+              />
+              <Field.Error />
+            </Field.Root>
             <StyledButton
               size="L"
               name="prompt"
