@@ -1,49 +1,59 @@
 import React from "react";
 import { useIntl } from "react-intl";
 import {
-  ModalLayout,
-  ModalBody,
-  ModalHeader,
+  Modal,
   Typography,
+  Button,
+  LinkButton
 } from "@strapi/design-system";
+import { Cog } from "@strapi/icons";
 
-const Help = ({ isOpen, onClose }) => {
+const Help = () => {
   const { formatMessage } = useIntl();
   return (
-    <>
-      {isOpen && (
-        <ModalLayout onClose={() => onClose(!isOpen)} labelledBy="title">
-          <ModalHeader>
-            <Typography
-              fontWeight="bold"
-              textColor="neutral800"
-              as="h2"
-              id="title"
-            >
-              Help
-            </Typography>
-          </ModalHeader>
-          <ModalBody>
-            <Typography variant="omega">
-              {formatMessage({id: "strapi-supergpt.helpModal.promptUse"})}
-            </Typography>
-            <br />
-            <br />
-            <Typography
-              variant="omega"
-              dangerouslySetInnerHTML={{ __html: formatMessage({id: "strapi-supergpt.helpModal.promptList"})}}
-            />
-            <br />
-            <Typography variant="omega">
-              <a href="https://prompts.chat" target="_blank">
-                {formatMessage({id: "strapi-supergpt.helpModal.clickHere"})}
-              </a>{" "}
-              {formatMessage({id: "strapi-supergpt.helpModal.morePrompts"})}
-            </Typography>
-          </ModalBody>
-        </ModalLayout>
-      )}
-    </>
+    <Modal.Root labelledBy="title">
+      <Modal.Trigger>
+        <Button
+          variant="secondary"
+          startIcon={<Cog />}
+        >
+        {formatMessage({ id: "homePage.API_Integration.button" })}
+        </Button>
+      </Modal.Trigger>
+      <Modal.Content>
+        <Modal.Header>
+          <Typography
+            fontWeight="bold"
+            textColor="neutral800"
+            as="h2"
+            id="title"
+          >
+            Help
+          </Typography>
+        </Modal.Header>
+        <Modal.Body>
+          <Typography variant="omega">
+            {formatMessage({id: "helpModal.promptUse"})}
+          </Typography>
+          <br />
+          <br />
+          <Typography
+            variant="omega"
+            dangerouslySetInnerHTML={{ __html: formatMessage({id: "helpModal.promptList"})}}
+          />
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Modal.Close>
+            <Button variant="tertiary">Close</Button>
+          </Modal.Close>
+          <Typography variant="omega">
+            {formatMessage({id: "helpModal.morePrompts"})}
+            <LinkButton href="https://prompts.chat">{formatMessage({id: "helpModal.clickHere"})}</LinkButton>
+          </Typography>
+        </Modal.Footer>
+      </Modal.Content>
+    </Modal.Root>
   );
 };
 

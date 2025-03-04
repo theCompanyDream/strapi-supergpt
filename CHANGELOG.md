@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.0.0
+
+- Added support for Strapi v5.0
+- Won't be backwards compatable sadly
+
 ## 1.3.1
 
 - corrected a mistake with ai models

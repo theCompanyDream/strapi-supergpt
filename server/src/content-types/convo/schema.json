@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "convos",
+  "info": {
+    "singularName": "convo",
+    "pluralName": "convos",
+    "displayName": "conversation"
+  },
+  "options": {
+    "draftAndPublish": false,
+    "timestamps": true,
+    "comment": ""
+  },
+  "pluginOptions": {
+    "content-manager": {
+      "visible": false
+    },
+    "content-type-builder": {
+      "visible": false
+    }
+  },
+  "attributes": {
+    "content": {
+      "type": "text"
+    },
+    "name": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "integer"
+    },
+    "collectionTypeName": {
+      "type": "string"
+    },
+    "collectionTypeId": {
+      "type": "string"
+    }
+  }
+}

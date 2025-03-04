@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import {
   Box,
   Typography,
   SimpleMenu,
   MenuItem,
-  Tab
+  Tabs
 } from '@strapi/design-system';
 import { More } from '@strapi/icons';
 
-const CustomTab = ({ children, onRename, onSave, onDelete, ...props }) => {
+const CustomTab = ({ children, onRename, onDelete, ...props }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState(children);
 
@@ -29,13 +30,6 @@ const CustomTab = ({ children, onRename, onSave, onDelete, ...props }) => {
     handleClose();
   };
 
-  const handleSave = () => {
-    if (window.confirm('Are you sure you want to save this conversation?')) {
-      onSave();
-    }
-    handleClose();
-  };
-
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this tab?')) {
       onDelete();
@@ -44,17 +38,15 @@ const CustomTab = ({ children, onRename, onSave, onDelete, ...props }) => {
   };
 
   return (
-    <Tab {...props}>
-      <Box display="flex" justifyContent="space-between" width="100%">
-        <Box alignItems="left">
-          <SimpleMenu label={<More />} onClick={handleClick} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-            <MenuItem onClick={handleRename}>Rename</MenuItem>
-            <MenuItem onClick={handleDelete}>Delete</MenuItem>
-          </SimpleMenu>
-        </Box>
+    <Tabs.Trigger {...props}>
+      <Box display="flex" width="100%">
+        <SimpleMenu side="top" align="center" label={<More />} onClick={handleClick} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+          <MenuItem onClick={handleRename}>Rename</MenuItem>
+          <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        </SimpleMenu>
         <Typography variant="omega">{name}</Typography>
       </Box>
-    </Tab>
+    </Tabs.Trigger>
   );
 };
 

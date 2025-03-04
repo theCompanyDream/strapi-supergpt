@@ -36,15 +36,5 @@
 	"settingsPage.notifications.success": "ChatGPT configurations saved successfully",
 	"settingsPage.notifications.api-key-required": "Please enter the API key",
 	"settingsPage.notifications.fetch-error": "Error while fetching the chatGPT configurations",
-	"settingsPage.notifications.saving-error": "Error while saving the chatGPT configurations",
-	"customFields.super-audio.field.label": "Select a Field to generate audio",
-	"customFields.super-audio.voice.label": "Select a voice to generate audio",
-	"customFields.super-single-select.label": "Super Single Select",
-	"customFields.super-single-select.description": "A single select field powered by chatgpt",
-	"customFields.super-multi-select.label": "Super Multi Select",
-	"customFields.super-multi-select.description": "A multi select field powered by chatgpt",
-	"customFields.super-textarea.label": "Super Textarea",
-	"customFields.super-textarea.description": "A super textarea field",
-	"customFields.super-image.label": "Super Image",
-	"customFields.super-image.description": "A super image field"
+	"settingsPage.notifications.saving-error": "Error while saving the chatGPT configurations"
   }

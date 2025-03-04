@@ -4,7 +4,7 @@
 
 # Strapi Supergpt | ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) ![test](https://github.com/theCompanyDream/strapi-supergpt/actions/workflows/validate.yml/badge.svg) ![GitHub package.json version](https://img.shields.io/github/package-json/v/theCompanyDream/strapi-supergpt?label=npm&logo=npm) ![Monthly download on NPM](https://img.shields.io/npm/dm/strapi-supergpt.svg)
 
-Integrate ChatGPT into your Strapi application. You get both a UI to interact with ChatGPT and an API end-points to integrate into your applications
+A fork of strapi-chaptgpt that embeds a llm into your strapi app, gives you access to more models, and image generation.
 
 ![chatgpt-overview](https://www.tbrantleyii.dev/strapi-supergpt/howToUse.gif)
 
@@ -30,15 +30,18 @@ Thats it! You can now use ChatGPT in your Strapi application.
 1. **Easy to use**: The plugin is easy to use and can be set up within 10 minutes.
 1. **Customizable**: You can customize the model's parameters to suit your needs.
 1. **Generate Pictures** Can generate pictures based on the prompt given.
-1. **Use o1-mini** you can ulitize o1-mini and can use older models like GPT-4o Turbo.
+1. **Use o3-mini** you can ulitize o1-mini and can use older models like GPT-4o Turbo.
+1. **Use other LLMs** utilize other llms like Mistral, Deepseek, llama, and groq.
 
 ## 🖐 Requirements
 
 1. [Node.js](https://nodejs.org/en/) version 18 or higher.
-1. [Strapi](https://strapi.io/) version v4.x or higher.
+1. [Strapi](https://strapi.io/) follow the matrix to know which versions to install
 
-> The ChatGPT plugin is designed for **Strapi v4.x**. It won't work with Strapi v3.x.
-> working on support for **v5.0** when that officially comes out.
+| Plugin Version | Supported Strapi Version |
+|----------------|--------------------------|
+| 1.x.x          | Strapi 4.x               |
+| 2.x.x          | Strapi 5.x               |
 
 ## ⏳ Installation
 
@@ -93,7 +96,23 @@ The ChatGPT plugin should appear in the Plugins section of the Strapi sidebar af
 
 Now you are ready to integrate ChatGPT on your Strapi website.
 
-## 🔧 Configuration
+## RoadMap
+
+- [ ] migrate openai -> langchain
+- [ ] give user the option to user other llms
+- [ ] use groq
+- [ ] use mistral
+- [ ] use llama3
+- [ ] use claude
+- [ ] add option to move/delete picture
+
+### Nice to haves
+
+- [ ] make specific endpoints serviceable from the outside.
+- [ ] allow users to curate their own chat bots
+- [ ] create audio from text
+
+## Configuration
 
 You can easily configure the ChatGPT plugin in the Strapi admin panel.
 
@@ -101,7 +120,7 @@ You can easily configure the ChatGPT plugin in the Strapi admin panel.
 - On the configiration page, Enter All the fields.
 - Click on Save to save the configuration.
 
-## 📖 Testing the plugin
+## Testing the plugin
 
 - Click ChatGPT plugin in plugin section of the sidebar.
 - Click on Integration to get sample code integration code.
