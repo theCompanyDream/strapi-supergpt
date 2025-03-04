@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import styled from 'styled-components';
+import styled, {createGlobalStyle} from 'styled-components';
 import { useIntl } from "react-intl";
 import { Helmet } from "react-helmet";
 import {
@@ -182,6 +182,7 @@ const Home = () => {
 
   return (
     <Main aria-busy={false}>
+      <GlobalStyles />
       <Helmet title={"strapi-supergpt"} />
       <Layouts.Header
         title={
@@ -293,6 +294,12 @@ const Home = () => {
 };
 
 export default Home;
+
+const GlobalStyles = createGlobalStyle`
+  [data-radix-popper-content-wrapper] {
+    z-index: 9999 !important;
+  }
+`;
 
 const StyledTextInput = styled(TextInput)`
   width: 83vw
