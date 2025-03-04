@@ -40,10 +40,10 @@ const CustomTab = ({ children, onRename, onDelete, ...props }) => {
   return (
     <Tabs.Trigger {...props}>
       <Box display="flex" width="100%">
-        <StyledMenu side="top" align="center" label={<More />} onClick={handleClick} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+        <SimpleMenu side="top" align="center" label={<More />} onClick={handleClick} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
           <MenuItem onClick={handleRename}>Rename</MenuItem>
           <MenuItem onClick={handleDelete}>Delete</MenuItem>
-        </StyledMenu>
+        </SimpleMenu>
         <Typography variant="omega">{name}</Typography>
       </Box>
     </Tabs.Trigger>
@@ -51,8 +51,3 @@ const CustomTab = ({ children, onRename, onDelete, ...props }) => {
 };
 
 export default CustomTab;
-
-const StyledMenu = styled(SimpleMenu)`
-  z-index: 5;
-  position: "relative";
-`
