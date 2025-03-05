@@ -13,8 +13,7 @@ const Settings = () => {
     apiKey: '',
     modelName: 'gpt-4o',
     maxTokens: 2048,
-    aiImageModelName: 'dall-e-3',
-    ttsModelName: 'tts-1-hd',
+    aiImageModelName: 'dall-e-3'
   });
 
   useEffect(() => {
@@ -101,21 +100,13 @@ const Settings = () => {
           />
         </GridItem>
         <GridItem col={6}>
-          <SingleSelect
+          <TextInput
+            type="text"
             label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.text-model' })}
-            placeholder={formatMessage({ id: 'strapi-supergpt.settingsPage.placeholder.text-model' })}
+            name="modelName"
             value={chatGPTConfig.modelName}
-            onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, modelName: value })}
-          >
-            {/* Replace with your actual options */}
-            <SingleSelectOption value="o3-mini">o3 mini</SingleSelectOption>
-            <SingleSelectOption value="o1-mini">o1 mini</SingleSelectOption>
-            <SingleSelectOption value="o1-preview">o1 preview</SingleSelectOption>
-            <SingleSelectOption value="gpt-4o-mini">GPT 4o Mini</SingleSelectOption>
-            <SingleSelectOption value="gpt-4o">GPT 4o</SingleSelectOption>
-            <SingleSelectOption value="chatgpt-4o-latest">GPT 4 Latest</SingleSelectOption>
-            <SingleSelectOption value="gpt-4">GPT 4</SingleSelectOption>
-          </SingleSelect>
+            onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, modelName: value.target.value })}
+          />
         </GridItem>
         <GridItem col={6}>
           <SingleSelect
@@ -127,18 +118,6 @@ const Settings = () => {
             {/* Replace with your actual options */}
             <SingleSelectOption value="dall-e-3">DALL-E 3</SingleSelectOption>
             <SingleSelectOption value="dall-e-2">DALL-E 2</SingleSelectOption>
-          </SingleSelect>
-        </GridItem>
-        <GridItem col={6}>
-          <SingleSelect
-            label={formatMessage({ id: 'strapi-supergpt.settingsPage.labels.tts-model' })}
-            placeholder={formatMessage({ id: 'strapi-supergpt.settingsPage.placeholder.tts-model' })}
-            value={chatGPTConfig.ttsModelName}
-            onChange={(value) => setChatGPTConfig({ ...chatGPTConfig, ttsModelName: value })}
-          >
-            {/* Replace with your actual options */}
-            <SingleSelectOption value="tts-1">TTS-1</SingleSelectOption>
-            <SingleSelectOption value="tts-1-hd">TTS-1 HD</SingleSelectOption>
           </SingleSelect>
         </GridItem>
       </Grid>

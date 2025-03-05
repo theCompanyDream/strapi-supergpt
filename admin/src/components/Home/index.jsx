@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useIntl } from "react-intl";
 import { Helmet } from "react-helmet";
-import GitHubButton from 'react-github-btn';
 import axios from "axios";
 import { auth } from "@strapi/helper-plugin";
 import {
@@ -219,18 +218,6 @@ const Home = () => {
               <Typography variant="alpha" as="h1">
                 SuperGPT
               </Typography>
-              <Box marginLeft={2}>
-                <GitHubButton
-                  href="https://github.com/theCompanyDream/strapi-supergpt"
-                  data-color-scheme="no-preference: light; light: light; dark: dark;"
-                  data-icon="octicon-star"
-                  data-size="small"
-                  data-show-count="true"
-                  aria-label="Star theCompanyDream/strapi-supergpt on GitHub"
-                >
-                  Star
-                </GitHubButton>
-              </Box>
             </Box>
           }
           subtitle={formatMessage({

@@ -22,7 +22,7 @@ module.exports = ({ strapi }) => ({
     try {
       const requestParams = {
         model: config.modelName,
-        max_tokens: config.maxTokens
+        max_completion_tokens: config.maxTokens
           ? parseInt(config.maxTokens)
           : 2048,
         prompt: prompt.trim(),
@@ -81,7 +81,10 @@ module.exports = ({ strapi }) => ({
 
       const savedFile = await utils.saveFile(data.data[0].url, strapi);
 
-      return { response: `<a href="${savedFile}">${savedFile}</a><a href="${data.data[0].url}">Original Location</a>` };
+      return {
+        response: `![Saved Image](${savedFile})\n\n[Original Location](${data.data[0].url})`
+      };
+
     } catch (error) {
       if (error.response) {
         strapi.log.error(error.response.data.error.message);

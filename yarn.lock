@@ -3321,11 +3321,6 @@ get-symbol-description@^1.0.0:
     call-bind "^1.0.2"
     get-intrinsic "^1.1.1"
 
-github-buttons@^2.22.0:
-  version "2.28.0"
-  resolved "https://registry.yarnpkg.com/github-buttons/-/github-buttons-2.28.0.tgz#53b2413d29fa04c20b9c2001532a99e32484a449"
-  integrity sha512-KsCbYiA+MiHO3ytzdGvGt/GNde4GfG9BrrLxxc+ut2snBF9IAjrn2F5mNgHHEXdG/CfFIHOMV8Uxy4LNhxZwUA==
-
 glob-parent@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-6.0.2.tgz#6d237d99083950c79290f24c7642a3de9a28f9e3"
@@ -5338,13 +5333,6 @@ react-dom@^18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
-
-react-github-btn@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/react-github-btn/-/react-github-btn-1.4.0.tgz#92654107e92658e60dd977c7a92b212f806da78d"
-  integrity sha512-lV4FYClAfjWnBfv0iNlJUGhamDgIq6TayD0kPZED6VzHWdpcHmPfsYOZ/CFwLfPv4Zp+F4m8QKTj0oy2HjiGXg==
-  dependencies:
-    github-buttons "^2.22.0"
 
 react-is@^16.13.1:
   version "16.13.1"
